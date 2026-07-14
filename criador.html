@@ -7,7 +7,6 @@
     <title>Xsess · Studio</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" />
     <style>
         * {
             margin: 0;
@@ -204,6 +203,72 @@
             background: rgba(204, 0, 51, 0.2);
         }
 
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.01);
+        }
+        .upload-area:hover {
+            border-color: rgba(204, 0, 51, 0.2);
+            background: rgba(204, 0, 51, 0.02);
+        }
+        .upload-area .icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, 0.1);
+        }
+        .upload-area .text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .upload-area .text strong {
+            color: #cc0033;
+        }
+        .upload-area .sub {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.1);
+            margin-top: 2px;
+        }
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .file-preview {
+            display: none;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .file-preview.active {
+            display: flex;
+        }
+        .file-preview .file-name {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .file-preview .file-size {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+            margin-left: auto;
+        }
+        .file-preview .btn-remove {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
         .checkbox-group {
             display: flex;
             align-items: center;
@@ -254,13 +319,6 @@
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
         }
-        .btn-primary {
-            background: #cc0033;
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background: #b3002e;
-        }
 
         .form-actions {
             display: flex;
@@ -305,192 +363,6 @@
             color: inherit;
         }
 
-        /* ============================================================
-           THUMBNAIL UPLOAD E CROP
-           ============================================================ */
-        .thumb-upload-area {
-            border: 2px dashed rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.01);
-        }
-        .thumb-upload-area:hover {
-            border-color: rgba(204, 0, 51, 0.2);
-            background: rgba(204, 0, 51, 0.02);
-        }
-        .thumb-upload-area .icon {
-            font-size: 28px;
-            display: block;
-            margin-bottom: 4px;
-            color: rgba(255, 255, 255, 0.1);
-        }
-        .thumb-upload-area .text {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.3);
-        }
-        .thumb-upload-area .text strong {
-            color: #cc0033;
-        }
-        .thumb-upload-area .sub {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.1);
-            margin-top: 2px;
-        }
-        .thumb-upload-area input[type="file"] {
-            display: none;
-        }
-
-        .thumb-preview-container {
-            margin-top: 10px;
-            display: none;
-            gap: 12px;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-        .thumb-preview-container.active {
-            display: flex;
-        }
-
-        .thumb-preview-box {
-            width: 160px;
-            height: 90px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #1a1a1a;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            flex-shrink: 0;
-        }
-        .thumb-preview-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .thumb-preview-info {
-            flex: 1;
-            min-width: 120px;
-        }
-        .thumb-preview-info .label {
-            font-size: 9px;
-            color: rgba(255, 255, 255, 0.2);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .thumb-preview-info .value {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            word-break: break-all;
-        }
-        .thumb-preview-info .btn-group {
-            display: flex;
-            gap: 6px;
-            margin-top: 6px;
-            flex-wrap: wrap;
-        }
-        .thumb-preview-info .btn-group .btn-sm {
-            padding: 3px 12px;
-            font-size: 10px;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: transparent;
-            color: rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-        }
-        .thumb-preview-info .btn-group .btn-sm:hover {
-            border-color: rgba(204, 0, 51, 0.2);
-            color: #fff;
-        }
-        .thumb-preview-info .btn-group .btn-sm.primary {
-            background: #cc0033;
-            border-color: #cc0033;
-            color: #fff;
-        }
-        .thumb-preview-info .btn-group .btn-sm.primary:hover {
-            background: #b3002e;
-        }
-
-        /* ============================================================
-           CROP MODAL
-           ============================================================ */
-        .crop-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            backdrop-filter: blur(8px);
-        }
-        .crop-modal.active {
-            display: flex;
-        }
-
-        .crop-modal .crop-content {
-            background: #111;
-            border: 1px solid #1a1a1a;
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 700px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .crop-modal .crop-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .crop-modal .crop-header h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-        }
-        .crop-modal .crop-header h3 span {
-            color: #cc0033;
-        }
-        .crop-modal .crop-header .close-crop {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 22px;
-            cursor: pointer;
-        }
-
-        .crop-modal .crop-body .crop-container {
-            width: 100%;
-            max-height: 50vh;
-            background: #0a0a0a;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .crop-modal .crop-body .crop-container img {
-            max-width: 100%;
-            display: block;
-        }
-
-        .crop-modal .crop-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
-        .crop-modal .crop-actions .btn {
-            padding: 8px 20px;
-            font-size: 13px;
-        }
-
-        /* ============================================================
-           LISTA DE VÍDEOS
-           ============================================================ */
         .video-list {
             margin-top: 20px;
             padding-top: 16px;
@@ -606,159 +478,6 @@
             margin-top: 2px;
         }
 
-        /* ============================================================
-           TUBEMATE POPUP
-           ============================================================ */
-        .tubemate-popup {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            backdrop-filter: blur(8px);
-        }
-        .tubemate-popup.active {
-            display: flex;
-        }
-        .tubemate-popup .popup-content {
-            background: #111;
-            border: 1px solid #1a1a1a;
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 480px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .tubemate-popup .popup-content .popup-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .tubemate-popup .popup-content .popup-header h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-        }
-        .tubemate-popup .popup-content .popup-header h3 span {
-            color: #cc0033;
-        }
-        .tubemate-popup .popup-content .popup-header .close-popup {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 22px;
-            cursor: pointer;
-        }
-        .tubemate-popup .popup-content .popup-body p {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 13px;
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-        .tubemate-popup .popup-content .popup-body .platform-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 12px 0;
-        }
-        .tubemate-popup .popup-content .popup-body .platform-btn {
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 10px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .tubemate-popup .popup-content .popup-body .platform-btn:hover {
-            border-color: rgba(204, 0, 51, 0.2);
-            color: #fff;
-            background: rgba(204, 0, 51, 0.04);
-        }
-        .tubemate-popup .popup-content .popup-body .platform-btn i {
-            font-size: 20px;
-            display: block;
-            margin-bottom: 4px;
-        }
-        .tubemate-popup .popup-content .popup-body .input-group {
-            display: flex;
-            gap: 8px;
-            margin: 12px 0;
-        }
-        .tubemate-popup .popup-content .popup-body .input-group input {
-            flex: 1;
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 13px;
-            font-family: 'Inter', sans-serif;
-        }
-        .tubemate-popup .popup-content .popup-body .input-group input:focus {
-            border-color: rgba(204, 0, 51, 0.3);
-            outline: none;
-        }
-        .tubemate-popup .popup-content .popup-body .input-group .btn-extract-popup {
-            padding: 10px 16px;
-            background: #cc0033;
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-        }
-        .tubemate-popup .popup-content .popup-body .input-group .btn-extract-popup:hover {
-            background: #b3002e;
-        }
-        .tubemate-popup .popup-content .popup-body .result-box {
-            margin-top: 12px;
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 10px;
-            display: none;
-        }
-        .tubemate-popup .popup-content .popup-body .result-box.active {
-            display: block;
-        }
-        .tubemate-popup .popup-content .popup-body .result-box .result-link {
-            color: #69f0ae;
-            font-size: 12px;
-            word-break: break-all;
-            font-family: monospace;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 6px 10px;
-            border-radius: 6px;
-            margin-top: 4px;
-        }
-        .tubemate-popup .popup-content .popup-body .result-box .btn-copy-result {
-            margin-top: 8px;
-            padding: 4px 14px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 30px;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 11px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-        }
-        .tubemate-popup .popup-content .popup-body .result-box .btn-copy-result:hover {
-            border-color: rgba(204, 0, 51, 0.2);
-            color: #fff;
-        }
-
         @media (max-width: 600px) {
             .container {
                 padding: 16px;
@@ -784,29 +503,8 @@
                 width: 100%;
                 justify-content: center;
             }
-            .tubemate-popup .popup-content {
-                padding: 16px;
-            }
-            .tubemate-popup .popup-content .popup-body .platform-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .tubemate-popup .popup-content .popup-body .input-group {
-                flex-direction: column;
-            }
             .list-item .actions .btn-sm span {
                 display: none;
-            }
-            .thumb-preview-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .thumb-preview-box {
-                width: 100%;
-                height: 140px;
-            }
-            .crop-modal .crop-content {
-                padding: 16px;
-                margin: 10px;
             }
         }
         @media (max-width: 400px) {
@@ -867,108 +565,337 @@
 
         <form id="videoForm">
 
-<div class="form-group">
-    <label><i class="fas fa-folder-open"></i> Carregar da Biblioteca</label>
-    <div class="upload-area" id="videoUploadArea" style="border:2px dashed rgba(255,255,255,0.06);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.01);">
-        <div class="icon" style="font-size:32px;display:block;margin-bottom:4px;color:rgba(255,255,255,0.1);">
-            <i class="fas fa-cloud-upload-alt"></i>
-        </div>
-        <div class="text" style="font-size:14px;color:rgba(255,255,255,0.4);">
-            <strong style="color:#cc0033;">Clique para escolher</strong> um vídeo da sua biblioteca
-        </div>
-        <div class="sub" style="font-size:11px;color:rgba(255,255,255,0.15);margin-top:4px;">
-            MP4, WebM, MOV, AVI · Máx. 1GB
-        </div>
-        <input type="file" id="videoFileInput" accept="video/*" style="display:none;" />
-    </div>
-    <div id="videoFilePreview" style="display:none;margin-top:8px;padding:8px 12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;display:flex;align-items:center;gap:10px;">
-        <i class="fas fa-video" style="color:#cc0033;font-size:18px;"></i>
-        <span id="videoFileName" style="font-size:13px;color:rgba(255,255,255,0.6);">video.mp4</span>
-        <span id="videoFileSize" style="font-size:11px;color:rgba(255,255,255,0.2);margin-left:auto;">0 MB</span>
-        <button type="button" id="removeVideoFile" style="background:none;border:none;color:rgba(255,255,255,0.2);cursor:pointer;font-size:14px;"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="help">O vídeo é carregado localmente no seu navegador.</div>
-</div>
-<div class="form-group">
-    <label><i class="fas fa-link"></i> Link do Vídeo *</label>
-    <div class="link-input-wrapper">
-        <input type="url" id="videoLink" placeholder="https://... (ou use o carregamento acima)" required />
-        <button type="button" class="btn-extract" id="tubeMateBtn">
-            <i class="fas fa-magic"></i> TubeMate
-        </button>
-    </div>
-    <div class="help">Cole um link ou carregue um vídeo da sua biblioteca acima</div>
-</div>
+            <!-- UPLOAD DA BIBLIOTECA -->
+            <div class="form-group">
+                <label><i class="fas fa-folder-open"></i> Carregar da Biblioteca</label>
+                <div class="upload-area" id="videoUploadArea">
+                    <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                    <div class="text"><strong>Clique para escolher</strong> um vídeo da sua biblioteca</div>
+                    <div class="sub">MP4, WebM, MOV, AVI · Máx. 1GB</div>
+                    <input type="file" id="videoFileInput" accept="video/*" />
+                </div>
+                <div class="file-preview" id="videoFilePreview">
+                    <i class="fas fa-video" style="color:#cc0033;font-size:18px;"></i>
+                    <span class="file-name" id="videoFileName">video.mp4</span>
+                    <span class="file-size" id="videoFileSize">0 MB</span>
+                    <button type="button" class="btn-remove" id="removeVideoFile"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="help">O vídeo é carregado localmente. A URL gerada funciona apenas no seu navegador.</div>
             </div>
 
-            <!-- UPLOAD E RECORTE DE THUMBNAIL -->
-<div class="form-group">
-    <label><i class="fas fa-folder-open"></i> Carregar da Biblioteca</label>
-    <div class="upload-area" id="videoUploadArea" style="border:2px dashed rgba(255,255,255,0.06);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.01);">
-        <div class="icon" style="font-size:32px;display:block;margin-bottom:4px;color:rgba(255,255,255,0.1);">
-            <i class="fas fa-cloud-upload-alt"></i>
-        </div>
-        <div class="text" style="font-size:14px;color:rgba(255,255,255,0.4);">
-            <strong style="color:#cc0033;">Clique para escolher</strong> um vídeo da sua biblioteca
-        </div>
-        <div class="sub" style="font-size:11px;color:rgba(255,255,255,0.15);margin-top:4px;">
-            MP4, WebM, MOV, AVI · Máx. 1GB
-        </div>
-        <input type="file" id="videoFileInput" accept="video/*" style="display:none;" />
-    </div>
-    <div id="videoFilePreview" style="display:none;margin-top:8px;padding:8px 12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;display:flex;align-items:center;gap:10px;">
-        <i class="fas fa-video" style="color:#cc0033;font-size:18px;"></i>
-        <span id="videoFileName" style="font-size:13px;color:rgba(255,255,255,0.6);">video.mp4</span>
-        <span id="videoFileSize" style="font-size:11px;color:rgba(255,255,255,0.2);margin-left:auto;">0 MB</span>
-        <button type="button" id="removeVideoFile" style="background:none;border:none;color:rgba(255,255,255,0.2);cursor:pointer;font-size:14px;"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="help">O vídeo é carregado localmente no seu navegador.</div>
-</div>
-<div class="form-group">
-    <label><i class="fas fa-link"></i> Link do Vídeo *</label>
-    <div class="link-input-wrapper">
-        <input type="url" id="videoLink" placeholder="https://... (ou use o carregamento acima)" required />
-        <button type="button" class="btn-extract" id="tubeMateBtn">
-            <i class="fas fa-magic"></i> TubeMate
-        </button>
-    </div>
-    <div class="help">Cole um link ou carregue um vídeo da sua biblioteca acima</div>
-</div>
+            <!-- LINK DO VÍDEO -->
+            <div class="form-group">
+                <label><i class="fas fa-link"></i> Link do Vídeo *</label>
+                <div class="link-input-wrapper">
+                    <input type="url" id="videoLink" placeholder="https://... (ou carregue da biblioteca acima)" required />
+                    <button type="button" class="btn-extract" id="tubeMateBtn">
+                        <i class="fas fa-magic"></i> TubeMate
+                    </button>
+                </div>
+                <div class="help">Cole um link ou carregue um vídeo da sua biblioteca</div>
             </div>
 
-<div class="form-group">
-    <label><i class="fas fa-folder-open"></i> Carregar da Biblioteca</label>
-    <div class="upload-area" id="videoUploadArea" style="border:2px dashed rgba(255,255,255,0.06);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.01);">
-        <div class="icon" style="font-size:32px;display:block;margin-bottom:4px;color:rgba(255,255,255,0.1);">
-            <i class="fas fa-cloud-upload-alt"></i>
-        </div>
-        <div class="text" style="font-size:14px;color:rgba(255,255,255,0.4);">
-            <strong style="color:#cc0033;">Clique para escolher</strong> um vídeo da sua biblioteca
-        </div>
-        <div class="sub" style="font-size:11px;color:rgba(255,255,255,0.15);margin-top:4px;">
-            MP4, WebM, MOV, AVI · Máx. 1GB
-        </div>
-        <input type="file" id="videoFileInput" accept="video/*" style="display:none;" />
-    </div>
-    <div id="videoFilePreview" style="display:none;margin-top:8px;padding:8px 12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;display:flex;align-items:center;gap:10px;">
-        <i class="fas fa-video" style="color:#cc0033;font-size:18px;"></i>
-        <span id="videoFileName" style="font-size:13px;color:rgba(255,255,255,0.6);">video.mp4</span>
-        <span id="videoFileSize" style="font-size:11px;color:rgba(255,255,255,0.2);margin-left:auto;">0 MB</span>
-        <button type="button" id="removeVideoFile" style="background:none;border:none;color:rgba(255,255,255,0.2);cursor:pointer;font-size:14px;"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="help">O vídeo é carregado localmente no seu navegador.</div>
-</div>
-<div class="form-group">
-    <label><i class="fas fa-link"></i> Link do Vídeo *</label>
-    <div class="link-input-wrapper">
-        <input type="url" id="videoLink" placeholder="https://... (ou use o carregamento acima)" required />
-        <button type="button" class="btn-extract" id="tubeMateBtn">
-            <i class="fas fa-magic"></i> TubeMate
-        </button>
-    </div>
-    <div class="help">Cole um link ou carregue um vídeo da sua biblioteca acima</div>
-</div>
+            <!-- TÍTULO -->
+            <div class="form-group">
+                <label for="videoTitle"><i class="fas fa-tag"></i> Título *</label>
+                <input type="text" id="videoTitle" placeholder="Ex: Lançamento Exclusivo" required />
+            </div>
+
+            <!-- CATEGORIA E TAGS -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="videoCategory"><i class="fas fa-folder"></i> Categoria</label>
+                    <select id="videoCategory">
+                        <option value="">Selecione...</option>
+                        <option value="Exclusivo">Exclusivo</option>
+                        <option value="4K">4K</option>
+                        <option value="Novo">Novo</option>
+                        <option value="Em Alta">Em Alta</option>
+                        <option value="Premium">Premium</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="videoTags"><i class="fas fa-hashtag"></i> Tags</label>
+                    <input type="text" id="videoTags" placeholder="4K, Exclusivo, Novo" />
+                    <div class="help">Separe por vírgula</div>
                 </div>
             </div>
 
+            <!-- DURAÇÃO E SHORTS -->
             <div class="form-row">
+                <div class="form-group">
+                    <label for="videoDuration"><i class="fas fa-clock"></i> Duração</label>
+                    <input type="text" id="videoDuration" placeholder="12:30" />
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="videoShorts" />
+                    <label for="videoShorts"><i class="fas fa-bolt"></i> Este é um Short</label>
+                </div>
+            </div>
+
+            <!-- THUMBNAIL -->
+            <div class="form-group">
+                <label for="videoThumbnail"><i class="fas fa-image"></i> Thumbnail (URL)</label>
+                <input type="url" id="videoThumbnail" placeholder="https://i.imgur.com/xxxx.jpg" />
+                <div class="help">Link da imagem de capa (opcional)</div>
+            </div>
+
+            <!-- DESCRIÇÃO -->
+            <div class="form-group">
+                <label for="videoDescription"><i class="fas fa-align-left"></i> Descrição</label>
+                <textarea id="videoDescription" placeholder="Descreva o conteúdo do vídeo..."></textarea>
+            </div>
+
+            <!-- BOTÕES -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Publicar</button>
+                <button type="button" class="btn btn-secondary" id="btnClear"><i class="fas fa-eraser"></i> Limpar</button>
+            </div>
+
+        </form>
+
+        <!-- LISTA DE VÍDEOS -->
+        <div class="video-list">
+            <div class="list-header">
+                <div class="list-title"><i class="fas fa-film" style="color:#cc0033;"></i> <span>Meus</span> Vídeos</div>
+                <div class="list-count" id="videoCount">0 vídeos</div>
+            </div>
+            <div id="videoListContainer"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // BANCO DE DADOS
+        // ============================================================
+        const DB = {
+            get: (k, d) => { try { const data = localStorage.getItem('xsess_' + k); return data ? JSON.parse(data) :
+                    d; } catch { return d; } },
+            set: (k, v) => { localStorage.setItem('xsess_' + k, JSON.stringify(v)); }
+        };
+
+        let videos = DB.get('videos', []);
+        let likes = DB.get('likes', {});
+        let comments = DB.get('comments', {});
+        let views = DB.get('views', {});
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const $ = (id) => document.getElementById(id);
+
+        function formatDate() {
+            const now = new Date();
+            return now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit',
+                minute: '2-digit' });
+        }
+
+        function formatViews(n) {
+            if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+            if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+            return n;
+        }
+
+        function showSuccess(msg) {
+            const el = $('msgSuccess');
+            $('successText').textContent = msg;
+            el.style.display = 'flex';
+            $('msgError').style.display = 'none';
+            setTimeout(() => el.style.display = 'none', 4000);
+        }
+
+        function showError(msg) {
+            const el = $('msgError');
+            $('errorText').textContent = msg;
+            el.style.display = 'flex';
+            $('msgSuccess').style.display = 'none';
+            setTimeout(() => el.style.display = 'none', 4000);
+        }
+
+        // ============================================================
+        // UPLOAD DE VÍDEO DA BIBLIOTECA
+        // ============================================================
+        const videoUploadArea = $('videoUploadArea');
+        const videoFileInput = $('videoFileInput');
+        const videoFilePreview = $('videoFilePreview');
+        const videoFileName = $('videoFileName');
+        const videoFileSize = $('videoFileSize');
+        const removeVideoFile = $('removeVideoFile');
+        const videoLinkInput = $('videoLink');
+
+        videoUploadArea.addEventListener('click', () => {
+            videoFileInput.click();
+        });
+
+        videoFileInput.addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('video/')) {
+                showError('Por favor, selecione um arquivo de vídeo.');
+                return;
+            }
+
+            if (file.size > 1024 * 1024 * 1024) {
+                showError('Arquivo muito grande. Máximo 1GB.');
+                return;
+            }
+
+            const url = URL.createObjectURL(file);
+            videoLinkInput.value = url;
+            videoFileName.textContent = file.name;
+            videoFileSize.textContent = (file.size / 1024 / 1024).toFixed(1) + ' MB';
+            videoFilePreview.classList.add('active');
+
+            showSuccess('✅ Vídeo carregado! Link gerado automaticamente.');
+        });
+
+        removeVideoFile.addEventListener('click', () => {
+            videoLinkInput.value = '';
+            videoFilePreview.classList.remove('active');
+            videoFileInput.value = '';
+            showSuccess('🗑️ Vídeo removido.');
+        });
+
+        // ============================================================
+        // TUBEMATE (SIMPLIFICADO)
+        // ============================================================
+        // Aqui você pode manter o TubeMate se quiser, ou remover
+
+        // ============================================================
+        // PUBLICAR VÍDEO
+        // ============================================================
+        $('videoForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const link = videoLinkInput.value.trim();
+            const title = $('videoTitle').value.trim();
+
+            if (!link) { showError('Cole o link do vídeo ou carregue um arquivo.'); return; }
+            if (!title) { showError('Digite o título.'); return; }
+
+            const thumbnail = $('videoThumbnail').value.trim() ||
+                'https://via.placeholder.com/640x360/1a1a1a/cc0033?text=Sem+Imagem';
+
+            const video = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+                link: link,
+                title: title,
+                category: $('videoCategory').value,
+                tags: $('videoTags').value.trim() ? $('videoTags').value.trim().split(',').map(t => t.trim()).filter(
+                    t => t) : [],
+                duration: $('videoDuration').value.trim() || '--:--',
+                description: $('videoDescription').value.trim() || '',
+                thumbnail: thumbnail,
+                isShort: $('videoShorts').checked,
+                date: formatDate(),
+                author: 'Xsess Creator',
+                views: 0
+            };
+
+            videos.unshift(video);
+            DB.set('videos', videos);
+            renderList();
+            updateStats();
+            showSuccess('✅ Vídeo "' + video.title + '" publicado!');
+
+            $('videoForm').reset();
+            $('videoShorts').checked = false;
+            videoFilePreview.classList.remove('active');
+            videoFileInput.value = '';
+
+            setTimeout(() => {
+                $('msgSuccess').style.display = 'none';
+            }, 4000);
+        });
+
+        // ============================================================
+        // RENDERIZAR LISTA
+        // ============================================================
+        function renderList() {
+            const container = $('videoListContainer');
+            const count = $('videoCount');
+
+            if (videos.length === 0) {
+                container.innerHTML = `
+                            <div class="empty-state">
+                                <span class="icon"><i class="fas fa-film"></i></span>
+                                <div class="text">Nenhum vídeo publicado</div>
+                                <div class="sub">Publique seu primeiro vídeo acima</div>
+                            </div>
+                        `;
+                count.textContent = '0 vídeos';
+                return;
+            }
+
+            count.textContent = videos.length + ' vídeo' + (videos.length > 1 ? 's' : '');
+
+            container.innerHTML = videos.map((v) => `
+                        <div class="list-item">
+                            <div class="thumb">
+                                <img src="${v.thumbnail}" alt="${v.title}" />
+                            </div>
+                            <div class="info">
+                                <div class="name">${v.title} ${v.isShort ? '⚡' : ''}</div>
+                                <div class="meta">${v.date} · ${v.duration} · ${v.tags.length > 0 ? v.tags.join(', ') : 'Sem tags'} · ${formatViews(v.views || 0)} views</div>
+                            </div>
+                            <div class="actions">
+                                <button class="btn-sm" onclick="window.open('https://xsesss.github.io/','_blank')"><i class="fas fa-eye"></i> <span>Ver</span></button>
+                                <button class="btn-sm danger" onclick="deleteVideo('${v.id}')"><i class="fas fa-trash"></i> <span>Excluir</span></button>
+                            </div>
+                        </div>
+                    `).join('');
+        }
+
+        // ============================================================
+        // DELETAR VÍDEO
+        // ============================================================
+        function deleteVideo(id) {
+            if (!confirm('Tem certeza que deseja excluir este vídeo?')) return;
+            videos = videos.filter(v => v.id !== id);
+            DB.set('videos', videos);
+            renderList();
+            updateStats();
+            showSuccess('🗑️ Vídeo removido.');
+            setTimeout(() => {
+                $('msgSuccess').style.display = 'none';
+            }, 3000);
+        }
+
+        // ============================================================
+        // ATUALIZAR ESTATÍSTICAS
+        // ============================================================
+        function updateStats() {
+            const totalVideos = videos.length;
+            const totalViews = Object.values(views).reduce((a, b) => a + b, 0);
+            const totalLikes = Object.values(likes).reduce((a, b) => a + b, 0);
+            const totalComments = Object.values(comments).reduce((a, b) => a + b.length, 0);
+
+            $('totalVideos').textContent = totalVideos;
+            $('totalViews').textContent = formatViews(totalViews);
+            $('totalLikes').textContent = formatViews(totalLikes);
+            $('totalComments').textContent = formatViews(totalComments);
+        }
+
+        // ============================================================
+        // LIMPAR FORMULÁRIO
+        // ============================================================
+        $('btnClear').addEventListener('click', () => {
+            $('videoForm').reset();
+            $('videoShorts').checked = false;
+            videoFilePreview.classList.remove('active');
+            videoFileInput.value = '';
+            $('msgSuccess').style.display = 'none';
+            $('msgError').style.display = 'none';
+        });
+
+        // ============================================================
+        // INICIAR
+        // ============================================================
+        renderList();
+        updateStats();
+    </script>
+
+</body>
+</html>
