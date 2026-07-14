@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>Xsess</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ============================================================
+           RESET E BASE - 100% TELA
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            background: #0a0a0a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #f0f0f0;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cc0033;
+            border-radius: 2px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        /* ============================================================
+           APP CONTAINER - 100% TELA
+           ============================================================ */
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            background: #0a0a0a;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ============================================================
+           HEADER - TOPO (MENU SUPERIOR)
+           ============================================================ */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-shrink: 0;
+            min-height: 56px;
+        }
+
+        .top-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-header .logo img {
+            height: 30px;
+            width: auto;
+        }
+
+        .top-header .logo span {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .top-header .logo span em {
+            color: #cc0033;
+            font-style: normal;
+        }
+
+        .top-header .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .top-header .header-actions .icon-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 4px;
+        }
+
+        .top-header .header-actions .icon-btn:hover {
+            color: #fff;
+        }
+
+        .top-header .header-actions .badge {
+            background: #cc0033;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* ============================================================
+           CONTEÚDO PRINCIPAL - SCROLLÁVEL
+           ============================================================ */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 70px;
+            scroll-behavior: smooth;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 3px;
+        }
+        .main-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .main-content::-webkit-scrollbar-thumb {
+            background: #cc0033;
+            border-radius: 2px;
+        }
+
+        /* ============================================================
+           SEÇÕES (ABAS) - CADA UMA INDEPENDENTE
+           ============================================================ */
+        .section-page {
+            display: none;
+            min-height: 100%;
+            padding: 0 16px 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .section-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+           SEÇÃO: INÍCIO (FEED)
+           ============================================================ */
+        /* HERO BANNER */
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            height: 35vh;
+            min-height: 200px;
+            max-height: 380px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 12px 0 16px;
+            background: #111;
+        }
+
+        .hero-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        .hero-banner .hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(0deg, #0a0a0a 10%, transparent 100%);
+        }
+
+        .hero-banner .hero-content {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+        }
+
+        .hero-banner .hero-content .logo-hero {
+            height: 32px;
+            width: auto;
+            margin-bottom: 4px;
+        }
+
+        .hero-banner .hero-content h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+        }
+
+        .hero-banner .hero-content h2 em {
+            color: #cc0033;
+            font-style: normal;
+        }
+
+        .hero-banner .hero-content p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+        }
+
+        .hero-banner .hero-content .hero-tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .hero-banner .hero-content .hero-tags span {
+            background: rgba(204, 0, 51, 0.12);
+            border: 1px solid rgba(204, 0, 51, 0.15);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 600;
+            color: #cc0033;
+            text-transform: uppercase;
+        }
+
+        /* FILTROS */
+        .filter-bar {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+            padding-bottom: 2px;
+        }
+
+        .filter-btn {
+            padding: 4px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 30px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: rgba(204, 0, 51, 0.2);
+            color: #fff;
+        }
+
+        .filter-btn.active {
+            background: #cc0033;
+            border-color: #cc0033;
+            color: #fff;
+        }
+
+        /* GRID DE VÍDEOS */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .video-card {
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .video-card:active {
+            transform: scale(0.97);
+        }
+
+        .video-card .thumb {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .video-card .thumb img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-card .thumb .overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .video-card .thumb .overlay i {
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-card .thumb .duration {
+            position: absolute;
+            bottom: 6px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .video-card .info {
+            padding: 10px 12px 12px;
+        }
+
+        .video-card .info .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-card .info .meta {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.25);
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+
+        .video-card .info .meta .tag {
+            color: #cc0033;
+            font-weight: 600;
+            font-size: 7px;
+            text-transform: uppercase;
+            border: 1px solid rgba(204, 0, 51, 0.1);
+            padding: 1px 8px;
+            border-radius: 10px;
+        }
+
+        /* ============================================================
+           SEÇÃO: SHORTS (VÍDEOS VERTICAIS)
+           ============================================================ */
+        .shorts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .short-card {
+            position: relative;
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 9/16;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .short-card:active {
+            transform: scale(0.97);
+        }
+
+        .short-card .thumb {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .short-card .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .short-card .overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .short-card .overlay i {
+            font-size: 20px;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .short-card .info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 6px 8px;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+        }
+
+        .short-card .info .title {
+            font-size: 9px;
+            font-weight: 500;
+            color: #fff;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.3;
+        }
+
+        /* ============================================================
+           SEÇÃO: CARTEIRA / PONTOS
+           ============================================================ */
+        .wallet-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 0 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .wallet-header .wallet-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(204, 0, 51, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #cc0033;
+        }
+
+        .wallet-header .wallet-info .label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .wallet-header .wallet-info .value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .wallet-header .wallet-info .value em {
+            color: #cc0033;
+            font-style: normal;
+        }
+
+        .wallet-actions {
+            display: flex;
+            gap: 10px;
+            margin: 16px 0 20px;
+        }
+
+        .wallet-actions .btn-action {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .wallet-actions .btn-action.primary {
+            background: #cc0033;
+            color: #fff;
+        }
+
+        .wallet-actions .btn-action.primary:active {
+            transform: scale(0.97);
+        }
+
+        .wallet-actions .btn-action.secondary {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .wallet-actions .btn-action.secondary:active {
+            transform: scale(0.97);
+        }
+
+        .wallet-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .wallet-card-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 14px 16px;
+            transition: border-color 0.3s;
+        }
+
+        .wallet-card-item .coin-icon {
+            font-size: 22px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .wallet-card-item .coin-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .wallet-card-item .coin-address {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 10px;
+            font-family: monospace;
+            word-break: break-all;
+            margin-top: 4px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .wallet-card-item .btn-copy-wallet {
+            margin-top: 8px;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .wallet-card-item .btn-copy-wallet:active {
+            transform: scale(0.95);
+        }
+
+        .wallet-card-item .btn-copy-wallet.copied {
+            border-color: #00c853;
+            color: #00c853;
+        }
+
+        .dev-alert-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(255, 193, 7, 0.04);
+            border: 1px solid rgba(255, 193, 7, 0.08);
+            border-radius: 12px;
+            color: rgba(255, 193, 7, 0.7);
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .dev-alert-box i {
+            font-size: 18px;
+            color: #ffd54f;
+        }
+
+        /* ============================================================
+           SEÇÃO: PERFIL
+           ============================================================ */
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .profile-header .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: rgba(204, 0, 51, 0.1);
+            border: 3px solid rgba(204, 0, 51, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #cc0033;
+            margin-bottom: 8px;
+        }
+
+        .profile-header .profile-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .profile-header .profile-handle {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .profile-stats .stat {
+            text-align: center;
+        }
+
+        .profile-stats .stat .number {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .profile-stats .stat .label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 2px;
+        }
+
+        .profile-menu {
+            margin-top: 16px;
+        }
+
+        .profile-menu .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 8px;
+        }
+
+        .profile-menu .menu-item:active {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .profile-menu .menu-item .icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 16px;
+        }
+
+        .profile-menu .menu-item .text {
+            flex: 1;
+        }
+
+        .profile-menu .menu-item .text .title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .profile-menu .menu-item .text .sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-menu .menu-item .arrow {
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+        }
+
+        /* ============================================================
+           MENU INFERIOR - ESTILO INSTAGRAM
+           ============================================================ */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.96);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 env(safe-area-inset-bottom);
+            z-index: 100;
+            height: 64px;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            padding: 4px 16px;
+            position: relative;
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 22px;
+            transition: all 0.3s;
+        }
+
+        .bottom-nav .nav-item span {
+            font-size: 9px;
+            letter-spacing: 0.3px;
+        }
+
+        .bottom-nav .nav-item.active {
+            color: #fff;
+        }
+
+        .bottom-nav .nav-item.active i {
+            color: #cc0033;
+        }
+
+        .bottom-nav .nav-item .badge-nav {
+            position: absolute;
+            top: 2px;
+            right: 6px;
+            background: #cc0033;
+            color: #fff;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 10px;
+            min-width: 16px;
+            text-align: center;
+        }
+
+        .bottom-nav .nav-item .nav-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(204, 0, 51, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #cc0033;
+        }
+
+        .bottom-nav .nav-item.active .nav-avatar {
+            border-color: #cc0033;
+        }
+
+        /* ============================================================
+           MODAL DO VÍDEO - TELA CHEIA
+           ============================================================ */
+        .video-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.96);
+            z-index: 999;
+            flex-direction: column;
+        }
+
+        .video-modal-overlay.active {
+            display: flex;
+        }
+
+        .video-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: rgba(0, 0, 0, 0.6);
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .video-modal-header .modal-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 60%;
+        }
+
+        .video-modal-header .modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .video-modal-header .modal-actions button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 4px;
+        }
+
+        .video-modal-header .modal-actions button:hover {
+            color: #fff;
+        }
+
+        .video-modal-player {
+            flex: 1;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-modal-player video,
+        .video-modal-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .video-modal-info {
+            padding: 12px 16px 20px;
+            background: #0a0a0a;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            flex-shrink: 0;
+            max-height: 30vh;
+            overflow-y: auto;
+        }
+
+        .video-modal-info .info-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .video-modal-info .info-author {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .video-modal-info .info-author span {
+            color: #cc0033;
+        }
+
+        .video-modal-info .info-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+            margin: 4px 0 8px;
+            flex-wrap: wrap;
+        }
+
+        .video-modal-info .info-meta .tag {
+            color: #cc0033;
+            font-weight: 600;
+            font-size: 9px;
+            text-transform: uppercase;
+            border: 1px solid rgba(204, 0, 51, 0.1);
+            padding: 1px 10px;
+            border-radius: 10px;
+        }
+
+        .video-modal-info .info-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+        }
+
+        /* ============================================================
+           RESPONSIVO
+           ============================================================ */
+        @media (max-width: 480px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 8px;
+            }
+            .shorts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 6px;
+            }
+            .wallet-cards {
+                grid-template-columns: 1fr;
+            }
+            .bottom-nav .nav-item {
+                padding: 4px 10px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 20px;
+            }
+            .bottom-nav .nav-item span {
+                font-size: 8px;
+            }
+            .hero-banner {
+                height: 28vh;
+                min-height: 160px;
+            }
+            .hero-banner .hero-content h2 {
+                font-size: 18px;
+            }
+            .top-header .logo span {
+                font-size: 16px;
+            }
+            .video-card .info .title {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 6px;
+            }
+            .shorts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                gap: 4px;
+            }
+            .bottom-nav .nav-item {
+                padding: 4px 6px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 18px;
+            }
+            .bottom-nav .nav-item span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- ============================================================
+        TOP HEADER
+        ============================================================ -->
+        <header class="top-header">
+            <div class="logo">
+                <img src="https://i.ibb.co/xt4W4JPC/file-00000000d604720ea01dba00aa237277-3.png" alt="Xsess" />
+                <span>X<em>sess</em></span>
+            </div>
+            <div class="header-actions">
+                <span class="badge">18+</span>
+                <button class="icon-btn" id="headerSearch"><i class="fas fa-search"></i></button>
+            </div>
+        </header>
+
+        <!-- ============================================================
+        MAIN CONTENT
+        ============================================================ -->
+        <div class="main-content" id="mainContent">
+
+            <!-- ============================================================
+            SEÇÃO: INÍCIO (FEED)
+            ============================================================ -->
+            <div class="section-page active" id="section-home">
+
+                <!-- HERO BANNER -->
+                <div class="hero-banner">
+                    <img src="https://i.ibb.co/nsVn4TS8/file-00000000673c720eb9c896f40e3edc10.jpg" alt="Banner" />
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <img class="logo-hero" src="https://i.ibb.co/xt4W4JPC/file-00000000d604720ea01dba00aa237277-3.png" alt="Xsess" />
+                        <h2>Conteúdo <em>+18</em> Premium</h2>
+                        <p>Vídeos exclusivos com qualidade profissional</p>
+                        <div class="hero-tags">
+                            <span>4K</span>
+                            <span>Exclusivo</span>
+                            <span>Novo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FILTROS -->
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="Exclusivo">Exclusivo</button>
+                    <button class="filter-btn" data-filter="4K">4K</button>
+                    <button class="filter-btn" data-filter="Novo">Novo</button>
+                    <button class="filter-btn" data-filter="Em Alta">Em Alta</button>
+                    <button class="filter-btn" data-filter="Premium">Premium</button>
+                </div>
+
+                <!-- GRID DE VÍDEOS -->
+                <div class="video-grid" id="videoGrid">
+                    <!-- Renderizado pelo JavaScript -->
+                </div>
+
+            </div>
+
+            <!-- ============================================================
+            SEÇÃO: SHORTS
+            ============================================================ -->
+            <div class="section-page" id="section-shorts">
+                <div style="padding:12px 0 8px;">
+                    <h2 style="font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;">
+                        <i class="fas fa-bolt" style="color:#cc0033;"></i> Shorts
+                    </h2>
+                    <p style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:2px;">Vídeos rápidos no formato vertical</p>
+                </div>
+                <div class="shorts-grid" id="shortsGrid">
+                    <!-- Renderizado pelo JavaScript -->
+                </div>
+            </div>
+
+            <!-- ============================================================
+            SEÇÃO: CARTEIRA
+            ============================================================ -->
+            <div class="section-page" id="section-wallet">
+                <div class="wallet-header">
+                    <div class="wallet-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="wallet-info">
+                        <div class="label">Saldo disponível</div>
+                        <div class="value" id="userPoints">0 <em>pts</em></div>
+                    </div>
+                </div>
+
+                <div class="wallet-actions">
+                    <button class="btn-action primary" id="btnSaque"><i class="fas fa-arrow-up"></i> Sacar</button>
+                    <button class="btn-action secondary" id="btnHistorico"><i class="fas fa-clock"></i> Histórico</button>
+                </div>
+
+                <div class="wallet-cards">
+                    <div class="wallet-card-item">
+                        <span class="coin-icon"><i class="fab fa-bitcoin" style="color:#f7931a;"></i></span>
+                        <div class="coin-name">Bitcoin (BTC)</div>
+                        <div class="coin-address" id="btcAddr">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</div>
+                        <button class="btn-copy-wallet" onclick="copyWalletAddr('btcAddr', this)"><i class="fas fa-copy"></i> Copiar</button>
+                    </div>
+                    <div class="wallet-card-item">
+                        <span class="coin-icon"><i class="fab fa-ethereum" style="color:#627eea;"></i></span>
+                        <div class="coin-name">Ethereum (ETH)</div>
+                        <div class="coin-address" id="ethAddr">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</div>
+                        <button class="btn-copy-wallet" onclick="copyWalletAddr('ethAddr', this)"><i class="fas fa-copy"></i> Copiar</button>
+                    </div>
+                    <div class="wallet-card-item">
+                        <span class="coin-icon"><i class="fas fa-coins" style="color:#26a17b;"></i></span>
+                        <div class="coin-name">USDT (TRC20)</div>
+                        <div class="coin-address" id="usdtAddr">TQm9sN5pK8hEo6fQzP4rS3wX7cV2bN1mLm</div>
+                        <button class="btn-copy-wallet" onclick="copyWalletAddr('usdtAddr', this)"><i class="fas fa-copy"></i> Copiar</button>
+                    </div>
+                    <div class="wallet-card-item">
+                        <span class="coin-icon"><i class="fas fa-circle" style="color:#9945ff;"></i></span>
+                        <div class="coin-name">Solana (SOL)</div>
+                        <div class="coin-address" id="solAddr">7p2UfN5Kp8hEo6fQzP4rS3wX7cV2bN1mLmZ</div>
+                        <button class="btn-copy-wallet" onclick="copyWalletAddr('solAddr', this)"><i class="fas fa-copy"></i> Copiar</button>
+                    </div>
+                </div>
+
+                <div class="dev-alert-box">
+                    <i class="fas fa-code"></i>
+                    <span>O sistema de saque está em desenvolvimento. Em breve você poderá sacar seus pontos.</span>
+                </div>
+
+                <div style="margin-top:16px;padding:12px 16px;background:rgba(255,255,255,0.01);border-radius:12px;border:1px solid rgba(255,255,255,0.02);">
+                    <p style="font-size:12px;color:rgba(255,255,255,0.15);">
+                        <i class="fas fa-shield-alt" style="color:#cc0033;margin-right:6px;"></i>
+                        Todas as transações são processadas na blockchain. Você recebe diretamente na sua carteira.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ============================================================
+            SEÇÃO: PERFIL
+            ============================================================ -->
+            <div class="section-page" id="section-profile">
+                <div class="profile-header">
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                    <div class="profile-name">Usuário</div>
+                    <div class="profile-handle">@usuario_xsess</div>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="stat">
+                        <div class="number" id="profileVideos">0</div>
+                        <div class="label">Vídeos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="number" id="profileViews">0</div>
+                        <div class="label">Visualizações</div>
+                    </div>
+                    <div class="stat">
+                        <div class="number" id="profileLikes">0</div>
+                        <div class="label">Curtidas</div>
+                    </div>
+                </div>
+
+                <div class="profile-menu">
+                    <div class="menu-item">
+                        <div class="icon"><i class="fas fa-history"></i></div>
+                        <div class="text">
+                            <div class="title">Histórico</div>
+                            <div class="sub">Vídeos assistidos</div>
+                        </div>
+                        <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="icon"><i class="fas fa-heart"></i></div>
+                        <div class="text">
+                            <div class="title">Curtidos</div>
+                            <div class="sub">Vídeos que você curtiu</div>
+                        </div>
+                        <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="icon"><i class="fas fa-cog"></i></div>
+                        <div class="text">
+                            <div class="title">Configurações</div>
+                            <div class="sub">Preferências do app</div>
+                        </div>
+                        <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="icon"><i class="fas fa-question-circle"></i></div>
+                        <div class="text">
+                            <div class="title">Ajuda</div>
+                            <div class="sub">Central de suporte</div>
+                        </div>
+                        <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================
+        MENU INFERIOR - ESTILO INSTAGRAM
+        ============================================================ -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-section="section-home">
+                <i class="fas fa-home"></i>
+                <span>Início</span>
+            </button>
+            <button class="nav-item" data-section="section-shorts">
+                <i class="fas fa-bolt"></i>
+                <span>Shorts</span>
+            </button>
+            <button class="nav-item" data-section="section-wallet">
+                <i class="fas fa-wallet"></i>
+                <span>Carteira</span>
+            </button>
+            <button class="nav-item" data-section="section-profile">
+                <div class="nav-avatar"><i class="fas fa-user"></i></div>
+                <span>Perfil</span>
+            </button>
+        </nav>
+
+        <!-- ============================================================
+        MODAL DO VÍDEO - TELA CHEIA
+        ============================================================ -->
+        <div class="video-modal-overlay" id="videoModal">
+            <div class="video-modal-header">
+                <div class="modal-title" id="videoModalTitle">Título</div>
+                <div class="modal-actions">
+                    <button id="videoModalFullscreen"><i class="fas fa-expand"></i></button>
+                    <button id="closeVideoModal"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="video-modal-player" id="videoModalPlayer"></div>
+            <div class="video-modal-info">
+                <div class="info-title" id="videoModalInfoTitle">Título do Vídeo</div>
+                <div class="info-author" id="videoModalAuthor">Criador: <span>Xsess Creator</span></div>
+                <div class="info-meta" id="videoModalMeta">
+                    <span id="videoModalDate">00/00/0000</span>
+                    <span class="tag" id="videoModalTag">Exclusivo</span>
+                </div>
+                <div class="info-desc" id="videoModalDesc">Descrição do vídeo...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // BANCO DE DADOS
+        // ============================================================
+        const DB = {
+            get: (k, d) => {
+                try { const data = localStorage.getItem('xsess_' + k); return data ? JSON.parse(data) : d; } catch { return d; }
+            },
+            set: (k, v) => { localStorage.setItem('xsess_' + k, JSON.stringify(v)); }
+        };
+
+        // ============================================================
+        // ESTADO
+        // ============================================================
+        let videos = DB.get('videos', []);
+        let userPoints = DB.get('userPoints', 0);
+        let currentVideoId = null;
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const $ = (id) => document.getElementById(id);
+        const grid = $('videoGrid');
+        const shortsGrid = $('shortsGrid');
+        const videoModal = $('videoModal');
+        const videoModalPlayer = $('videoModalPlayer');
+        const videoModalTitle = $('videoModalTitle');
+        const videoModalInfoTitle = $('videoModalInfoTitle');
+        const videoModalAuthor = $('videoModalAuthor');
+        const videoModalDate = $('videoModalDate');
+        const videoModalTag = $('videoModalTag');
+        const videoModalDesc = $('videoModalDesc');
+        const closeVideoModalBtn = $('closeVideoModal');
+
+        // ============================================================
+        // FUNÇÕES AUXILIARES
+        // ============================================================
+        function formatDate() {
+            const now = new Date();
+            return now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function getVideoEmbed(url) {
+            const yt = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+            if (yt) return `<iframe src="https://www.youtube.com/embed/${yt[1]}?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+            const vimeo = url.match(/vimeo\.com\/(\d+)/);
+            if (vimeo) return `<iframe src="https://player.vimeo.com/video/${vimeo[1]}?autoplay=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+            const drive = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
+            if (drive) return `<iframe src="https://drive.google.com/file/d/${drive[1]}/preview" allow="autoplay" allowfullscreen></iframe>`;
+            if (url.match(/\.(mp4|webm|mov|avi)$/i)) {
+                return `<video controls autoplay style="width:100%;height:100%;background:#000;">
+                            <source src="${url}" type="video/mp4">
+                            Seu navegador não suporta vídeo.
+                        </video>`;
+            }
+            return `<iframe src="${url}" allow="autoplay" allowfullscreen></iframe>`;
+        }
+
+        // ============================================================
+        // NAVEGAÇÃO ENTRE ABAS (MENU INFERIOR)
+        // ============================================================
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.section-page').forEach(s => s.classList.remove('active'));
+
+                this.classList.add('active');
+                const sectionId = this.dataset.section;
+                document.getElementById(sectionId).classList.add('active');
+
+                // Scroll para o topo ao trocar de aba
+                document.getElementById('mainContent').scrollTop = 0;
+            });
+        });
+
+        // ============================================================
+        // COPIAR ENDEREÇO DA CARTEIRA
+        // ============================================================
+        function copyWalletAddr(elementId, btn) {
+            const text = document.getElementById(elementId).textContent;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.classList.add('copied');
+                    btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                    setTimeout(() => {
+                        btn.classList.remove('copied');
+                        btn.innerHTML = '<i class="fas fa-copy"></i> Copiar';
+                    }, 2000);
+                });
+            } else {
+                const input = document.createElement('input');
+                input.value = text;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                btn.classList.add('copied');
+                btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<i class="fas fa-copy"></i> Copiar';
+                }, 2000);
+            }
+        }
+
+        // ============================================================
+        // ATUALIZAR PONTOS NA TELA
+        // ============================================================
+        function updatePointsDisplay() {
+            const pointsEl = document.getElementById('userPoints');
+            if (pointsEl) {
+                pointsEl.innerHTML = userPoints + ' <em>pts</em>';
+            }
+        }
+
+        // ============================================================
+        // RENDERIZAR VÍDEOS
+        // ============================================================
+        function renderVideos(filter = 'all') {
+            grid.innerHTML = '';
+            shortsGrid.innerHTML = '';
+
+            let filtered = filter === 'all' ? videos : videos.filter(v =>
+                v.tags && v.tags.some(t => t.toLowerCase() === filter.toLowerCase())
+            );
+
+            const normalVideos = filtered.filter(v => !v.isShort);
+            const shortVideos = filtered.filter(v => v.isShort);
+
+            if (normalVideos.length === 0 && shortVideos.length === 0) {
+                grid.innerHTML = `
+                            <div style="text-align:center;padding:40px 20px;color:rgba(255,255,255,0.15);grid-column:1/-1;">
+                                <i class="fas fa-film" style="font-size:32px;display:block;margin-bottom:8px;color:rgba(255,255,255,0.03);"></i>
+                                <div style="font-size:14px;">Nenhum vídeo encontrado</div>
+                                <div style="font-size:12px;color:rgba(255,255,255,0.06);margin-top:4px;">${filter === 'all' ? 'Nenhum vídeo publicado ainda.' : 'Nenhum vídeo com este filtro.'}</div>
+                            </div>
+                        `;
+                return;
+            }
+
+            normalVideos.forEach(video => {
+                const card = document.createElement('div');
+                card.className = 'video-card';
+                card.dataset.id = video.id;
+
+                const tagsHtml = video.tags ? video.tags.slice(0, 2).map(tag =>
+                    `<span class="tag">${tag}</span>`
+                ).join('') : '';
+
+                card.innerHTML = `
+                            <div class="thumb">
+                                <img src="${video.thumbnail || 'https://via.placeholder.com/640x360/1a1a1a/cc0033?text=Sem+Imagem'}" alt="${video.title}" loading="lazy" />
+                                <div class="overlay"><i class="fas fa-play-circle"></i></div>
+                                <span class="duration">${video.duration || '--:--'}</span>
+                            </div>
+                            <div class="info">
+                                <div class="title">${video.title}</div>
+                                <div class="meta">
+                                    <span>${video.date || ''}</span>
+                                    ${tagsHtml}
+                                </div>
+                            </div>
+                        `;
+
+                card.addEventListener('click', () => openVideoModal(video.id));
+                grid.appendChild(card);
+            });
+
+            shortVideos.forEach(video => {
+                const card = document.createElement('div');
+                card.className = 'short-card';
+                card.dataset.id = video.id;
+
+                card.innerHTML = `
+                            <div class="thumb">
+                                <img src="${video.thumbnail || 'https://via.placeholder.com/360x640/1a1a1a/cc0033?text=Short'}" alt="${video.title}" loading="lazy" />
+                                <div class="overlay"><i class="fas fa-play"></i></div>
+                            </div>
+                            <div class="info">
+                                <div class="title">${video.title}</div>
+                            </div>
+                        `;
+
+                card.addEventListener('click', () => openVideoModal(video.id));
+                shortsGrid.appendChild(card);
+            });
+
+            // Atualizar perfil
+            updateProfileStats();
+        }
+
+        // ============================================================
+        // MODAL DO VÍDEO
+        // ============================================================
+        function openVideoModal(videoId) {
+            const video = videos.find(v => v.id === videoId);
+            if (!video) return;
+
+            currentVideoId = videoId;
+
+            videoModalPlayer.innerHTML = getVideoEmbed(video.link || '');
+            videoModalTitle.textContent = video.title;
+            videoModalInfoTitle.textContent = video.title;
+            videoModalAuthor.innerHTML = `Criador: <span>${video.author || 'Xsess'}</span>`;
+            videoModalDate.textContent = video.date || '';
+            const firstTag = video.tags && video.tags.length > 0 ? video.tags[0] : 'Geral';
+            videoModalTag.textContent = firstTag;
+            videoModalDesc.textContent = video.description || 'Sem descrição.';
+
+            videoModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            videoModal.classList.remove('active');
+            document.body.style.overflow = '';
+            videoModalPlayer.innerHTML = '';
+            currentVideoId = null;
+        }
+
+        // ============================================================
+        // ATUALIZAR PERFIL
+        // ============================================================
+        function updateProfileStats() {
+            document.getElementById('profileVideos').textContent = videos.length;
+            document.getElementById('profileViews').textContent = videos.reduce((acc, v) => acc + (v.views || 0), 0);
+            document.getElementById('profileLikes').textContent = Object.values(DB.get('likes', {})).reduce((a, b) => a + b, 0);
+        }
+
+        // ============================================================
+        // EVENTOS
+        // ============================================================
+        closeVideoModalBtn.addEventListener('click', closeVideoModal);
+        videoModal.addEventListener('click', function(e) {
+            if (e.target === this) closeVideoModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeVideoModal();
+        });
+
+        // Filtros
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                renderVideos(this.dataset.filter);
+            });
+        });
+
+        // Botão Saque
+        document.getElementById('btnSaque').addEventListener('click', function() {
+            alert('🚧 Sistema de saque em desenvolvimento.\n\nEm breve você poderá sacar seus pontos para criptomoedas.');
+        });
+
+        // Botão Histórico
+        document.getElementById('btnHistorico').addEventListener('click', function() {
+            alert('📊 Histórico de transações em desenvolvimento.\n\nEm breve você poderá ver todas as suas movimentações.');
+        });
+
+        // ============================================================
+        // INICIAR
+        // ============================================================
+        updatePointsDisplay();
+        renderVideos('all');
+    </script>
+
+</body>
+</html>

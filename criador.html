@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>Xsess · Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ============================================================
+           RESET E BASE - 100% TELA
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            background: #0a0a0a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #f0f0f0;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cc0033;
+            border-radius: 2px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        /* ============================================================
+           APP CONTAINER - 100% TELA
+           ============================================================ */
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            background: #0a0a0a;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ============================================================
+           TOP HEADER
+           ============================================================ */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-shrink: 0;
+            min-height: 56px;
+        }
+
+        .top-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-header .logo img {
+            height: 30px;
+            width: auto;
+        }
+
+        .top-header .logo span {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .top-header .logo span em {
+            color: #cc0033;
+            font-style: normal;
+        }
+
+        .top-header .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .top-header .header-actions .icon-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 4px;
+        }
+
+        .top-header .header-actions .icon-btn:hover {
+            color: #fff;
+        }
+
+        .top-header .header-actions .badge {
+            background: #cc0033;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* ============================================================
+           MAIN CONTENT
+           ============================================================ */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 70px;
+            scroll-behavior: smooth;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 3px;
+        }
+        .main-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .main-content::-webkit-scrollbar-thumb {
+            background: #cc0033;
+            border-radius: 2px;
+        }
+
+        /* ============================================================
+           SEÇÕES (ABAS)
+           ============================================================ */
+        .section-page {
+            display: none;
+            min-height: 100%;
+            padding: 0 16px 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .section-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+           SEÇÃO: PUBLICAR
+           ============================================================ */
+        .form-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin: 16px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-title span {
+            color: #cc0033;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: rgba(204, 0, 51, 0.3);
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-group .help {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-group .link-input-wrapper {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .form-group .link-input-wrapper input {
+            flex: 1;
+        }
+
+        .form-group .link-input-wrapper .btn-extract {
+            padding: 12px 14px;
+            background: rgba(204, 0, 51, 0.1);
+            border: 1px solid rgba(204, 0, 51, 0.15);
+            border-radius: 12px;
+            color: #cc0033;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group .link-input-wrapper .btn-extract:active {
+            transform: scale(0.95);
+        }
+
+        .form-group .link-input-wrapper .btn-extract:hover {
+            background: rgba(204, 0, 51, 0.2);
+        }
+
+        /* checkbox personalizado */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #cc0033;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Botões */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-success {
+            background: #00c853;
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            background: #00b34a;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: #d32f2f;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background: #b71c1c;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .form-actions .btn {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        /* Mensagens */
+        .message {
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            display: none;
+            font-weight: 500;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .message.success {
+            display: flex;
+            background: rgba(0, 200, 83, 0.06);
+            border: 1px solid rgba(0, 200, 83, 0.12);
+            color: #69f0ae;
+        }
+
+        .message.error {
+            display: flex;
+            background: rgba(211, 47, 47, 0.06);
+            border: 1px solid rgba(211, 47, 47, 0.12);
+            color: #ef9a9a;
+        }
+
+        .message .close-msg {
+            margin-left: auto;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.5;
+            background: none;
+            border: none;
+            color: inherit;
+        }
+
+        /* ============================================================
+           SEÇÃO: MEUS VÍDEOS
+           ============================================================ */
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 16px 0 12px;
+        }
+
+        .list-header .list-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .list-header .list-title span {
+            color: #cc0033;
+        }
+
+        .list-header .list-count {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+        }
+
+        .list-item .thumb {
+            width: 64px;
+            height: 36px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .list-item .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .list-item .info {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .list-item .info .name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #fff;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .list-item .info .meta {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.2);
+            margin-top: 2px;
+        }
+
+        .list-item .actions {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .list-item .actions .btn-sm {
+            padding: 4px 10px;
+            font-size: 10px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .list-item .actions .btn-sm:active {
+            transform: scale(0.95);
+        }
+
+        .list-item .actions .btn-sm:hover {
+            border-color: rgba(204, 0, 51, 0.2);
+            color: #fff;
+        }
+
+        .list-item .actions .btn-sm.danger:hover {
+            border-color: #d32f2f;
+            color: #d32f2f;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .empty-state .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.04);
+        }
+
+        .empty-state .text {
+            font-size: 14px;
+        }
+
+        .empty-state .sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.06);
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+           SEÇÃO: ESTATÍSTICAS
+           ============================================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #cc0033;
+        }
+
+        .stat-card .label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+           SEÇÃO: CONFIGURAÇÕES
+           ============================================================ */
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .settings-item .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .settings-item .left .icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 16px;
+        }
+
+        .settings-item .left .text .title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .settings-item .left .text .sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .settings-item .right {
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+        }
+
+        /* toggle switch */
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toggle.active {
+            background: #cc0033;
+        }
+
+        .toggle .ball {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+        }
+
+        .toggle.active .ball {
+            left: 22px;
+        }
+
+        /* ============================================================
+           MENU INFERIOR
+           ============================================================ */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.96);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 env(safe-area-inset-bottom);
+            z-index: 100;
+            height: 64px;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 9px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            padding: 4px 12px;
+            position: relative;
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 22px;
+            transition: all 0.3s;
+        }
+
+        .bottom-nav .nav-item span {
+            font-size: 9px;
+            letter-spacing: 0.3px;
+        }
+
+        .bottom-nav .nav-item.active {
+            color: #fff;
+        }
+
+        .bottom-nav .nav-item.active i {
+            color: #cc0033;
+        }
+
+        .bottom-nav .nav-item .nav-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(204, 0, 51, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #cc0033;
+        }
+
+        .bottom-nav .nav-item.active .nav-avatar {
+            border-color: #cc0033;
+        }
+
+        /* ============================================================
+           RESPONSIVO
+           ============================================================ */
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .bottom-nav .nav-item {
+                padding: 4px 8px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 20px;
+            }
+            .bottom-nav .nav-item span {
+                font-size: 8px;
+            }
+            .form-group .link-input-wrapper {
+                flex-direction: column;
+            }
+            .form-group .link-input-wrapper .btn-extract {
+                width: 100%;
+                justify-content: center;
+            }
+            .list-item .actions .btn-sm span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .bottom-nav .nav-item {
+                padding: 4px 4px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 18px;
+            }
+            .bottom-nav .nav-item span {
+                display: none;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- ============================================================
+        TOP HEADER
+        ============================================================ -->
+        <header class="top-header">
+            <div class="logo">
+                <img src="https://i.ibb.co/xt4W4JPC/file-00000000d604720ea01dba00aa237277-3.png" alt="Xsess" />
+                <span>X<em>sess</em></span>
+            </div>
+            <div class="header-actions">
+                <span class="badge">PRO</span>
+                <a href="https://xsessx.blogspot.com/" target="_blank" style="color:rgba(255,255,255,0.3);font-size:16px;">
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- ============================================================
+        MAIN CONTENT
+        ============================================================ -->
+        <div class="main-content" id="mainContent">
+
+            <!-- ============================================================
+            SEÇÃO: PUBLICAR
+            ============================================================ -->
+            <div class="section-page active" id="section-publish">
+
+                <div class="form-title"><i class="fas fa-upload" style="color:#cc0033;"></i> <span>Publicar</span> Vídeo</div>
+
+                <div class="message success" id="msgSuccess">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="successText">Vídeo publicado com sucesso!</span>
+                    <button class="close-msg" onclick="this.parentElement.style.display='none'"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="message error" id="msgError">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="errorText">Erro ao publicar!</span>
+                    <button class="close-msg" onclick="this.parentElement.style.display='none'"><i class="fas fa-times"></i></button>
+                </div>
+
+                <form id="videoForm">
+
+                    <div class="form-group">
+                        <label><i class="fas fa-link"></i> Link do Vídeo *</label>
+                        <div class="link-input-wrapper">
+                            <input type="url" id="videoLink" placeholder="https://blogger.googleusercontent.com/.../video.mp4" required />
+                            <button type="button" class="btn-extract" id="extractLinkBtn">
+                                <i class="fas fa-magic"></i> Extrair
+                            </button>
+                        </div>
+                        <div class="help">YouTube, Vimeo, Google Drive, Blogger (MP4)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="videoTitle"><i class="fas fa-tag"></i> Título *</label>
+                        <input type="text" id="videoTitle" placeholder="Ex: Lançamento Exclusivo" required />
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="videoCategory"><i class="fas fa-folder"></i> Categoria</label>
+                            <select id="videoCategory">
+                                <option value="">Selecione...</option>
+                                <option value="Exclusivo">Exclusivo</option>
+                                <option value="4K">4K</option>
+                                <option value="Novo">Novo</option>
+                                <option value="Em Alta">Em Alta</option>
+                                <option value="Premium">Premium</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="videoTags"><i class="fas fa-hashtag"></i> Tags</label>
+                            <input type="text" id="videoTags" placeholder="4K, Exclusivo, Novo" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="videoDuration"><i class="fas fa-clock"></i> Duração</label>
+                            <input type="text" id="videoDuration" placeholder="12:30" />
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="videoShorts" />
+                            <label for="videoShorts"><i class="fas fa-bolt" style="color:#cc0033;"></i> Este é um Short</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="videoThumbnail"><i class="fas fa-image"></i> Thumbnail (URL)</label>
+                        <input type="url" id="videoThumbnail" placeholder="https://i.imgur.com/xxxx.jpg" />
+                        <div class="help">Imagem 16:9 (1280x720 recomendado)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="videoDescription"><i class="fas fa-align-left"></i> Descrição</label>
+                        <textarea id="videoDescription" placeholder="Descreva o conteúdo do vídeo..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Publicar</button>
+                        <button type="button" class="btn btn-secondary" id="btnClear"><i class="fas fa-eraser"></i> Limpar</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- ============================================================
+            SEÇÃO: MEUS VÍDEOS
+            ============================================================ -->
+            <div class="section-page" id="section-my-videos">
+                <div class="list-header">
+                    <div class="list-title"><i class="fas fa-film" style="color:#cc0033;"></i> <span>Meus</span> Vídeos</div>
+                    <div class="list-count" id="videoCount">0 vídeos</div>
+                </div>
+                <div id="videoListContainer"></div>
+            </div>
+
+            <!-- ============================================================
+            SEÇÃO: ESTATÍSTICAS
+            ============================================================ -->
+            <div class="section-page" id="section-stats">
+                <div style="padding:16px 0 8px;">
+                    <h2 style="font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;">
+                        <i class="fas fa-chart-bar" style="color:#cc0033;"></i> Estatísticas
+                    </h2>
+                    <p style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:2px;">Desempenho dos seus vídeos</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number" id="statVideos">0</div>
+                        <div class="label">Vídeos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" id="statViews">0</div>
+                        <div class="label">Visualizações</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" id="statLikes">0</div>
+                        <div class="label">Curtidas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" id="statComments">0</div>
+                        <div class="label">Comentários</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:16px;padding:16px;background:rgba(255,255,255,0.01);border-radius:12px;border:1px solid rgba(255,255,255,0.02);">
+                    <p style="font-size:13px;color:rgba(255,255,255,0.3);">
+                        <i class="fas fa-info-circle" style="color:#cc0033;margin-right:8px;"></i>
+                        As estatísticas são atualizadas em tempo real.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ============================================================
+            SEÇÃO: CONFIGURAÇÕES
+            ============================================================ -->
+            <div class="section-page" id="section-settings">
+                <div style="padding:16px 0 8px;">
+                    <h2 style="font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;">
+                        <i class="fas fa-cog" style="color:#cc0033;"></i> Configurações
+                    </h2>
+                    <p style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:2px;">Personalize seu painel</p>
+                </div>
+
+                <div class="settings-item">
+                    <div class="left">
+                        <div class="icon"><i class="fas fa-bell"></i></div>
+                        <div class="text">
+                            <div class="title">Notificações</div>
+                            <div class="sub">Alertas de novos vídeos</div>
+                        </div>
+                    </div>
+                    <div class="toggle active" onclick="this.classList.toggle('active')">
+                        <div class="ball"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <div class="left">
+                        <div class="icon"><i class="fas fa-moon"></i></div>
+                        <div class="text">
+                            <div class="title">Tema Escuro</div>
+                            <div class="sub">Interface em modo noturno</div>
+                        </div>
+                    </div>
+                    <div class="toggle active" onclick="this.classList.toggle('active')">
+                        <div class="ball"></div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <div class="left">
+                        <div class="icon"><i class="fas fa-globe"></i></div>
+                        <div class="text">
+                            <div class="title">Idioma</div>
+                            <div class="sub">Português (Brasil)</div>
+                        </div>
+                    </div>
+                    <div class="right"><i class="fas fa-chevron-right"></i></div>
+                </div>
+
+                <div class="settings-item">
+                    <div class="left">
+                        <div class="icon"><i class="fas fa-database"></i></div>
+                        <div class="text">
+                            <div class="title">Limpar Dados</div>
+                            <div class="sub">Remover todos os vídeos</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger" style="padding:6px 16px;font-size:12px;border-radius:20px;" onclick="if(confirm('Limpar todos os vídeos?')){localStorage.removeItem('xsess_videos');location.reload();}">
+                        <i class="fas fa-trash"></i> Limpar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================
+        MENU INFERIOR
+        ============================================================ -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-section="section-publish">
+                <i class="fas fa-upload"></i>
+                <span>Publicar</span>
+            </button>
+            <button class="nav-item" data-section="section-my-videos">
+                <i class="fas fa-film"></i>
+                <span>Vídeos</span>
+            </button>
+            <button class="nav-item" data-section="section-stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>Stats</span>
+            </button>
+            <button class="nav-item" data-section="section-settings">
+                <i class="fas fa-cog"></i>
+                <span>Ajustes</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // BANCO DE DADOS
+        // ============================================================
+        const DB = {
+            get: (k, d) => {
+                try { const data = localStorage.getItem('xsess_' + k); return data ? JSON.parse(data) : d; } catch { return d; }
+            },
+            set: (k, v) => { localStorage.setItem('xsess_' + k, JSON.stringify(v)); }
+        };
+
+        // ============================================================
+        // ESTADO
+        // ============================================================
+        let videos = DB.get('videos', []);
+        let likes = DB.get('likes', {});
+        let comments = DB.get('comments', {});
+        let views = DB.get('views', {});
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const $ = (id) => document.getElementById(id);
+
+        function formatDate() {
+            const now = new Date();
+            return now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function formatViews(n) {
+            if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+            if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+            return n;
+        }
+
+        function showSuccess(msg) {
+            const el = $('msgSuccess');
+            $('successText').textContent = msg;
+            el.style.display = 'flex';
+            $('msgError').style.display = 'none';
+            setTimeout(() => el.style.display = 'none', 5000);
+        }
+
+        function showError(msg) {
+            const el = $('msgError');
+            $('errorText').textContent = msg;
+            el.style.display = 'flex';
+            $('msgSuccess').style.display = 'none';
+            setTimeout(() => el.style.display = 'none', 5000);
+        }
+
+        // ============================================================
+        // NAVEGAÇÃO ENTRE ABAS
+        // ============================================================
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.section-page').forEach(s => s.classList.remove('active'));
+
+                this.classList.add('active');
+                document.getElementById(this.dataset.section).classList.add('active');
+                document.getElementById('mainContent').scrollTop = 0;
+            });
+        });
+
+        // ============================================================
+        // PUBLICAR VÍDEO
+        // ============================================================
+        $('videoForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const link = $('videoLink').value.trim();
+            const title = $('videoTitle').value.trim();
+
+            if (!link) { showError('Cole o link do vídeo.'); return; }
+            if (!title) { showError('Digite o título.'); return; }
+
+            const video = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+                link: link,
+                title: title,
+                category: $('videoCategory').value,
+                tags: $('videoTags').value.trim() ? $('videoTags').value.trim().split(',').map(t => t.trim()).filter(t => t) : [],
+                duration: $('videoDuration').value.trim() || '--:--',
+                description: $('videoDescription').value.trim() || '',
+                thumbnail: $('videoThumbnail').value.trim() || 'https://via.placeholder.com/640x360/1a1a1a/cc0033?text=Sem+Imagem',
+                isShort: $('videoShorts').checked,
+                date: formatDate(),
+                author: 'Xsess Creator',
+                views: 0
+            };
+
+            videos.unshift(video);
+            DB.set('videos', videos);
+            renderList();
+            updateStats();
+            showSuccess('✅ Vídeo "' + video.title + '" publicado!');
+
+            $('videoForm').reset();
+            $('videoShorts').checked = false;
+
+            setTimeout(() => {
+                $('msgSuccess').style.display = 'none';
+            }, 5000);
+        });
+
+        // ============================================================
+        // RENDERIZAR LISTA
+        // ============================================================
+        function renderList() {
+            const container = $('videoListContainer');
+            const count = $('videoCount');
+
+            if (videos.length === 0) {
+                container.innerHTML = `
+                            <div class="empty-state">
+                                <span class="icon"><i class="fas fa-film"></i></span>
+                                <div class="text">Nenhum vídeo publicado</div>
+                                <div class="sub">Publique seu primeiro vídeo na aba "Publicar"</div>
+                            </div>
+                        `;
+                count.textContent = '0 vídeos';
+                return;
+            }
+
+            count.textContent = videos.length + ' vídeo' + (videos.length > 1 ? 's' : '');
+
+            container.innerHTML = videos.map((v) => `
+                        <div class="list-item">
+                            <div class="thumb">
+                                <img src="${v.thumbnail}" alt="${v.title}" />
+                            </div>
+                            <div class="info">
+                                <div class="name">${v.title} ${v.isShort ? '⚡' : ''}</div>
+                                <div class="meta">${v.date} · ${v.duration} · ${v.tags.length > 0 ? v.tags.join(', ') : 'Sem tags'} · ${formatViews(v.views || 0)} views</div>
+                            </div>
+                            <div class="actions">
+                                <button class="btn-sm" onclick="window.open('https://xsessx.blogspot.com/','_blank')"><i class="fas fa-eye"></i> <span>Ver</span></button>
+                                <button class="btn-sm danger" onclick="deleteVideo('${v.id}')"><i class="fas fa-trash"></i> <span>Excluir</span></button>
+                            </div>
+                        </div>
+                    `).join('');
+        }
+
+        // ============================================================
+        // DELETAR VÍDEO
+        // ============================================================
+        function deleteVideo(id) {
+            if (!confirm('Tem certeza que deseja excluir este vídeo?')) return;
+            videos = videos.filter(v => v.id !== id);
+            DB.set('videos', videos);
+            renderList();
+            updateStats();
+            showSuccess('🗑️ Vídeo removido.');
+            setTimeout(() => {
+                $('msgSuccess').style.display = 'none';
+            }, 3000);
+        }
+
+        // ============================================================
+        // ATUALIZAR ESTATÍSTICAS
+        // ============================================================
+        function updateStats() {
+            const totalVideos = videos.length;
+            const totalViews = Object.values(views).reduce((a, b) => a + b, 0);
+            const totalLikes = Object.values(likes).reduce((a, b) => a + b, 0);
+            const totalComments = Object.values(comments).reduce((a, b) => a + b.length, 0);
+
+            $('statVideos').textContent = totalVideos;
+            $('statViews').textContent = formatViews(totalViews);
+            $('statLikes').textContent = formatViews(totalLikes);
+            $('statComments').textContent = formatViews(totalComments);
+        }
+
+        // ============================================================
+        // LIMPAR FORMULÁRIO
+        // ============================================================
+        $('btnClear').addEventListener('click', () => {
+            $('videoForm').reset();
+            $('videoShorts').checked = false;
+            $('msgSuccess').style.display = 'none';
+            $('msgError').style.display = 'none';
+        });
+
+        // ============================================================
+        // EXTRAIR LINK (AJUDA)
+        // ============================================================
+        $('extractLinkBtn').addEventListener('click', function() {
+            const url = prompt('Cole a URL do post do Blogger com o vídeo:');
+            if (!url) return;
+            alert(
+                '1. Abra o post\n2. Clique com o botão direito no vídeo\n3. Selecione "Copiar endereço do vídeo"\n4. Cole o link no campo abaixo');
+        });
+
+        // ============================================================
+        // INICIAR
+        // ============================================================
+        renderList();
+        updateStats();
+    </script>
+
+</body>
+</html>
