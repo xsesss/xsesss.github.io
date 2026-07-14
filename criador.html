@@ -7,6 +7,7 @@
     <title>Xsess · Studio</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" />
     <style>
         * {
             margin: 0;
@@ -202,9 +203,6 @@
         .link-input-wrapper .btn-extract:hover {
             background: rgba(204, 0, 51, 0.2);
         }
-        .link-input-wrapper .btn-extract:active {
-            transform: scale(0.97);
-        }
 
         .checkbox-group {
             display: flex;
@@ -222,10 +220,6 @@
             font-size: 13px;
             color: rgba(255, 255, 255, 0.5);
             cursor: pointer;
-        }
-        .checkbox-group label i {
-            color: #cc0033;
-            margin-right: 4px;
         }
 
         .btn {
@@ -259,6 +253,13 @@
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
+        }
+        .btn-primary {
+            background: #cc0033;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #b3002e;
         }
 
         .form-actions {
@@ -305,43 +306,191 @@
         }
 
         /* ============================================================
-           THUMBNAIL PREVIEW
+           THUMBNAIL UPLOAD E CROP
            ============================================================ */
-        .thumb-preview {
-            margin-top: 6px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 8px;
-            display: none;
-            align-items: center;
-            gap: 12px;
+        .thumb-upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.01);
         }
-        .thumb-preview.active {
+        .thumb-upload-area:hover {
+            border-color: rgba(204, 0, 51, 0.2);
+            background: rgba(204, 0, 51, 0.02);
+        }
+        .thumb-upload-area .icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, 0.1);
+        }
+        .thumb-upload-area .text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .thumb-upload-area .text strong {
+            color: #cc0033;
+        }
+        .thumb-upload-area .sub {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.1);
+            margin-top: 2px;
+        }
+        .thumb-upload-area input[type="file"] {
+            display: none;
+        }
+
+        .thumb-preview-container {
+            margin-top: 10px;
+            display: none;
+            gap: 12px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .thumb-preview-container.active {
             display: flex;
         }
-        .thumb-preview img {
-            width: 80px;
-            height: 45px;
-            border-radius: 6px;
-            object-fit: cover;
+
+        .thumb-preview-box {
+            width: 160px;
+            height: 90px;
+            border-radius: 8px;
+            overflow: hidden;
             background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            flex-shrink: 0;
         }
-        .thumb-preview .thumb-info {
+        .thumb-preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumb-preview-info {
             flex: 1;
+            min-width: 120px;
         }
-        .thumb-preview .thumb-info .label {
+        .thumb-preview-info .label {
             font-size: 9px;
             color: rgba(255, 255, 255, 0.2);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .thumb-preview .thumb-info .value {
+        .thumb-preview-info .value {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.5);
             word-break: break-all;
         }
+        .thumb-preview-info .btn-group {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+        .thumb-preview-info .btn-group .btn-sm {
+            padding: 3px 12px;
+            font-size: 10px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .thumb-preview-info .btn-group .btn-sm:hover {
+            border-color: rgba(204, 0, 51, 0.2);
+            color: #fff;
+        }
+        .thumb-preview-info .btn-group .btn-sm.primary {
+            background: #cc0033;
+            border-color: #cc0033;
+            color: #fff;
+        }
+        .thumb-preview-info .btn-group .btn-sm.primary:hover {
+            background: #b3002e;
+        }
 
+        /* ============================================================
+           CROP MODAL
+           ============================================================ */
+        .crop-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(8px);
+        }
+        .crop-modal.active {
+            display: flex;
+        }
+
+        .crop-modal .crop-content {
+            background: #111;
+            border: 1px solid #1a1a1a;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .crop-modal .crop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .crop-modal .crop-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .crop-modal .crop-header h3 span {
+            color: #cc0033;
+        }
+        .crop-modal .crop-header .close-crop {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .crop-modal .crop-body .crop-container {
+            width: 100%;
+            max-height: 50vh;
+            background: #0a0a0a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .crop-modal .crop-body .crop-container img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .crop-modal .crop-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+        .crop-modal .crop-actions .btn {
+            padding: 8px 20px;
+            font-size: 13px;
+        }
+
+        /* ============================================================
+           LISTA DE VÍDEOS
+           ============================================================ */
         .video-list {
             margin-top: 20px;
             padding-top: 16px;
@@ -647,14 +796,17 @@
             .list-item .actions .btn-sm span {
                 display: none;
             }
-            .thumb-preview {
+            .thumb-preview-container {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
             }
-            .thumb-preview img {
+            .thumb-preview-box {
                 width: 100%;
-                height: auto;
-                aspect-ratio: 16/9;
+                height: 140px;
+            }
+            .crop-modal .crop-content {
+                padding: 16px;
+                margin: 10px;
             }
         }
         @media (max-width: 400px) {
@@ -726,13 +878,41 @@
                 <div class="help">YouTube, Vimeo, Google Drive, MP4 direto</div>
             </div>
 
-            <!-- THUMBNAIL PREVIEW (aparece automaticamente) -->
-            <div class="thumb-preview" id="thumbPreview">
-                <img id="thumbPreviewImg" src="" alt="Thumbnail" />
-                <div class="thumb-info">
-                    <div class="label">Thumbnail detectada</div>
-                    <div class="value" id="thumbPreviewUrl">-</div>
+            <!-- UPLOAD E RECORTE DE THUMBNAIL -->
+            <div class="form-group">
+                <label><i class="fas fa-image"></i> Thumbnail (capa do vídeo)</label>
+                <div class="thumb-upload-area" id="thumbUploadArea">
+                    <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                    <div class="text"><strong>Clique para escolher</strong> uma imagem da galeria</div>
+                    <div class="sub">JPG, PNG · 16:9 recomendado · Máx. 5MB</div>
+                    <input type="file" id="thumbFileInput" accept="image/*" />
                 </div>
+
+                <div class="thumb-preview-container" id="thumbPreviewContainer">
+                    <div class="thumb-preview-box">
+                        <img id="thumbPreviewImg" src="" alt="Thumbnail" />
+                    </div>
+                    <div class="thumb-preview-info">
+                        <div class="label">Imagem selecionada</div>
+                        <div class="value" id="thumbPreviewName">-</div>
+                        <div class="btn-group">
+                            <button type="button" class="btn-sm primary" id="cropBtn"><i class="fas fa-crop-alt"></i> Recortar</button>
+                            <button type="button" class="btn-sm" id="removeThumbBtn"><i class="fas fa-trash"></i> Remover</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help" style="margin-top:6px;">
+                    <i class="fas fa-info-circle" style="color:#cc0033;"></i>
+                    Você pode usar uma imagem da galeria ou colocar um link manualmente abaixo
+                </div>
+            </div>
+
+            <!-- THUMBNAIL MANUAL (URL) -->
+            <div class="form-group">
+                <label for="videoThumbnail"><i class="fas fa-link"></i> Thumbnail (URL manual - opcional)</label>
+                <input type="url" id="videoThumbnail" placeholder="https://i.imgur.com/xxxx.jpg" />
+                <div class="help">Use se quiser colocar uma imagem de um link (ImgBB, etc.)</div>
             </div>
 
             <div class="form-group">
@@ -771,12 +951,6 @@
             </div>
 
             <div class="form-group">
-                <label for="videoThumbnail"><i class="fas fa-image"></i> Thumbnail (URL manual - opcional)</label>
-                <input type="url" id="videoThumbnail" placeholder="https://i.imgur.com/xxxx.jpg" />
-                <div class="help">Deixe em branco para extrair automaticamente</div>
-            </div>
-
-            <div class="form-group">
                 <label for="videoDescription"><i class="fas fa-align-left"></i> Descrição</label>
                 <textarea id="videoDescription" placeholder="Descreva o conteúdo do vídeo..."></textarea>
             </div>
@@ -808,19 +982,16 @@
             </div>
             <div class="popup-body">
                 <p>Cole o link do vídeo que você quer extrair. O TubeMate vai tentar encontrar o link direto do vídeo para você.</p>
-
                 <div class="platform-grid">
                     <button class="platform-btn" data-platform="youtube"><i class="fab fa-youtube" style="color:#ff0000;"></i>YouTube</button>
                     <button class="platform-btn" data-platform="vimeo"><i class="fab fa-vimeo" style="color:#1ab7ea;"></i>Vimeo</button>
                     <button class="platform-btn" data-platform="drive"><i class="fab fa-google-drive" style="color:#fbbc05;"></i>Google Drive</button>
                     <button class="platform-btn" data-platform="direct"><i class="fas fa-link" style="color:#cc0033;"></i>Link Direto</button>
                 </div>
-
                 <div class="input-group">
                     <input type="url" id="tubeMateUrl" placeholder="https://www.youtube.com/watch?v=..." />
                     <button class="btn-extract-popup" id="tubeMateExtract"><i class="fas fa-search"></i> Extrair</button>
                 </div>
-
                 <div class="result-box" id="tubeMateResult">
                     <p style="font-size:12px;color:rgba(255,255,255,0.3);">✅ Link extraído:</p>
                     <div class="result-link" id="tubeMateExtractedLink">https://...</div>
@@ -831,6 +1002,27 @@
         </div>
     </div>
 
+    <!-- CROP MODAL -->
+    <div class="crop-modal" id="cropModal">
+        <div class="crop-content">
+            <div class="crop-header">
+                <h3><i class="fas fa-crop-alt" style="color:#cc0033;"></i> <span>Recortar</span> Imagem</h3>
+                <button class="close-crop" id="closeCrop"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="crop-body">
+                <div class="crop-container">
+                    <img id="cropImage" src="" alt="Imagem para recortar" />
+                </div>
+                <div class="crop-actions">
+                    <button type="button" class="btn btn-secondary" id="cropCancel">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="cropConfirm"><i class="fas fa-check"></i> Aplicar recorte</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js">
+    </script>
     <script>
         // ============================================================
         // BANCO DE DADOS
@@ -880,70 +1072,188 @@
         }
 
         // ============================================================
-        // EXTRAIR THUMBNAIL AUTOMATICAMENTE
+        // THUMBNAIL UPLOAD E CROP
+        // ============================================================
+        let cropper = null;
+        let croppedImageData = null;
+        let uploadedImageFile = null;
+        let uploadImageData = null;
+
+        const thumbUploadArea = $('thumbUploadArea');
+        const thumbFileInput = $('thumbFileInput');
+        const thumbPreviewContainer = $('thumbPreviewContainer');
+        const thumbPreviewImg = $('thumbPreviewImg');
+        const thumbPreviewName = $('thumbPreviewName');
+        const cropBtn = $('cropBtn');
+        const removeThumbBtn = $('removeThumbBtn');
+        const cropModal = $('cropModal');
+        const closeCrop = $('closeCrop');
+        const cropCancel = $('cropCancel');
+        const cropConfirm = $('cropConfirm');
+        const cropImage = $('cropImage');
+
+        // Abrir seletor de arquivo
+        thumbUploadArea.addEventListener('click', () => {
+            thumbFileInput.click();
+        });
+
+        thumbFileInput.addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                showError('Por favor, selecione uma imagem válida (JPG, PNG).');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                showError('A imagem não pode ter mais que 5MB.');
+                return;
+            }
+
+            uploadedImageFile = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadImageData = e.target.result;
+                thumbPreviewImg.src = uploadImageData;
+                thumbPreviewName.textContent = file.name;
+                thumbPreviewContainer.classList.add('active');
+
+                // Preencher o campo de thumbnail manual com a imagem base64
+                $('videoThumbnail').value = uploadImageData;
+
+                // Abrir o crop automaticamente
+                openCropper(uploadImageData);
+            };
+            reader.readAsDataURL(file);
+            this.value = '';
+        });
+
+        // Abrir crop
+        cropBtn.addEventListener('click', function() {
+            if (uploadImageData) {
+                openCropper(uploadImageData);
+            } else {
+                showError('Nenhuma imagem selecionada para recortar.');
+            }
+        });
+
+        function openCropper(imageSrc) {
+            cropImage.src = imageSrc;
+            cropModal.classList.add('active');
+
+            setTimeout(() => {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(cropImage, {
+                    aspectRatio: 16 / 9,
+                    viewMode: 1,
+                    autoCropArea: 0.8,
+                    dragMode: 'move',
+                    cropBoxMovable: true,
+                    cropBoxResizable: true,
+                    background: false,
+                    responsive: true,
+                });
+            }, 100);
+        }
+
+        // Fechar crop
+        function closeCropModal() {
+            cropModal.classList.remove('active');
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+        }
+
+        closeCrop.addEventListener('click', closeCropModal);
+        cropCancel.addEventListener('click', closeCropModal);
+        cropModal.addEventListener('click', function(e) {
+            if (e.target === this) closeCropModal();
+        });
+
+        // Confirmar crop
+        cropConfirm.addEventListener('click', function() {
+            if (!cropper) return;
+
+            const canvas = cropper.getCroppedCanvas({
+                width: 1280,
+                height: 720,
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high',
+            });
+
+            if (!canvas) {
+                showError('Erro ao recortar a imagem.');
+                return;
+            }
+
+            const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+            croppedImageData = croppedDataUrl;
+
+            // Atualizar preview
+            thumbPreviewImg.src = croppedDataUrl;
+            $('videoThumbnail').value = croppedDataUrl;
+
+            closeCropModal();
+            showSuccess('✅ Imagem recortada com sucesso!');
+        });
+
+        // Remover thumbnail
+        removeThumbBtn.addEventListener('click', function() {
+            uploadedImageFile = null;
+            uploadImageData = null;
+            croppedImageData = null;
+            thumbPreviewContainer.classList.remove('active');
+            thumbPreviewImg.src = '';
+            thumbPreviewName.textContent = '-';
+            $('videoThumbnail').value = '';
+            showSuccess('🗑️ Thumbnail removida.');
+        });
+
+        // ============================================================
+        // EXTRAIR THUMBNAIL DE LINK
         // ============================================================
         function extractThumbnail(url) {
-            // YouTube
             const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
             if (ytMatch) {
                 return {
                     url: `https://img.youtube.com/vi/${ytMatch[1]}/maxresdefault.jpg`,
-                    preview: `https://img.youtube.com/vi/${ytMatch[1]}/mqdefault.jpg`
+                    preview: `https://img.youtube.com/vi/${ytMatch[1]}/mqdefault.jpg`,
+                    source: 'youtube'
                 };
             }
 
-            // Vimeo
             const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
             if (vimeoMatch) {
                 return {
                     url: `https://vumbnail.com/${vimeoMatch[1]}.jpg`,
-                    preview: `https://vumbnail.com/${vimeoMatch[1]}.jpg`
+                    preview: `https://vumbnail.com/${vimeoMatch[1]}.jpg`,
+                    source: 'vimeo'
                 };
             }
 
-            // Google Drive
-            const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
-            if (driveMatch) {
-                return {
-                    url: '',
-                    preview: 'https://drive.google.com/thumbnail?id=' + driveMatch[1]
-                };
-            }
-
-            // Se não conseguiu extrair
             return null;
         }
 
-        // ============================================================
-        // MOSTRAR THUMBNAIL PREVIEW AO DIGITAR O LINK
-        // ============================================================
         const videoLinkInput = $('videoLink');
-        const thumbPreview = $('thumbPreview');
-        const thumbPreviewImg = $('thumbPreviewImg');
-        const thumbPreviewUrl = $('thumbPreviewUrl');
-        const videoThumbnailInput = $('videoThumbnail');
 
         videoLinkInput.addEventListener('input', function() {
             const url = this.value.trim();
             const thumb = extractThumbnail(url);
 
-            if (thumb) {
+            if (thumb && !$('videoThumbnail').value) {
+                $('videoThumbnail').value = thumb.url;
                 thumbPreviewImg.src = thumb.preview || thumb.url;
-                thumbPreviewUrl.textContent = thumb.url || 'Extraído do link';
-                thumbPreview.classList.add('active');
-
-                // Preencher o campo de thumbnail automaticamente
-                if (thumb.url) {
-                    videoThumbnailInput.value = thumb.url;
-                }
-            } else {
-                thumbPreview.classList.remove('active');
-                // Se o usuário já tinha colocado uma thumbnail manual, mantém
+                thumbPreviewName.textContent = 'Extraído do link';
+                thumbPreviewContainer.classList.add('active');
             }
         });
 
         // ============================================================
-        // TUBEMATE - POPUP
+        // TUBEMATE
         // ============================================================
         const tubeMatePopup = $('tubeMatePopup');
         const closeTubeMate = $('closeTubeMate');
@@ -991,7 +1301,8 @@
 
             const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
             if (ytMatch) {
-                tubeMateExtractedLink.textContent = `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0`;
+                tubeMateExtractedLink.textContent =
+                `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0`;
                 tubeMateResult.classList.add('active');
                 return;
             }
@@ -1010,7 +1321,7 @@
                 return;
             }
 
-            if (url.match(/\.(mp4|webm|mov|avi)$/i)) {
+            if (url.match(/\.(mp4|webm|mov|avi|mkv)$/i)) {
                 tubeMateExtractedLink.textContent = url;
                 tubeMateResult.classList.add('active');
                 return;
@@ -1043,7 +1354,6 @@
             const link = tubeMateExtractedLink.textContent;
             if (link && !link.includes('❌')) {
                 videoLinkInput.value = link;
-                // Disparar o evento para extrair thumbnail
                 videoLinkInput.dispatchEvent(new Event('input'));
                 tubeMatePopup.classList.remove('active');
                 showSuccess('✅ Link inserido no formulário!');
@@ -1060,12 +1370,13 @@
 
             const link = videoLinkInput.value.trim();
             const title = $('videoTitle').value.trim();
+            const thumbnailManual = $('videoThumbnail').value.trim();
 
             if (!link) { showError('Cole o link do vídeo.'); return; }
             if (!title) { showError('Digite o título.'); return; }
 
-            // Usar thumbnail manual ou a extraída
-            let thumbnail = $('videoThumbnail').value.trim();
+            // Usar thumbnail da galeria (cropped) ou manual ou extraída
+            let thumbnail = thumbnailManual;
             if (!thumbnail) {
                 const thumb = extractThumbnail(link);
                 if (thumb && thumb.url) {
@@ -1097,9 +1408,16 @@
             updateStats();
             showSuccess('✅ Vídeo "' + video.title + '" publicado!');
 
+            // Resetar formulário
             $('videoForm').reset();
             $('videoShorts').checked = false;
-            thumbPreview.classList.remove('active');
+            thumbPreviewContainer.classList.remove('active');
+            uploadedImageFile = null;
+            uploadImageData = null;
+            croppedImageData = null;
+            thumbPreviewImg.src = '';
+            thumbPreviewName.textContent = '-';
+            $('videoThumbnail').value = '';
 
             setTimeout(() => {
                 $('msgSuccess').style.display = 'none';
@@ -1180,7 +1498,13 @@
         $('btnClear').addEventListener('click', () => {
             $('videoForm').reset();
             $('videoShorts').checked = false;
-            thumbPreview.classList.remove('active');
+            thumbPreviewContainer.classList.remove('active');
+            uploadedImageFile = null;
+            uploadImageData = null;
+            croppedImageData = null;
+            thumbPreviewImg.src = '';
+            thumbPreviewName.textContent = '-';
+            $('videoThumbnail').value = '';
             $('msgSuccess').style.display = 'none';
             $('msgError').style.display = 'none';
         });
