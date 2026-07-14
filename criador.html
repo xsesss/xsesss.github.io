@@ -1316,7 +1316,7 @@
 
             const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
             if (driveMatch) {
-                tubeMateExtractedLink.textContent = `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
+                tubeMateExtractedLink.textContent = `https://drive.google.com/uc?export=download&id=${driveMatch[1]}`;
                 tubeMateResult.classList.add('active');
                 return;
             }

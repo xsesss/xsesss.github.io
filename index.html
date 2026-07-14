@@ -1245,7 +1245,7 @@
 
             const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
             if (driveMatch) {
-                return `<iframe src="https://drive.google.com/file/d/${driveMatch[1]}/preview" allow="autoplay" allowfullscreen></iframe>`;
+                return `<iframe src="https://drive.google.com/uc?export=download&id=${driveMatch[1]}" allow="autoplay" allowfullscreen></iframe>`;
             }
 
             if (url.match(/\.(mp4|webm|mov|avi)$/i)) {
