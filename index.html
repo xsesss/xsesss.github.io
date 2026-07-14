@@ -10,226 +10,954 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         /* ============================================================
-           RESET E BASE
+           RESET
            ============================================================ */
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html, body { width:100%; height:100%; background:#0a0a0a; font-family:'Inter',sans-serif; color:#f0f0f0; overflow:hidden; }
-        ::-webkit-scrollbar { width:3px; }
-        ::-webkit-scrollbar-track { background:transparent; }
-        ::-webkit-scrollbar-thumb { background:#cc0033; border-radius:2px; }
-
-        .app-container { width:100%; height:100vh; height:100dvh; display:flex; flex-direction:column; background:#0a0a0a; overflow:hidden; }
-
-        /* ===== HEADER ===== */
-        .top-header {
-            display:flex; justify-content:space-between; align-items:center; padding:10px 16px;
-            background:rgba(10,10,10,0.95); border-bottom:1px solid rgba(255,255,255,0.04);
-            flex-shrink:0; min-height:52px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .top-header .logo { display:flex; align-items:center; gap:8px; }
-        .top-header .logo img { height:28px; width:auto; }
-        .top-header .logo span { font-size:18px; font-weight:800; color:#fff; letter-spacing:-0.5px; }
-        .top-header .logo span em { color:#cc0033; font-style:normal; }
-        .top-header .header-actions { display:flex; align-items:center; gap:12px; }
-        .top-header .header-actions .icon-btn { background:none; border:none; color:rgba(255,255,255,0.4); font-size:16px; cursor:pointer; padding:4px; }
-        .top-header .header-actions .badge { background:#cc0033; padding:2px 10px; border-radius:20px; font-size:8px; font-weight:700; color:#fff; }
-
-        /* ===== MAIN ===== */
-        .main-content { flex:1; overflow-y:auto; overflow-x:hidden; padding-bottom:70px; }
-        .main-content::-webkit-scrollbar { width:3px; }
-        .main-content::-webkit-scrollbar-thumb { background:#cc0033; border-radius:2px; }
-
-        .section-page { display:none; padding:0 16px 20px; animation:fadeIn 0.3s ease; }
-        .section-page.active { display:block; }
-        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-
-        /* ===== HERO ===== */
-        .hero-banner {
-            position:relative; width:100%; height:30vh; min-height:180px; max-height:320px;
-            border-radius:14px; overflow:hidden; margin:10px 0 14px; background:#111;
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            font-family: 'Inter', sans-serif;
+            color: #f0f0f0;
+            overflow: hidden;
         }
-        .hero-banner img { width:100%; height:100%; object-fit:cover; filter:brightness(0.5); }
-        .hero-banner .hero-overlay { position:absolute; bottom:0; left:0; right:0; height:60%; background:linear-gradient(0deg,#0a0a0a 10%,transparent 100%); }
-        .hero-banner .hero-content { position:absolute; bottom:14px; left:16px; right:16px; }
-        .hero-banner .hero-content .logo-hero { height:30px; width:auto; margin-bottom:2px; }
-        .hero-banner .hero-content h2 { font-size:18px; font-weight:800; color:#fff; line-height:1.1; }
-        .hero-banner .hero-content h2 em { color:#cc0033; font-style:normal; }
-        .hero-banner .hero-content p { font-size:12px; color:rgba(255,255,255,0.4); margin-top:1px; }
-        .hero-banner .hero-content .hero-tags { display:flex; gap:4px; margin-top:6px; flex-wrap:wrap; }
-        .hero-banner .hero-content .hero-tags span { background:rgba(204,0,51,0.12); border:1px solid rgba(204,0,51,0.12); padding:1px 10px; border-radius:20px; font-size:8px; font-weight:600; color:#cc0033; text-transform:uppercase; }
-
-        /* ===== FILTROS ===== */
-        .filter-bar { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:12px; }
-        .filter-btn { padding:4px 12px; border:1px solid rgba(255,255,255,0.06); border-radius:30px; background:transparent; color:rgba(255,255,255,0.35); font-size:10px; font-weight:500; cursor:pointer; transition:all 0.3s ease; font-family:'Inter',sans-serif; white-space:nowrap; }
-        .filter-btn:hover { border-color:rgba(204,0,51,0.2); color:#fff; }
-        .filter-btn.active { background:#cc0033; border-color:#cc0033; color:#fff; }
-
-        /* ===== ANÚNCIOS - BANNERS ===== */
-        .ad-container {
-            margin:10px 0;
-            padding:6px 0;
-            text-align:center;
-            background:rgba(255,255,255,0.01);
-            border-radius:8px;
-            border:1px solid rgba(255,255,255,0.02);
+        ::-webkit-scrollbar {
+            width: 4px;
         }
-        .ad-container .ad-label { font-size:8px; color:rgba(255,255,255,0.08); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
-        .ad-container iframe, .ad-container img { max-width:100%; border:none; border-radius:4px; }
-        .ad-container.native { background:transparent; border:none; padding:0; }
-        .ad-container.inside-modal { margin:10px 0; background:rgba(255,255,255,0.02); }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cc0033;
+            border-radius: 2px;
+        }
 
-        /* ===== GRID ===== */
-        .video-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin-bottom:14px; }
-        .video-card { background:#111; border-radius:10px; overflow:hidden; transition:all 0.3s ease; cursor:pointer; border:1px solid rgba(255,255,255,0.02); }
-        .video-card:active { transform:scale(0.97); }
-        .video-card .thumb { position:relative; width:100%; padding-top:56.25%; background:#1a1a1a; overflow:hidden; }
-        .video-card .thumb img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; }
-        .video-card .thumb .overlay { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.15); opacity:0; transition:opacity 0.3s ease; }
-        .video-card:hover .thumb .overlay { opacity:1; }
-        .video-card .thumb .overlay i { font-size:24px; color:#fff; text-shadow:0 4px 20px rgba(0,0,0,0.3); }
-        .video-card .thumb .duration { position:absolute; bottom:4px; right:6px; background:rgba(0,0,0,0.7); padding:1px 6px; border-radius:8px; font-size:8px; font-weight:500; color:#fff; }
-        .video-card .info { padding:8px 10px 10px; }
-        .video-card .info .title { font-size:12px; font-weight:600; color:#fff; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-        .video-card .info .meta { display:flex; align-items:center; gap:4px; font-size:8px; color:rgba(255,255,255,0.25); margin-top:3px; flex-wrap:wrap; }
-        .video-card .info .meta .tag { color:#cc0033; font-weight:600; font-size:7px; text-transform:uppercase; border:1px solid rgba(204,0,51,0.08); padding:1px 6px; border-radius:8px; }
-
-        /* ===== SHORTS ===== */
-        .shorts-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:8px; margin-bottom:14px; }
-        .short-card { position:relative; background:#111; border-radius:10px; overflow:hidden; cursor:pointer; aspect-ratio:9/16; border:1px solid rgba(255,255,255,0.02); transition:all 0.3s ease; }
-        .short-card:active { transform:scale(0.97); }
-        .short-card .thumb { width:100%; height:100%; overflow:hidden; }
-        .short-card .thumb img { width:100%; height:100%; object-fit:cover; }
-        .short-card .overlay { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.15); opacity:0; transition:opacity 0.3s ease; }
-        .short-card:hover .overlay { opacity:1; }
-        .short-card .overlay i { font-size:18px; color:#fff; text-shadow:0 4px 20px rgba(0,0,0,0.3); }
-        .short-card .info { position:absolute; bottom:0; left:0; right:0; padding:4px 6px; background:linear-gradient(0deg,rgba(0,0,0,0.7) 0%,transparent 100%); }
-        .short-card .info .title { font-size:8px; font-weight:500; color:#fff; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.3; }
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #0a0a0a;
+            overflow: hidden;
+        }
 
         /* ============================================================
-           MODAL - PLAYER PROFISSIONAL COM ANÚNCIOS
+           HEADER (YOUTUBE STYLE)
+           ============================================================ */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            background: rgba(10, 10, 10, 0.96);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-shrink: 0;
+            min-height: 48px;
+        }
+        .top-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-header .logo img {
+            height: 26px;
+        }
+        .top-header .logo span {
+            font-size: 17px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .top-header .logo span em {
+            color: #cc0033;
+            font-style: normal;
+        }
+        .top-header .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .top-header .header-actions .icon-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .top-header .header-actions .badge {
+            background: #cc0033;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 8px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* ============================================================
+           MAIN CONTENT
+           ============================================================ */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 65px;
+        }
+
+        /* ============================================================
+           ABAS (SEÇÕES)
+           ============================================================ */
+        .section-page {
+            display: none;
+            padding: 0 16px 20px;
+            animation: fadeIn 0.25s ease;
+        }
+        .section-page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+           HOME - FEED (YOUTUBE STYLE)
+           ============================================================ */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .video-card {
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .video-card:active {
+            transform: scale(0.98);
+        }
+        .video-card .thumb {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+        .video-card .thumb img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-card .thumb .overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .video-card:hover .thumb .overlay {
+            opacity: 1;
+        }
+        .video-card .thumb .overlay i {
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .video-card .thumb .duration {
+            position: absolute;
+            bottom: 6px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 500;
+            color: #fff;
+        }
+        .video-card .info {
+            padding: 10px 12px 12px;
+        }
+        .video-card .info .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .video-card .info .meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+        .video-card .info .meta .tag {
+            color: #cc0033;
+            font-weight: 600;
+            font-size: 9px;
+            text-transform: uppercase;
+            border: 1px solid rgba(204, 0, 51, 0.1);
+            padding: 1px 8px;
+            border-radius: 4px;
+        }
+
+        /* ============================================================
+           SEÇÃO: SHORTS
+           ============================================================ */
+        .shorts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .short-card {
+            position: relative;
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 9/16;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .short-card:active {
+            transform: scale(0.97);
+        }
+        .short-card .thumb {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .short-card .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .short-card .overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .short-card:hover .overlay {
+            opacity: 1;
+        }
+        .short-card .overlay i {
+            font-size: 24px;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .short-card .info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 6px 8px;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+        }
+        .short-card .info .title {
+            font-size: 10px;
+            font-weight: 500;
+            color: #fff;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.3;
+        }
+
+        /* ============================================================
+           SEÇÃO: CARTEIRA
+           ============================================================ */
+        .wallet-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .wallet-header .wallet-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(204, 0, 51, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #cc0033;
+        }
+        .wallet-header .wallet-info .label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .wallet-header .wallet-info .value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .wallet-header .wallet-info .value em {
+            color: #cc0033;
+            font-style: normal;
+        }
+
+        .wallet-actions {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0 16px;
+        }
+        .wallet-actions .btn-action {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .wallet-actions .btn-action.primary {
+            background: #cc0033;
+            color: #fff;
+        }
+        .wallet-actions .btn-action.secondary {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .wallet-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 12px 14px;
+        }
+        .wallet-card .coin-icon {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .wallet-card .coin-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 13px;
+        }
+        .wallet-card .coin-address {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.2);
+            font-family: monospace;
+            word-break: break-all;
+            margin-top: 4px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 4px 6px;
+            border-radius: 6px;
+        }
+        .wallet-card .btn-copy {
+            margin-top: 6px;
+            padding: 2px 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 9px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ============================================================
+           SEÇÃO: PERFIL
+           ============================================================ */
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .profile-header .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(204, 0, 51, 0.1);
+            border: 2px solid rgba(204, 0, 51, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #cc0033;
+            margin-bottom: 6px;
+        }
+        .profile-header .profile-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .profile-header .profile-handle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .profile-stats .stat {
+            text-align: center;
+        }
+        .profile-stats .stat .number {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .profile-stats .stat .label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 2px;
+        }
+
+        .profile-menu {
+            margin-top: 12px;
+        }
+        .profile-menu .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .profile-menu .menu-item .icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+        }
+        .profile-menu .menu-item .text {
+            flex: 1;
+        }
+        .profile-menu .menu-item .text .title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+        }
+        .profile-menu .menu-item .text .sub {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+        .profile-menu .menu-item .arrow {
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+        }
+
+        /* ============================================================
+           MODAL - PLAYER (YOUTUBE STYLE)
            ============================================================ */
         .modal-overlay {
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,0.95);
-            z-index:9999;
-            flex-direction:column;
-            backdrop-filter:blur(8px);
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            flex-direction: column;
         }
-        .modal-overlay.active { display:flex; }
+        .modal-overlay.active {
+            display: flex;
+        }
 
         .modal-header {
-            display:flex; justify-content:space-between; align-items:center;
-            padding:8px 16px; background:rgba(0,0,0,0.6);
-            flex-shrink:0; min-height:48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.6);
+            flex-shrink: 0;
+            min-height: 44px;
         }
-        .modal-header .modal-title { font-size:14px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:60%; }
-        .modal-header .modal-actions { display:flex; align-items:center; gap:10px; }
-        .modal-header .modal-actions button { background:none; border:none; color:rgba(255,255,255,0.5); font-size:16px; cursor:pointer; transition:color 0.3s; padding:4px; }
-        .modal-header .modal-actions button:hover { color:#fff; }
+        .modal-header .modal-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 60%;
+        }
+        .modal-header .modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-header .modal-actions button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .modal-header .modal-actions button:hover {
+            color: #fff;
+        }
 
-        .modal-player { flex:1; background:#000; display:flex; align-items:center; justify-content:center; min-height:0; position:relative; }
-        .modal-player video { width:100%; height:100%; object-fit:contain; max-height:100%; }
+        .modal-player {
+            flex: 1;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 0;
+            position: relative;
+        }
+        .modal-player video,
+        .modal-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
 
+        /* ===== PLAYER CONTROLES (YOUTUBE STYLE) ===== */
         .player-controls {
-            position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
-            display:flex; align-items:center; gap:12px;
-            background:rgba(0,0,0,0.7); padding:8px 16px; border-radius:30px;
-            backdrop-filter:blur(8px); opacity:0; transition:opacity 0.3s ease;
-            width:90%; max-width:500px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 6px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            width: 90%;
+            max-width: 500px;
         }
         .modal-player:hover .player-controls,
-        .modal-player:active .player-controls { opacity:1; }
-        .player-controls button { background:none; border:none; color:rgba(255,255,255,0.7); font-size:14px; cursor:pointer; transition:color 0.3s; padding:4px; flex-shrink:0; }
-        .player-controls button:hover { color:#fff; }
-        .player-controls .progress-container { flex:1; height:3px; background:rgba(255,255,255,0.15); border-radius:2px; position:relative; cursor:pointer; min-width:60px; }
-        .player-controls .progress-container .progress-fill { height:100%; background:#cc0033; border-radius:2px; width:0%; transition:width 0.1s; }
-        .player-controls .time-display { font-size:10px; color:rgba(255,255,255,0.5); font-weight:500; min-width:60px; text-align:center; flex-shrink:0; }
-
-        .modal-info { padding:10px 16px 14px; background:#0a0a0a; border-top:1px solid rgba(255,255,255,0.04); max-height:40vh; overflow-y:auto; flex-shrink:0; }
-        .modal-info .info-title { font-size:16px; font-weight:700; color:#fff; margin-bottom:2px; }
-        .modal-info .info-author { font-size:12px; color:rgba(255,255,255,0.35); margin-bottom:2px; }
-        .modal-info .info-author span { color:#cc0033; font-weight:600; }
-        .modal-info .info-meta { display:flex; align-items:center; gap:8px; font-size:10px; color:rgba(255,255,255,0.2); margin-bottom:8px; flex-wrap:wrap; }
-        .modal-info .info-meta .tag { color:#cc0033; font-weight:600; font-size:8px; text-transform:uppercase; border:1px solid rgba(204,0,51,0.08); padding:1px 8px; border-radius:8px; }
-        .modal-info .info-desc { font-size:12px; color:rgba(255,255,255,0.4); line-height:1.5; margin-bottom:10px; }
-
-        /* ANÚNCIO DENTRO DO MODAL (300x250) */
-        .modal-ad-container {
-            margin:10px 0;
-            padding:6px 0;
-            text-align:center;
-            background:rgba(255,255,255,0.02);
-            border-radius:8px;
-            border:1px solid rgba(255,255,255,0.04);
+        .modal-player:active .player-controls {
+            opacity: 1;
         }
-        .modal-ad-container .ad-label { font-size:8px; color:rgba(255,255,255,0.08); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+        .player-controls button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 4px;
+            flex-shrink: 0;
+        }
+        .player-controls button:hover {
+            color: #fff;
+        }
+        .player-controls .progress-container {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+            min-width: 60px;
+        }
+        .player-controls .progress-container .progress-fill {
+            height: 100%;
+            background: #cc0033;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s;
+        }
+        .player-controls .time-display {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+            min-width: 60px;
+            text-align: center;
+            flex-shrink: 0;
+        }
 
-        .info-actions { display:flex; align-items:center; gap:12px; padding:8px 0; border-top:1px solid rgba(255,255,255,0.04); border-bottom:1px solid rgba(255,255,255,0.04); flex-wrap:wrap; }
-        .info-actions .action-btn { display:flex; align-items:center; gap:4px; padding:4px 12px; background:transparent; border:1px solid rgba(255,255,255,0.06); border-radius:30px; color:rgba(255,255,255,0.4); font-size:11px; font-weight:500; cursor:pointer; transition:all 0.3s ease; font-family:'Inter',sans-serif; }
-        .info-actions .action-btn:hover { border-color:rgba(204,0,51,0.2); color:#fff; }
-        .info-actions .action-btn.liked { background:#cc0033; border-color:#cc0033; color:#fff; }
-        .info-actions .action-btn i { font-size:14px; }
-        .info-actions .action-count { font-size:11px; color:rgba(255,255,255,0.2); font-weight:500; }
+        /* ===== PRÉ-ROLL ===== */
+        #preroll-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            display: none;
+            background: rgba(0, 0, 0, 0.85);
+        }
+        #preroll-container .preroll-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+        }
+        #preroll-container .preroll-content i {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+            color: #cc0033;
+        }
+        #preroll-container .preroll-content p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        #preroll-container .preroll-progress {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 10px auto 0;
+            overflow: hidden;
+        }
+        #preroll-container .preroll-progress .preroll-fill {
+            width: 0%;
+            height: 100%;
+            background: #cc0033;
+            border-radius: 2px;
+            transition: width 0.1s;
+        }
 
-        .comments-section { margin-top:10px; }
-        .comments-section h4 { font-size:12px; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
-        .comment { background:rgba(255,255,255,0.02); padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.02); margin-bottom:4px; }
-        .comment .comment-author { color:#cc0033; font-weight:600; font-size:10px; }
-        .comment .comment-content { color:rgba(255,255,255,0.6); margin-top:1px; font-size:10px; line-height:1.4; }
-        .comment .comment-date { color:rgba(255,255,255,0.12); font-size:8px; margin-top:1px; }
+        /* ===== INFO DO VÍDEO ===== */
+        .modal-info {
+            padding: 10px 16px 14px;
+            background: #0a0a0a;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            max-height: 40vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        .modal-info .info-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .modal-info .info-author {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+        }
+        .modal-info .info-author span {
+            color: #cc0033;
+            font-weight: 600;
+        }
+        .modal-info .info-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.2);
+            margin: 4px 0 8px;
+            flex-wrap: wrap;
+        }
+        .modal-info .info-meta .tag {
+            color: #cc0033;
+            font-weight: 600;
+            font-size: 8px;
+            text-transform: uppercase;
+            border: 1px solid rgba(204, 0, 51, 0.08);
+            padding: 1px 8px;
+            border-radius: 4px;
+        }
+        .modal-info .info-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
 
-        .comment-form { display:flex; flex-direction:column; gap:4px; margin-top:6px; }
-        .comment-form input, .comment-form textarea { width:100%; padding:6px 10px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); border-radius:8px; color:#fff; font-size:10px; font-family:'Inter',sans-serif; transition:border-color 0.3s; }
-        .comment-form input:focus, .comment-form textarea:focus { border-color:rgba(204,0,51,0.15); outline:none; }
-        .comment-form .comment-submit { padding:4px 14px; background:#cc0033; border:none; border-radius:30px; color:#fff; font-weight:600; font-size:10px; cursor:pointer; transition:all 0.3s ease; font-family:'Inter',sans-serif; align-self:flex-start; }
-        .comment-form .comment-submit:hover { background:#b3002e; }
+        /* ===== ANÚNCIO DENTRO DO MODAL ===== */
+        .modal-ad-container {
+            margin: 8px 0;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 8px;
+            padding: 4px 0;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .modal-ad-container .ad-label {
+            font-size: 7px;
+            color: rgba(255, 255, 255, 0.06);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        /* ===== MENU INFERIOR ===== */
+        /* ===== AÇÕES ===== */
+        .info-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-wrap: wrap;
+        }
+        .info-actions .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .info-actions .action-btn:hover {
+            border-color: rgba(204, 0, 51, 0.2);
+            color: #fff;
+        }
+        .info-actions .action-btn.liked {
+            background: #cc0033;
+            border-color: #cc0033;
+            color: #fff;
+        }
+        .info-actions .action-btn i {
+            font-size: 13px;
+        }
+        .info-actions .action-count {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== COMENTÁRIOS ===== */
+        .comments-section {
+            margin-top: 10px;
+        }
+        .comments-section h4 {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 6px;
+        }
+        .comment {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            margin-bottom: 4px;
+        }
+        .comment .comment-author {
+            color: #cc0033;
+            font-weight: 600;
+            font-size: 10px;
+        }
+        .comment .comment-content {
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 1px;
+            font-size: 10px;
+        }
+        .comment .comment-date {
+            color: rgba(255, 255, 255, 0.12);
+            font-size: 8px;
+            margin-top: 1px;
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 6px;
+        }
+        .comment-form input,
+        .comment-form textarea {
+            width: 100%;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+        .comment-form input:focus,
+        .comment-form textarea:focus {
+            border-color: rgba(204, 0, 51, 0.15);
+            outline: none;
+        }
+        .comment-form .comment-submit {
+            padding: 4px 14px;
+            background: #cc0033;
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 10px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            align-self: flex-start;
+        }
+        .comment-form .comment-submit:hover {
+            background: #b3002e;
+        }
+
+        /* ============================================================
+           MENU INFERIOR (INSTAGRAM STYLE)
+           ============================================================ */
         .bottom-nav {
-            position:fixed; bottom:0; left:0; right:0;
-            background:rgba(10,10,10,0.96); backdrop-filter:blur(16px);
-            border-top:1px solid rgba(255,255,255,0.04);
-            display:flex; justify-content:space-around; align-items:center;
-            padding:4px 0 env(safe-area-inset-bottom); z-index:100; height:60px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.96);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 4px 0 env(safe-area-inset-bottom);
+            z-index: 100;
+            height: 58px;
         }
         .bottom-nav .nav-item {
-            display:flex; flex-direction:column; align-items:center; gap:1px;
-            background:none; border:none; color:rgba(255,255,255,0.25);
-            font-size:8px; font-weight:500; cursor:pointer; transition:all 0.3s;
-            font-family:'Inter',sans-serif; padding:4px 12px; position:relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            padding: 4px 12px;
         }
-        .bottom-nav .nav-item i { font-size:20px; transition:all 0.3s; }
-        .bottom-nav .nav-item span { font-size:8px; letter-spacing:0.3px; }
-        .bottom-nav .nav-item.active { color:#fff; }
-        .bottom-nav .nav-item.active i { color:#cc0033; }
-        .bottom-nav .nav-item .nav-avatar { width:24px; height:24px; border-radius:50%; background:rgba(204,0,51,0.1); border:2px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; font-size:12px; color:#cc0033; }
-        .bottom-nav .nav-item.active .nav-avatar { border-color:#cc0033; }
+        .bottom-nav .nav-item i {
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        .bottom-nav .nav-item span {
+            font-size: 8px;
+        }
+        .bottom-nav .nav-item.active {
+            color: #fff;
+        }
+        .bottom-nav .nav-item.active i {
+            color: #cc0033;
+        }
+        .bottom-nav .nav-item .nav-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(204, 0, 51, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #cc0033;
+        }
+        .bottom-nav .nav-item.active .nav-avatar {
+            border-color: #cc0033;
+        }
+
+        /* ============================================================
+           ANÚNCIOS - BANNERS (ESTRATÉGICOS)
+           ============================================================ */
+        .ad-banner {
+            margin: 12px 0;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 8px;
+            padding: 4px 0;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .ad-banner .ad-label {
+            font-size: 7px;
+            color: rgba(255, 255, 255, 0.06);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         /* ============================================================
            RESPONSIVO
            ============================================================ */
-        @media (max-width:480px) {
-            .video-grid { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px; }
-            .shorts-grid { grid-template-columns:repeat(auto-fill,minmax(70px,1fr)); gap:6px; }
-            .hero-banner { height:25vh; min-height:140px; }
-            .hero-banner .hero-content h2 { font-size:16px; }
-            .modal-header .modal-title { font-size:12px; max-width:50%; }
-            .modal-info .info-title { font-size:14px; }
-            .player-controls { padding:6px 12px; gap:8px; }
-            .player-controls .time-display { font-size:9px; min-width:40px; }
-            .info-actions .action-btn { font-size:10px; padding:3px 10px; }
-            .bottom-nav .nav-item { padding:4px 6px; }
-            .bottom-nav .nav-item i { font-size:18px; }
-            .bottom-nav .nav-item span { font-size:7px; }
+        @media (max-width: 600px) {
+            .video-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .shorts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+                gap: 8px;
+            }
+            .wallet-grid {
+                grid-template-columns: 1fr;
+            }
+            .bottom-nav .nav-item {
+                padding: 4px 8px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 18px;
+            }
         }
-        @media (max-width:380px) {
-            .video-grid { grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:6px; }
-            .shorts-grid { grid-template-columns:repeat(auto-fill,minmax(60px,1fr)); gap:4px; }
-            .bottom-nav .nav-item { padding:4px 4px; }
-            .bottom-nav .nav-item i { font-size:16px; }
-            .bottom-nav .nav-item span { display:none; }
+        @media (max-width: 400px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .shorts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                gap: 6px;
+            }
+            .bottom-nav .nav-item {
+                padding: 4px 4px;
+            }
+            .bottom-nav .nav-item i {
+                font-size: 16px;
+            }
+            .bottom-nav .nav-item span {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -237,7 +965,9 @@
 
     <div class="app-container">
 
-        <!-- ===== HEADER ===== -->
+        <!-- ============================================================
+        HEADER
+        ============================================================ -->
         <header class="top-header">
             <div class="logo">
                 <img src="https://i.ibb.co/xt4W4JPC/file-00000000d604720ea01dba00aa237277-3.png" alt="Xsess" />
@@ -245,117 +975,116 @@
             </div>
             <div class="header-actions">
                 <span class="badge">18+</span>
-                <button class="icon-btn" id="headerSearch"><i class="fas fa-search"></i></button>
+                <button class="icon-btn"><i class="fas fa-search"></i></button>
             </div>
         </header>
 
-        <!-- ===== MAIN ===== -->
+        <!-- ============================================================
+        MAIN
+        ============================================================ -->
         <div class="main-content" id="mainContent">
 
-            <!-- ===== SEÇÃO: INÍCIO ===== -->
+            <!-- ===== SEÇÃO: HOME (FEED) ===== -->
             <div class="section-page active" id="section-home">
+                <div class="video-grid" id="videoGrid"></div>
 
-                <!-- HERO -->
-                <div class="hero-banner">
-                    <img src="https://i.ibb.co/nsVn4TS8/file-00000000673c720eb9c896f40e3edc10.jpg" alt="Banner" />
-                    <div class="hero-overlay"></div>
-                    <div class="hero-content">
-                        <img class="logo-hero" src="https://i.ibb.co/xt4W4JPC/file-00000000d604720ea01dba00aa237277-3.png" alt="Xsess" />
-                        <h2>Conteúdo <em>+18</em> Premium</h2>
-                        <p>Vídeos exclusivos com qualidade profissional</p>
-                        <div class="hero-tags"><span>4K</span><span>Exclusivo</span><span>Novo</span></div>
-                    </div>
-                </div>
-
-                <!-- FILTROS -->
-                <div class="filter-bar">
-                    <button class="filter-btn active" data-filter="all">Todos</button>
-                    <button class="filter-btn" data-filter="Exclusivo">Exclusivo</button>
-                    <button class="filter-btn" data-filter="4K">4K</button>
-                    <button class="filter-btn" data-filter="Novo">Novo</button>
-                    <button class="filter-btn" data-filter="Em Alta">Em Alta</button>
-                    <button class="filter-btn" data-filter="Premium">Premium</button>
-                </div>
-
-                <!-- ============================================================
-                ANÚNCIO 1: BANNER 728x90 (TOPO)
-                ============================================================ -->
-                <div class="ad-container" id="ad-top">
+                <!-- ANÚNCIO ESTRATÉGICO 1: 728x90 (APÓS 3 VÍDEOS) -->
+                <div class="ad-banner" id="ad-mid">
                     <div class="ad-label">Publicidade</div>
                     <script> atOptions = { 'key' : 'f9ea6ae72c442c425ea2f20c5737ee51', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
                     <script src="https://www.highperformanceformat.com/f9ea6ae72c442c425ea2f20c5737ee51/invoke.js"></script>
                 </div>
 
-                <!-- GRID DE VÍDEOS -->
-                <div class="video-grid" id="videoGrid"></div>
-
-                <!-- ============================================================
-                ANÚNCIO 2: NATIVE BANNER (MEIO DO GRID)
-                ============================================================ -->
-                <div class="ad-container native" id="ad-native">
-                    <div class="ad-label">Publicidade</div>
-                    <script async="async" data-cfasync="false" src="https://pl30363913.effectivecpmnetwork.com/55002371a01f802fb4d54087a4cf2beb/invoke.js"></script>
-                    <div id="container-55002371a01f802fb4d54087a4cf2beb"></div>
-                </div>
-
-                <!-- ===== SHORTS ===== -->
-                <div style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.02);padding-top:12px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                        <h2 style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;">
-                            <i class="fas fa-bolt" style="color:#cc0033;font-size:14px;"></i> Shorts
-                        </h2>
-                    </div>
+                <!-- SHORTS -->
+                <div style="margin-top:16px;">
+                    <h2 style="font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                        <i class="fas fa-bolt" style="color:#cc0033;font-size:14px;"></i> Shorts
+                    </h2>
                     <div class="shorts-grid" id="shortsGrid"></div>
                 </div>
 
-                <!-- ============================================================
-                ANÚNCIO 3: BANNER 320x50 (RODAPÉ)
-                ============================================================ -->
-                <div class="ad-container" id="ad-bottom">
+                <!-- ANÚNCIO ESTRATÉGICO 2: 320x50 (RODAPÉ DO FEED) -->
+                <div class="ad-banner" id="ad-bottom">
                     <div class="ad-label">Publicidade</div>
                     <script> atOptions = { 'key' : '3c96a75f5394c5307f18b485638dd526', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
                     <script src="https://www.highperformanceformat.com/3c96a75f5394c5307f18b485638dd526/invoke.js"></script>
                 </div>
+            </div>
 
+            <!-- ===== SEÇÃO: SHORTS (SEPARADO) ===== -->
+            <div class="section-page" id="section-shorts">
+                <h2 style="font-size:17px;font-weight:700;padding:12px 0 8px;">
+                    <i class="fas fa-bolt" style="color:#cc0033;"></i> Shorts
+                </h2>
+                <div class="shorts-grid" id="shortsGrid2"></div>
+                <div class="ad-banner" style="margin-top:12px;">
+                    <div class="ad-label">Publicidade</div>
+                    <script> atOptions = { 'key' : '94d25378d11f9c193a6cb52c5a79279b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
+                    <script src="https://www.highperformanceformat.com/94d25378d11f9c193a6cb52c5a79279b/invoke.js"></script>
+                </div>
             </div>
 
             <!-- ===== SEÇÃO: CARTEIRA ===== -->
             <div class="section-page" id="section-wallet">
-                <div style="padding:16px 0 8px;">
-                    <h2 style="font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;">
-                        <i class="fas fa-wallet" style="color:#cc0033;"></i> Carteira
-                    </h2>
-                    <p style="font-size:13px;color:rgba(255,255,255,0.3);">Saldo disponível: <strong id="userPoints">0</strong> pts</p>
+                <div class="wallet-header">
+                    <div class="wallet-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="wallet-info">
+                        <div class="label">Saldo disponível</div>
+                        <div class="value" id="userPoints">0 <em>pts</em></div>
+                    </div>
                 </div>
-                <div style="display:flex;gap:10px;margin:12px 0 16px;">
-                    <button class="btn-action" style="flex:1;padding:10px;background:#cc0033;border:none;border-radius:30px;color:#fff;font-weight:600;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;" id="btnSaque"><i class="fas fa-arrow-up"></i> Sacar</button>
-                    <button class="btn-action" style="flex:1;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:30px;color:rgba(255,255,255,0.5);font-weight:600;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;" id="btnHistorico"><i class="fas fa-clock"></i> Histórico</button>
+                <div class="wallet-actions">
+                    <button class="btn-action primary" id="btnSaque"><i class="fas fa-arrow-up"></i> Sacar</button>
+                    <button class="btn-action secondary" id="btnHistorico"><i class="fas fa-clock"></i> Histórico</button>
                 </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:12px 14px;">
-                        <div style="font-size:20px;color:#f7931a;"><i class="fab fa-bitcoin"></i></div>
-                        <div style="font-weight:600;color:#fff;font-size:13px;">Bitcoin</div>
-                        <div style="font-size:9px;color:rgba(255,255,255,0.2);font-family:monospace;word-break:break-all;margin-top:4px;background:rgba(255,255,255,0.02);padding:4px 6px;border-radius:6px;">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</div>
-                        <button onclick="copyText('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',this)" style="margin-top:6px;padding:2px 10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:20px;color:rgba(255,255,255,0.3);font-size:9px;cursor:pointer;font-family:'Inter',sans-serif;"><i class="fas fa-copy"></i> Copiar</button>
+                <div class="wallet-grid">
+                    <div class="wallet-card">
+                        <span class="coin-icon"><i class="fab fa-bitcoin" style="color:#f7931a;"></i></span>
+                        <div class="coin-name">Bitcoin (BTC)</div>
+                        <div class="coin-address">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</div>
+                        <button class="btn-copy" onclick="copyText('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',this)"><i class="fas fa-copy"></i> Copiar</button>
                     </div>
-                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:12px 14px;">
-                        <div style="font-size:20px;color:#627eea;"><i class="fab fa-ethereum"></i></div>
-                        <div style="font-weight:600;color:#fff;font-size:13px;">Ethereum</div>
-                        <div style="font-size:9px;color:rgba(255,255,255,0.2);font-family:monospace;word-break:break-all;margin-top:4px;background:rgba(255,255,255,0.02);padding:4px 6px;border-radius:6px;">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</div>
-                        <button onclick="copyText('0x742d35Cc6634C0532925a3b844Bc454e4438f44e',this)" style="margin-top:6px;padding:2px 10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:20px;color:rgba(255,255,255,0.3);font-size:9px;cursor:pointer;font-family:'Inter',sans-serif;"><i class="fas fa-copy"></i> Copiar</button>
+                    <div class="wallet-card">
+                        <span class="coin-icon"><i class="fab fa-ethereum" style="color:#627eea;"></i></span>
+                        <div class="coin-name">Ethereum (ETH)</div>
+                        <div class="coin-address">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</div>
+                        <button class="btn-copy" onclick="copyText('0x742d35Cc6634C0532925a3b844Bc454e4438f44e',this)"><i class="fas fa-copy"></i> Copiar</button>
                     </div>
-                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:12px 14px;">
-                        <div style="font-size:20px;color:#26a17b;"><i class="fas fa-coins"></i></div>
-                        <div style="font-weight:600;color:#fff;font-size:13px;">USDT (TRC20)</div>
-                        <div style="font-size:9px;color:rgba(255,255,255,0.2);font-family:monospace;word-break:break-all;margin-top:4px;background:rgba(255,255,255,0.02);padding:4px 6px;border-radius:6px;">TQm9sN5pK8hEo6fQzP4rS3wX7cV2bN1mLm</div>
-                        <button onclick="copyText('TQm9sN5pK8hEo6fQzP4rS3wX7cV2bN1mLm',this)" style="margin-top:6px;padding:2px 10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:20px;color:rgba(255,255,255,0.3);font-size:9px;cursor:pointer;font-family:'Inter',sans-serif;"><i class="fas fa-copy"></i> Copiar</button>
+                    <div class="wallet-card">
+                        <span class="coin-icon"><i class="fas fa-coins" style="color:#26a17b;"></i></span>
+                        <div class="coin-name">USDT (TRC20)</div>
+                        <div class="coin-address">TQm9sN5pK8hEo6fQzP4rS3wX7cV2bN1mLm</div>
+                        <button class="btn-copy" onclick="copyText('TQm9sN5pK8hEo6fQzP4rS3wX7cV2bN1mLm',this)"><i class="fas fa-copy"></i> Copiar</button>
                     </div>
-                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:12px 14px;">
-                        <div style="font-size:20px;color:#9945ff;"><i class="fas fa-circle"></i></div>
-                        <div style="font-weight:600;color:#fff;font-size:13px;">Solana</div>
-                        <div style="font-size:9px;color:rgba(255,255,255,0.2);font-family:monospace;word-break:break-all;margin-top:4px;background:rgba(255,255,255,0.02);padding:4px 6px;border-radius:6px;">7p2UfN5Kp8hEo6fQzP4rS3wX7cV2bN1mLmZ</div>
-                        <button onclick="copyText('7p2UfN5Kp8hEo6fQzP4rS3wX7cV2bN1mLmZ',this)" style="margin-top:6px;padding:2px 10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:20px;color:rgba(255,255,255,0.3);font-size:9px;cursor:pointer;font-family:'Inter',sans-serif;"><i class="fas fa-copy"></i> Copiar</button>
+                    <div class="wallet-card">
+                        <span class="coin-icon"><i class="fas fa-circle" style="color:#9945ff;"></i></span>
+                        <div class="coin-name">Solana (SOL)</div>
+                        <div class="coin-address">7p2UfN5Kp8hEo6fQzP4rS3wX7cV2bN1mLmZ</div>
+                        <button class="btn-copy" onclick="copyText('7p2UfN5Kp8hEo6fQzP4rS3wX7cV2bN1mLmZ',this)"><i class="fas fa-copy"></i> Copiar</button>
                     </div>
+                </div>
+                <div style="margin-top:12px;padding:10px 14px;background:rgba(255,255,255,0.01);border-radius:10px;border:1px solid rgba(255,255,255,0.02);">
+                    <p style="font-size:11px;color:rgba(255,255,255,0.15);"><i class="fas fa-shield-alt" style="color:#cc0033;margin-right:6px;"></i> Sistema de saque em desenvolvimento. Em breve você poderá sacar seus pontos.</p>
+                </div>
+            </div>
+
+            <!-- ===== SEÇÃO: PERFIL ===== -->
+            <div class="section-page" id="section-profile">
+                <div class="profile-header">
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                    <div class="profile-name">Usuário</div>
+                    <div class="profile-handle">@usuario_xsess</div>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat"><div class="number" id="profileVideos">0</div><div class="label">Vídeos</div></div>
+                    <div class="stat"><div class="number" id="profileViews">0</div><div class="label">Visualizações</div></div>
+                    <div class="stat"><div class="number" id="profileLikes">0</div><div class="label">Curtidas</div></div>
+                </div>
+                <div class="profile-menu">
+                    <div class="menu-item"><div class="icon"><i class="fas fa-history"></i></div><div class="text"><div class="title">Histórico</div><div class="sub">Vídeos assistidos</div></div><div class="arrow"><i class="fas fa-chevron-right"></i></div></div>
+                    <div class="menu-item"><div class="icon"><i class="fas fa-heart"></i></div><div class="text"><div class="title">Curtidos</div><div class="sub">Vídeos que você curtiu</div></div><div class="arrow"><i class="fas fa-chevron-right"></i></div></div>
+                    <div class="menu-item"><div class="icon"><i class="fas fa-cog"></i></div><div class="text"><div class="title">Configurações</div><div class="sub">Preferências do app</div></div><div class="arrow"><i class="fas fa-chevron-right"></i></div></div>
+                    <div class="menu-item"><div class="icon"><i class="fas fa-question-circle"></i></div><div class="text"><div class="title">Ajuda</div><div class="sub">Central de suporte</div></div><div class="arrow"><i class="fas fa-chevron-right"></i></div></div>
                 </div>
             </div>
 
@@ -365,73 +1094,43 @@
         MENU INFERIOR
         ============================================================ -->
         <nav class="bottom-nav">
-            <button class="nav-item active" data-section="section-home">
-                <i class="fas fa-home"></i>
-                <span>Início</span>
-            </button>
-            <button class="nav-item" data-section="section-wallet">
-                <i class="fas fa-wallet"></i>
-                <span>Carteira</span>
-            </button>
-            <button class="nav-item" data-section="section-home" onclick="document.getElementById('mainContent').scrollTop=0;">
-                <div class="nav-avatar"><i class="fas fa-user"></i></div>
-                <span>Perfil</span>
-            </button>
+            <button class="nav-item active" data-section="section-home"><i class="fas fa-home"></i><span>Início</span></button>
+            <button class="nav-item" data-section="section-shorts"><i class="fas fa-bolt"></i><span>Shorts</span></button>
+            <button class="nav-item" data-section="section-wallet"><i class="fas fa-wallet"></i><span>Carteira</span></button>
+            <button class="nav-item" data-section="section-profile"><div class="nav-avatar"><i class="fas fa-user"></i></div><span>Perfil</span></button>
         </nav>
 
         <!-- ============================================================
-        MODAL DO VÍDEO (COM ANÚNCIOS)
+        MODAL - PLAYER
         ============================================================ -->
         <div class="modal-overlay" id="videoModal">
             <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Título do Vídeo</div>
+                <div class="modal-title" id="modalTitle">Título</div>
                 <div class="modal-actions">
                     <button id="modalFullscreen"><i class="fas fa-expand"></i></button>
                     <button id="closeModal"><i class="fas fa-times"></i></button>
                 </div>
             </div>
-
             <div class="modal-player" id="modalPlayer">
-                <!-- ============================================================
-                ANÚNCIO 4: VAST/PRÉ-ROLL (aparece antes do vídeo)
-                ============================================================ -->
-                <div id="preroll-container" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:5;display:none;">
-                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:14px;background:rgba(0,0,0,0.7);padding:20px 30px;border-radius:12px;text-align:center;">
-                        <i class="fas fa-ad" style="font-size:32px;display:block;margin-bottom:10px;color:#cc0033;"></i>
-                        <p>Anúncio em vídeo (3s)</p>
-                        <div style="width:100%;height:3px;background:rgba(255,255,255,0.1);margin-top:10px;border-radius:2px;overflow:hidden;">
-                            <div id="preroll-progress" style="width:0%;height:100%;background:#cc0033;border-radius:2px;transition:width 0.1s;"></div>
-                        </div>
+                <div id="preroll-container">
+                    <div class="preroll-content">
+                        <i class="fas fa-ad"></i>
+                        <p>Anúncio em vídeo</p>
+                        <div class="preroll-progress"><div class="preroll-fill" id="prerollFill"></div></div>
                     </div>
                 </div>
-                <!-- Player será inserido aqui -->
             </div>
-
             <div class="modal-info">
-                <div class="info-title" id="modalInfoTitle">Título do Vídeo</div>
+                <div class="info-title" id="modalInfoTitle">Título</div>
                 <div class="info-author" id="modalAuthor">Criador: <span>Xsess Creator</span></div>
-                <div class="info-meta" id="modalMeta">
-                    <span id="modalDate">00/00/0000</span>
-                    <span class="tag" id="modalTag">Exclusivo</span>
-                </div>
-                <div class="info-desc" id="modalDesc">Descrição do vídeo...</div>
+                <div class="info-meta" id="modalMeta"><span id="modalDate">00/00/0000</span><span class="tag" id="modalTag">Exclusivo</span></div>
+                <div class="info-desc" id="modalDesc">Descrição...</div>
 
-                <!-- ============================================================
-                ANÚNCIO 5: BANNER 300x250 (DENTRO DO MODAL - APÓS DESCRIÇÃO)
-                ============================================================ -->
+                <!-- ANÚNCIO ESTRATÉGICO 3: 300x250 (DENTRO DO MODAL) -->
                 <div class="modal-ad-container">
                     <div class="ad-label">Publicidade</div>
                     <script> atOptions = { 'key' : '94d25378d11f9c193a6cb52c5a79279b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
                     <script src="https://www.highperformanceformat.com/94d25378d11f9c193a6cb52c5a79279b/invoke.js"></script>
-                </div>
-
-                <!-- ============================================================
-                ANÚNCIO 6: BANNER 728x90 (DENTRO DO MODAL - ANTES DOS COMENTÁRIOS)
-                ============================================================ -->
-                <div class="modal-ad-container" style="margin-top:6px;">
-                    <div class="ad-label">Publicidade</div>
-                    <script> atOptions = { 'key' : 'f9ea6ae72c442c425ea2f20c5737ee51', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
-                    <script src="https://www.highperformanceformat.com/f9ea6ae72c442c425ea2f20c5737ee51/invoke.js"></script>
                 </div>
 
                 <div class="info-actions">
@@ -440,11 +1139,11 @@
                 </div>
 
                 <div class="comments-section">
-                    <h4><i class="fas fa-comment-dots"></i> Comentários</h4>
+                    <h4>Comentários</h4>
                     <div id="commentsContainer"></div>
                     <form class="comment-form" id="commentForm">
-                        <input type="text" id="commentName" placeholder="Seu nome" required />
-                        <textarea id="commentText" placeholder="Escreva seu comentário..." rows="2" required></textarea>
+                        <input type="text" id="commentName" placeholder="Seu nome" />
+                        <textarea id="commentText" placeholder="Escreva seu comentário..." rows="2"></textarea>
                         <button type="submit" class="comment-submit"><i class="fas fa-paper-plane"></i> Enviar</button>
                     </form>
                 </div>
@@ -454,9 +1153,30 @@
     </div>
 
     <!-- ============================================================
-    JAVASCRIPT COMPLETO (COM ANÚNCIOS)
+    JAVASCRIPT
     ============================================================ -->
     <script>
+        // ============================================================
+        // COPY TEXT
+        // ============================================================
+        function copyText(text, btn) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                    setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i> Copiar'; }, 2000);
+                });
+            } else {
+                const input = document.createElement('input');
+                input.value = text;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i> Copiar'; }, 2000);
+            }
+        }
+
         // ============================================================
         // NAVEGAÇÃO ENTRE ABAS
         // ============================================================
@@ -465,10 +1185,7 @@
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 document.querySelectorAll('.section-page').forEach(s => s.classList.remove('active'));
                 this.classList.add('active');
-                const sectionId = this.dataset.section;
-                if (sectionId) {
-                    document.getElementById(sectionId).classList.add('active');
-                }
+                document.getElementById(this.dataset.section).classList.add('active');
                 document.getElementById('mainContent').scrollTop = 0;
             });
         });
@@ -494,6 +1211,8 @@
         const $ = (id) => document.getElementById(id);
         const grid = $('videoGrid');
         const shortsGrid = $('shortsGrid');
+        const shortsGrid2 = $('shortsGrid2');
+
         const modal = $('videoModal');
         const modalPlayer = $('modalPlayer');
         const modalTitle = $('modalTitle');
@@ -507,8 +1226,7 @@
         const commentsContainer = $('commentsContainer');
         const closeModalBtn = $('closeModal');
         const fullscreenBtn = $('modalFullscreen');
-        const prerollContainer = $('preroll-container');
-        const prerollProgress = $('preroll-progress');
+        const prerollFill = $('prerollFill');
 
         // ============================================================
         // FUNÇÕES AUXILIARES
@@ -536,21 +1254,23 @@
         }
 
         // ============================================================
-        // PRÉ-ROLL (ANÚNCIO EM VÍDEO)
+        // PRÉ-ROLL
         // ============================================================
         function showPreroll() {
             return new Promise((resolve) => {
-                prerollContainer.style.display = 'block';
+                const container = document.getElementById('preroll-container');
+                const fill = document.getElementById('prerollFill');
+                container.style.display = 'block';
                 let progress = 0;
-                const duration = 3; // 3 segundos
+                const duration = 3;
                 const interval = setInterval(() => {
                     progress += 100 / (duration * 10);
                     if (progress >= 100) {
                         clearInterval(interval);
-                        prerollContainer.style.display = 'none';
+                        container.style.display = 'none';
                         resolve();
                     }
-                    prerollProgress.style.width = Math.min(progress, 100) + '%';
+                    fill.style.width = Math.min(progress, 100) + '%';
                 }, 100);
             });
         }
@@ -558,87 +1278,76 @@
         // ============================================================
         // RENDERIZAR VÍDEOS
         // ============================================================
-        function renderVideos(filter = 'all') {
+        function renderVideos() {
             grid.innerHTML = '';
             shortsGrid.innerHTML = '';
+            shortsGrid2.innerHTML = '';
 
-            let filtered = filter === 'all' ? videos : videos.filter(v =>
-                v.tags && v.tags.some(t => t.toLowerCase() === filter.toLowerCase())
-            );
-
-            const normalVideos = filtered.filter(v => !v.isShort);
-            const shortVideos = filtered.filter(v => v.isShort);
-
-            if (normalVideos.length === 0 && shortVideos.length === 0) {
+            if (videos.length === 0) {
                 grid.innerHTML =
-                    `<div style="text-align:center;padding:30px 20px;color:rgba(255,255,255,0.15);grid-column:1/-1;">
+                    `<div style="text-align:center;padding:40px 20px;color:rgba(255,255,255,0.15);grid-column:1/-1;">
                                 <i class="fas fa-film" style="font-size:28px;display:block;margin-bottom:8px;color:rgba(255,255,255,0.03);"></i>
-                                <div style="font-size:14px;">Nenhum vídeo encontrado</div>
-                                <div style="font-size:12px;color:rgba(255,255,255,0.06);margin-top:4px;">${filter === 'all' ? 'Nenhum vídeo publicado ainda.' : 'Nenhum vídeo com este filtro.'}</div>
+                                <div style="font-size:14px;">Nenhum vídeo publicado</div>
+                                <div style="font-size:12px;color:rgba(255,255,255,0.06);margin-top:4px;">Publique seu primeiro vídeo no Painel do Criador</div>
                             </div>`;
                 return;
             }
 
-            normalVideos.forEach((video, index) => {
-                const card = createVideoCard(video);
+            const normalVideos = videos.filter(v => !v.isShort);
+            const shortVideos = videos.filter(v => v.isShort);
+
+            normalVideos.forEach(video => {
+                const card = document.createElement('div');
+                card.className = 'video-card';
+                card.dataset.id = video.id;
+                const tagsHtml = video.tags ? video.tags.slice(0, 2).map(tag =>
+                    `<span class="tag">${tag}</span>`
+                ).join('') : '';
+                card.innerHTML = `
+                            <div class="thumb">
+                                <img src="${video.thumbnail || 'https://via.placeholder.com/640x360/1a1a1a/cc0033?text=Sem+Imagem'}" alt="${video.title}" loading="lazy" />
+                                <div class="overlay"><i class="fas fa-play-circle"></i></div>
+                                <span class="duration">${video.duration || '--:--'}</span>
+                            </div>
+                            <div class="info">
+                                <div class="title">${video.title}</div>
+                                <div class="meta"><span>${video.date || ''}</span>${tagsHtml}</div>
+                            </div>
+                        `;
+                card.addEventListener('click', () => openModal(video.id));
                 grid.appendChild(card);
             });
 
             shortVideos.forEach(video => {
                 const card = createShortCard(video);
                 shortsGrid.appendChild(card);
+                const card2 = createShortCard(video);
+                shortsGrid2.appendChild(card2);
             });
-        }
 
-        function createVideoCard(video) {
-            const card = document.createElement('div');
-            card.className = 'video-card';
-            card.dataset.id = video.id;
-
-            const tagsHtml = video.tags ? video.tags.slice(0, 2).map(tag =>
-                `<span class="tag">${tag}</span>`
-            ).join('') : '';
-
-            card.innerHTML = `
-                        <div class="thumb">
-                            <img src="${video.thumbnail || 'https://via.placeholder.com/640x360/1a1a1a/cc0033?text=Sem+Imagem'}" alt="${video.title}" loading="lazy" />
-                            <div class="overlay"><i class="fas fa-play-circle"></i></div>
-                            <span class="duration">${video.duration || '--:--'}</span>
-                        </div>
-                        <div class="info">
-                            <div class="title">${video.title}</div>
-                            <div class="meta">
-                                <span>${video.date || ''}</span>
-                                ${tagsHtml}
-                            </div>
-                        </div>
-                    `;
-
-            card.addEventListener('click', () => openModal(video.id));
-            return card;
+            // Atualizar perfil
+            document.getElementById('profileVideos').textContent = videos.length;
+            document.getElementById('profileViews').textContent = videos.reduce((acc, v) => acc + (v.views || 0), 0);
+            document.getElementById('profileLikes').textContent = Object.values(likes).reduce((a, b) => a + b, 0);
         }
 
         function createShortCard(video) {
             const card = document.createElement('div');
             card.className = 'short-card';
             card.dataset.id = video.id;
-
             card.innerHTML = `
                         <div class="thumb">
                             <img src="${video.thumbnail || 'https://via.placeholder.com/360x640/1a1a1a/cc0033?text=Short'}" alt="${video.title}" loading="lazy" />
                             <div class="overlay"><i class="fas fa-play"></i></div>
                         </div>
-                        <div class="info">
-                            <div class="title">${video.title}</div>
-                        </div>
+                        <div class="info"><div class="title">${video.title}</div></div>
                     `;
-
             card.addEventListener('click', () => openModal(video.id));
             return card;
         }
 
         // ============================================================
-        // ABRIR MODAL COM PRÉ-ROLL
+        // ABRIR MODAL
         // ============================================================
         async function openModal(videoId) {
             const video = videos.find(v => v.id === videoId);
@@ -646,10 +1355,8 @@
 
             currentVideoId = videoId;
 
-            // Mostrar pré-roll
             await showPreroll();
 
-            // Carregar o vídeo
             modalPlayer.innerHTML = getVideoEmbed(video.link || '');
 
             modalTitle.textContent = video.title;
@@ -689,20 +1396,14 @@
         // ============================================================
         function renderComments(videoId) {
             const videoComments = comments[videoId] || [];
-
             if (videoComments.length === 0) {
                 commentsContainer.innerHTML =
                     `<p style="color:rgba(255,255,255,0.15);font-size:10px;padding:4px 0;">Nenhum comentário ainda. Seja o primeiro!</p>`;
                 return;
             }
-
-            commentsContainer.innerHTML = videoComments.map(c => `
-                        <div class="comment">
-                            <div class="comment-author">${c.name}</div>
-                            <div class="comment-content">${c.text}</div>
-                            <div class="comment-date">${c.date}</div>
-                        </div>
-                    `).join('');
+            commentsContainer.innerHTML = videoComments.map(c =>
+                `<div class="comment"><div class="comment-author">${c.name}</div><div class="comment-content">${c.text}</div><div class="comment-date">${c.date}</div></div>`
+            ).join('');
         }
 
         function submitComment(videoId, name, text) {
@@ -719,7 +1420,6 @@
         // ============================================================
         function toggleLike(videoId) {
             if (!likes[videoId]) likes[videoId] = 0;
-
             if (likedVideos.includes(videoId)) {
                 likedVideos = likedVideos.filter(id => id !== videoId);
                 likes[videoId] = Math.max(0, likes[videoId] - 1);
@@ -731,7 +1431,6 @@
                 likeBtn.classList.add('liked');
                 likeBtn.innerHTML = `<i class="fas fa-heart"></i> Curtido`;
             }
-
             DB.set('likes', likes);
             DB.set('likedVideos', likedVideos);
             likeCount.textContent = likes[videoId];
@@ -740,14 +1439,6 @@
         // ============================================================
         // EVENTOS
         // ============================================================
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                renderVideos(this.dataset.filter);
-            });
-        });
-
         likeBtn.addEventListener('click', function() {
             if (currentVideoId) toggleLike(currentVideoId);
         });
@@ -779,9 +1470,8 @@
         // ============================================================
         // INICIAR
         // ============================================================
-        renderVideos('all');
+        renderVideos();
     </script>
 
 </body>
 </html>
-
