@@ -867,654 +867,108 @@
 
         <form id="videoForm">
 
-            <div class="form-group">
-                <label><i class="fas fa-link"></i> Link do Vídeo *</label>
-                <div class="link-input-wrapper">
-                    <input type="url" id="videoLink" placeholder="https://www.youtube.com/watch?v=... ou https://drive.google.com/..." required />
-                    <button type="button" class="btn-extract" id="tubeMateBtn">
-                        <i class="fas fa-magic"></i> TubeMate
-                    </button>
-                </div>
-                <div class="help">YouTube, Vimeo, Google Drive, MP4 direto</div>
+<div class="form-group">
+    <label><i class="fas fa-folder-open"></i> Carregar da Biblioteca</label>
+    <div class="upload-area" id="videoUploadArea" style="border:2px dashed rgba(255,255,255,0.06);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.01);">
+        <div class="icon" style="font-size:32px;display:block;margin-bottom:4px;color:rgba(255,255,255,0.1);">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <div class="text" style="font-size:14px;color:rgba(255,255,255,0.4);">
+            <strong style="color:#cc0033;">Clique para escolher</strong> um vídeo da sua biblioteca
+        </div>
+        <div class="sub" style="font-size:11px;color:rgba(255,255,255,0.15);margin-top:4px;">
+            MP4, WebM, MOV, AVI · Máx. 1GB
+        </div>
+        <input type="file" id="videoFileInput" accept="video/*" style="display:none;" />
+    </div>
+    <div id="videoFilePreview" style="display:none;margin-top:8px;padding:8px 12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;display:flex;align-items:center;gap:10px;">
+        <i class="fas fa-video" style="color:#cc0033;font-size:18px;"></i>
+        <span id="videoFileName" style="font-size:13px;color:rgba(255,255,255,0.6);">video.mp4</span>
+        <span id="videoFileSize" style="font-size:11px;color:rgba(255,255,255,0.2);margin-left:auto;">0 MB</span>
+        <button type="button" id="removeVideoFile" style="background:none;border:none;color:rgba(255,255,255,0.2);cursor:pointer;font-size:14px;"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="help">O vídeo é carregado localmente no seu navegador.</div>
+</div>
+<div class="form-group">
+    <label><i class="fas fa-link"></i> Link do Vídeo *</label>
+    <div class="link-input-wrapper">
+        <input type="url" id="videoLink" placeholder="https://... (ou use o carregamento acima)" required />
+        <button type="button" class="btn-extract" id="tubeMateBtn">
+            <i class="fas fa-magic"></i> TubeMate
+        </button>
+    </div>
+    <div class="help">Cole um link ou carregue um vídeo da sua biblioteca acima</div>
+</div>
             </div>
 
             <!-- UPLOAD E RECORTE DE THUMBNAIL -->
-            <div class="form-group">
-                <label><i class="fas fa-image"></i> Thumbnail (capa do vídeo)</label>
-                <div class="thumb-upload-area" id="thumbUploadArea">
-                    <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
-                    <div class="text"><strong>Clique para escolher</strong> uma imagem da galeria</div>
-                    <div class="sub">JPG, PNG · 16:9 recomendado · Máx. 5MB</div>
-                    <input type="file" id="thumbFileInput" accept="image/*" />
-                </div>
-
-                <div class="thumb-preview-container" id="thumbPreviewContainer">
-                    <div class="thumb-preview-box">
-                        <img id="thumbPreviewImg" src="" alt="Thumbnail" />
-                    </div>
-                    <div class="thumb-preview-info">
-                        <div class="label">Imagem selecionada</div>
-                        <div class="value" id="thumbPreviewName">-</div>
-                        <div class="btn-group">
-                            <button type="button" class="btn-sm primary" id="cropBtn"><i class="fas fa-crop-alt"></i> Recortar</button>
-                            <button type="button" class="btn-sm" id="removeThumbBtn"><i class="fas fa-trash"></i> Remover</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="help" style="margin-top:6px;">
-                    <i class="fas fa-info-circle" style="color:#cc0033;"></i>
-                    Você pode usar uma imagem da galeria ou colocar um link manualmente abaixo
-                </div>
+<div class="form-group">
+    <label><i class="fas fa-folder-open"></i> Carregar da Biblioteca</label>
+    <div class="upload-area" id="videoUploadArea" style="border:2px dashed rgba(255,255,255,0.06);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.01);">
+        <div class="icon" style="font-size:32px;display:block;margin-bottom:4px;color:rgba(255,255,255,0.1);">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <div class="text" style="font-size:14px;color:rgba(255,255,255,0.4);">
+            <strong style="color:#cc0033;">Clique para escolher</strong> um vídeo da sua biblioteca
+        </div>
+        <div class="sub" style="font-size:11px;color:rgba(255,255,255,0.15);margin-top:4px;">
+            MP4, WebM, MOV, AVI · Máx. 1GB
+        </div>
+        <input type="file" id="videoFileInput" accept="video/*" style="display:none;" />
+    </div>
+    <div id="videoFilePreview" style="display:none;margin-top:8px;padding:8px 12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;display:flex;align-items:center;gap:10px;">
+        <i class="fas fa-video" style="color:#cc0033;font-size:18px;"></i>
+        <span id="videoFileName" style="font-size:13px;color:rgba(255,255,255,0.6);">video.mp4</span>
+        <span id="videoFileSize" style="font-size:11px;color:rgba(255,255,255,0.2);margin-left:auto;">0 MB</span>
+        <button type="button" id="removeVideoFile" style="background:none;border:none;color:rgba(255,255,255,0.2);cursor:pointer;font-size:14px;"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="help">O vídeo é carregado localmente no seu navegador.</div>
+</div>
+<div class="form-group">
+    <label><i class="fas fa-link"></i> Link do Vídeo *</label>
+    <div class="link-input-wrapper">
+        <input type="url" id="videoLink" placeholder="https://... (ou use o carregamento acima)" required />
+        <button type="button" class="btn-extract" id="tubeMateBtn">
+            <i class="fas fa-magic"></i> TubeMate
+        </button>
+    </div>
+    <div class="help">Cole um link ou carregue um vídeo da sua biblioteca acima</div>
+</div>
             </div>
 
-            <!-- THUMBNAIL MANUAL (URL) -->
-            <div class="form-group">
-                <label for="videoThumbnail"><i class="fas fa-link"></i> Thumbnail (URL manual - opcional)</label>
-                <input type="url" id="videoThumbnail" placeholder="https://i.imgur.com/xxxx.jpg" />
-                <div class="help">Use se quiser colocar uma imagem de um link (ImgBB, etc.)</div>
-            </div>
-
-            <div class="form-group">
-                <label for="videoTitle"><i class="fas fa-tag"></i> Título *</label>
-                <input type="text" id="videoTitle" placeholder="Ex: Lançamento Exclusivo" required />
+<div class="form-group">
+    <label><i class="fas fa-folder-open"></i> Carregar da Biblioteca</label>
+    <div class="upload-area" id="videoUploadArea" style="border:2px dashed rgba(255,255,255,0.06);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.01);">
+        <div class="icon" style="font-size:32px;display:block;margin-bottom:4px;color:rgba(255,255,255,0.1);">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <div class="text" style="font-size:14px;color:rgba(255,255,255,0.4);">
+            <strong style="color:#cc0033;">Clique para escolher</strong> um vídeo da sua biblioteca
+        </div>
+        <div class="sub" style="font-size:11px;color:rgba(255,255,255,0.15);margin-top:4px;">
+            MP4, WebM, MOV, AVI · Máx. 1GB
+        </div>
+        <input type="file" id="videoFileInput" accept="video/*" style="display:none;" />
+    </div>
+    <div id="videoFilePreview" style="display:none;margin-top:8px;padding:8px 12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;display:flex;align-items:center;gap:10px;">
+        <i class="fas fa-video" style="color:#cc0033;font-size:18px;"></i>
+        <span id="videoFileName" style="font-size:13px;color:rgba(255,255,255,0.6);">video.mp4</span>
+        <span id="videoFileSize" style="font-size:11px;color:rgba(255,255,255,0.2);margin-left:auto;">0 MB</span>
+        <button type="button" id="removeVideoFile" style="background:none;border:none;color:rgba(255,255,255,0.2);cursor:pointer;font-size:14px;"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="help">O vídeo é carregado localmente no seu navegador.</div>
+</div>
+<div class="form-group">
+    <label><i class="fas fa-link"></i> Link do Vídeo *</label>
+    <div class="link-input-wrapper">
+        <input type="url" id="videoLink" placeholder="https://... (ou use o carregamento acima)" required />
+        <button type="button" class="btn-extract" id="tubeMateBtn">
+            <i class="fas fa-magic"></i> TubeMate
+        </button>
+    </div>
+    <div class="help">Cole um link ou carregue um vídeo da sua biblioteca acima</div>
+</div>
+                </div>
             </div>
 
             <div class="form-row">
-                <div class="form-group">
-                    <label for="videoCategory"><i class="fas fa-folder"></i> Categoria</label>
-                    <select id="videoCategory">
-                        <option value="">Selecione...</option>
-                        <option value="Exclusivo">Exclusivo</option>
-                        <option value="4K">4K</option>
-                        <option value="Novo">Novo</option>
-                        <option value="Em Alta">Em Alta</option>
-                        <option value="Premium">Premium</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="videoTags"><i class="fas fa-hashtag"></i> Tags</label>
-                    <input type="text" id="videoTags" placeholder="4K, Exclusivo, Novo" />
-                    <div class="help">Separe por vírgula</div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="videoDuration"><i class="fas fa-clock"></i> Duração</label>
-                    <input type="text" id="videoDuration" placeholder="12:30" />
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="videoShorts" />
-                    <label for="videoShorts"><i class="fas fa-bolt"></i> Este é um Short</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="videoDescription"><i class="fas fa-align-left"></i> Descrição</label>
-                <textarea id="videoDescription" placeholder="Descreva o conteúdo do vídeo..."></textarea>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn btn-success"><i class="fas fa-upload"></i> Publicar</button>
-                <button type="button" class="btn btn-secondary" id="btnClear"><i class="fas fa-eraser"></i> Limpar</button>
-            </div>
-
-        </form>
-
-        <!-- LISTA DE VÍDEOS -->
-        <div class="video-list">
-            <div class="list-header">
-                <div class="list-title"><i class="fas fa-film" style="color:#cc0033;"></i> <span>Meus</span> Vídeos</div>
-                <div class="list-count" id="videoCount">0 vídeos</div>
-            </div>
-            <div id="videoListContainer"></div>
-        </div>
-
-    </div>
-
-    <!-- TUBEMATE POPUP -->
-    <div class="tubemate-popup" id="tubeMatePopup">
-        <div class="popup-content">
-            <div class="popup-header">
-                <h3><i class="fas fa-magic" style="color:#cc0033;"></i> <span>TubeMate</span> Extractor</h3>
-                <button class="close-popup" id="closeTubeMate"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="popup-body">
-                <p>Cole o link do vídeo que você quer extrair. O TubeMate vai tentar encontrar o link direto do vídeo para você.</p>
-                <div class="platform-grid">
-                    <button class="platform-btn" data-platform="youtube"><i class="fab fa-youtube" style="color:#ff0000;"></i>YouTube</button>
-                    <button class="platform-btn" data-platform="vimeo"><i class="fab fa-vimeo" style="color:#1ab7ea;"></i>Vimeo</button>
-                    <button class="platform-btn" data-platform="drive"><i class="fab fa-google-drive" style="color:#fbbc05;"></i>Google Drive</button>
-                    <button class="platform-btn" data-platform="direct"><i class="fas fa-link" style="color:#cc0033;"></i>Link Direto</button>
-                </div>
-                <div class="input-group">
-                    <input type="url" id="tubeMateUrl" placeholder="https://www.youtube.com/watch?v=..." />
-                    <button class="btn-extract-popup" id="tubeMateExtract"><i class="fas fa-search"></i> Extrair</button>
-                </div>
-                <div class="result-box" id="tubeMateResult">
-                    <p style="font-size:12px;color:rgba(255,255,255,0.3);">✅ Link extraído:</p>
-                    <div class="result-link" id="tubeMateExtractedLink">https://...</div>
-                    <button class="btn-copy-result" id="tubeMateCopy"><i class="fas fa-copy"></i> Copiar link</button>
-                    <button class="btn-copy-result" id="tubeMateUse" style="background:rgba(204,0,51,0.1);border-color:rgba(204,0,51,0.2);color:#cc0033;"><i class="fas fa-check"></i> Usar este link</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CROP MODAL -->
-    <div class="crop-modal" id="cropModal">
-        <div class="crop-content">
-            <div class="crop-header">
-                <h3><i class="fas fa-crop-alt" style="color:#cc0033;"></i> <span>Recortar</span> Imagem</h3>
-                <button class="close-crop" id="closeCrop"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="crop-body">
-                <div class="crop-container">
-                    <img id="cropImage" src="" alt="Imagem para recortar" />
-                </div>
-                <div class="crop-actions">
-                    <button type="button" class="btn btn-secondary" id="cropCancel">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="cropConfirm"><i class="fas fa-check"></i> Aplicar recorte</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js">
-    </script>
-    <script>
-        // ============================================================
-        // BANCO DE DADOS
-        // ============================================================
-        const DB = {
-            get: (k, d) => { try { const data = localStorage.getItem('xsess_' + k); return data ? JSON.parse(data) :
-                    d; } catch { return d; } },
-            set: (k, v) => { localStorage.setItem('xsess_' + k, JSON.stringify(v)); }
-        };
-
-        let videos = DB.get('videos', []);
-        let likes = DB.get('likes', {});
-        let comments = DB.get('comments', {});
-        let views = DB.get('views', {});
-
-        // ============================================================
-        // DOM REFS
-        // ============================================================
-        const $ = (id) => document.getElementById(id);
-
-        function formatDate() {
-            const now = new Date();
-            return now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit',
-                minute: '2-digit' });
-        }
-
-        function formatViews(n) {
-            if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
-            if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
-            return n;
-        }
-
-        function showSuccess(msg) {
-            const el = $('msgSuccess');
-            $('successText').textContent = msg;
-            el.style.display = 'flex';
-            $('msgError').style.display = 'none';
-            setTimeout(() => el.style.display = 'none', 4000);
-        }
-
-        function showError(msg) {
-            const el = $('msgError');
-            $('errorText').textContent = msg;
-            el.style.display = 'flex';
-            $('msgSuccess').style.display = 'none';
-            setTimeout(() => el.style.display = 'none', 4000);
-        }
-
-        // ============================================================
-        // THUMBNAIL UPLOAD E CROP
-        // ============================================================
-        let cropper = null;
-        let croppedImageData = null;
-        let uploadedImageFile = null;
-        let uploadImageData = null;
-
-        const thumbUploadArea = $('thumbUploadArea');
-        const thumbFileInput = $('thumbFileInput');
-        const thumbPreviewContainer = $('thumbPreviewContainer');
-        const thumbPreviewImg = $('thumbPreviewImg');
-        const thumbPreviewName = $('thumbPreviewName');
-        const cropBtn = $('cropBtn');
-        const removeThumbBtn = $('removeThumbBtn');
-        const cropModal = $('cropModal');
-        const closeCrop = $('closeCrop');
-        const cropCancel = $('cropCancel');
-        const cropConfirm = $('cropConfirm');
-        const cropImage = $('cropImage');
-
-        // Abrir seletor de arquivo
-        thumbUploadArea.addEventListener('click', () => {
-            thumbFileInput.click();
-        });
-
-        thumbFileInput.addEventListener('change', function(e) {
-            const file = this.files[0];
-            if (!file) return;
-
-            if (!file.type.startsWith('image/')) {
-                showError('Por favor, selecione uma imagem válida (JPG, PNG).');
-                return;
-            }
-
-            if (file.size > 5 * 1024 * 1024) {
-                showError('A imagem não pode ter mais que 5MB.');
-                return;
-            }
-
-            uploadedImageFile = file;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                uploadImageData = e.target.result;
-                thumbPreviewImg.src = uploadImageData;
-                thumbPreviewName.textContent = file.name;
-                thumbPreviewContainer.classList.add('active');
-
-                // Preencher o campo de thumbnail manual com a imagem base64
-                $('videoThumbnail').value = uploadImageData;
-
-                // Abrir o crop automaticamente
-                openCropper(uploadImageData);
-            };
-            reader.readAsDataURL(file);
-            this.value = '';
-        });
-
-        // Abrir crop
-        cropBtn.addEventListener('click', function() {
-            if (uploadImageData) {
-                openCropper(uploadImageData);
-            } else {
-                showError('Nenhuma imagem selecionada para recortar.');
-            }
-        });
-
-        function openCropper(imageSrc) {
-            cropImage.src = imageSrc;
-            cropModal.classList.add('active');
-
-            setTimeout(() => {
-                if (cropper) {
-                    cropper.destroy();
-                }
-                cropper = new Cropper(cropImage, {
-                    aspectRatio: 16 / 9,
-                    viewMode: 1,
-                    autoCropArea: 0.8,
-                    dragMode: 'move',
-                    cropBoxMovable: true,
-                    cropBoxResizable: true,
-                    background: false,
-                    responsive: true,
-                });
-            }, 100);
-        }
-
-        // Fechar crop
-        function closeCropModal() {
-            cropModal.classList.remove('active');
-            if (cropper) {
-                cropper.destroy();
-                cropper = null;
-            }
-        }
-
-        closeCrop.addEventListener('click', closeCropModal);
-        cropCancel.addEventListener('click', closeCropModal);
-        cropModal.addEventListener('click', function(e) {
-            if (e.target === this) closeCropModal();
-        });
-
-        // Confirmar crop
-        cropConfirm.addEventListener('click', function() {
-            if (!cropper) return;
-
-            const canvas = cropper.getCroppedCanvas({
-                width: 1280,
-                height: 720,
-                imageSmoothingEnabled: true,
-                imageSmoothingQuality: 'high',
-            });
-
-            if (!canvas) {
-                showError('Erro ao recortar a imagem.');
-                return;
-            }
-
-            const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
-            croppedImageData = croppedDataUrl;
-
-            // Atualizar preview
-            thumbPreviewImg.src = croppedDataUrl;
-            $('videoThumbnail').value = croppedDataUrl;
-
-            closeCropModal();
-            showSuccess('✅ Imagem recortada com sucesso!');
-        });
-
-        // Remover thumbnail
-        removeThumbBtn.addEventListener('click', function() {
-            uploadedImageFile = null;
-            uploadImageData = null;
-            croppedImageData = null;
-            thumbPreviewContainer.classList.remove('active');
-            thumbPreviewImg.src = '';
-            thumbPreviewName.textContent = '-';
-            $('videoThumbnail').value = '';
-            showSuccess('🗑️ Thumbnail removida.');
-        });
-
-        // ============================================================
-        // EXTRAIR THUMBNAIL DE LINK
-        // ============================================================
-        function extractThumbnail(url) {
-            const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
-            if (ytMatch) {
-                return {
-                    url: `https://img.youtube.com/vi/${ytMatch[1]}/maxresdefault.jpg`,
-                    preview: `https://img.youtube.com/vi/${ytMatch[1]}/mqdefault.jpg`,
-                    source: 'youtube'
-                };
-            }
-
-            const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
-            if (vimeoMatch) {
-                return {
-                    url: `https://vumbnail.com/${vimeoMatch[1]}.jpg`,
-                    preview: `https://vumbnail.com/${vimeoMatch[1]}.jpg`,
-                    source: 'vimeo'
-                };
-            }
-
-            return null;
-        }
-
-        const videoLinkInput = $('videoLink');
-
-        videoLinkInput.addEventListener('input', function() {
-            const url = this.value.trim();
-            const thumb = extractThumbnail(url);
-
-            if (thumb && !$('videoThumbnail').value) {
-                $('videoThumbnail').value = thumb.url;
-                thumbPreviewImg.src = thumb.preview || thumb.url;
-                thumbPreviewName.textContent = 'Extraído do link';
-                thumbPreviewContainer.classList.add('active');
-            }
-        });
-
-        // ============================================================
-        // TUBEMATE
-        // ============================================================
-        const tubeMatePopup = $('tubeMatePopup');
-        const closeTubeMate = $('closeTubeMate');
-        const tubeMateBtn = $('tubeMateBtn');
-        const tubeMateUrl = $('tubeMateUrl');
-        const tubeMateExtract = $('tubeMateExtract');
-        const tubeMateResult = $('tubeMateResult');
-        const tubeMateExtractedLink = $('tubeMateExtractedLink');
-        const tubeMateCopy = $('tubeMateCopy');
-        const tubeMateUse = $('tubeMateUse');
-
-        tubeMateBtn.addEventListener('click', () => {
-            tubeMatePopup.classList.add('active');
-            tubeMateUrl.value = videoLinkInput.value || '';
-            tubeMateResult.classList.remove('active');
-        });
-
-        closeTubeMate.addEventListener('click', () => {
-            tubeMatePopup.classList.remove('active');
-        });
-        tubeMatePopup.addEventListener('click', (e) => {
-            if (e.target === tubeMatePopup) tubeMatePopup.classList.remove('active');
-        });
-
-        document.querySelectorAll('.platform-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const platform = this.dataset.platform;
-                const placeholders = {
-                    'youtube': 'https://www.youtube.com/watch?v=',
-                    'vimeo': 'https://vimeo.com/',
-                    'drive': 'https://drive.google.com/file/d/',
-                    'direct': 'https://exemplo.com/video.mp4'
-                };
-                tubeMateUrl.value = placeholders[platform] || '';
-                tubeMateUrl.focus();
-            });
-        });
-
-        tubeMateExtract.addEventListener('click', () => {
-            const url = tubeMateUrl.value.trim();
-            if (!url) {
-                alert('Cole um link válido.');
-                return;
-            }
-
-            const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
-            if (ytMatch) {
-                tubeMateExtractedLink.textContent =
-                `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0`;
-                tubeMateResult.classList.add('active');
-                return;
-            }
-
-            const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
-            if (vimeoMatch) {
-                tubeMateExtractedLink.textContent = `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1`;
-                tubeMateResult.classList.add('active');
-                return;
-            }
-
-            const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
-            if (driveMatch) {
-                tubeMateExtractedLink.textContent = `https://drive.google.com/uc?export=download&id=${driveMatch[1]}`;
-                tubeMateResult.classList.add('active');
-                return;
-            }
-
-            if (url.match(/\.(mp4|webm|mov|avi|mkv)$/i)) {
-                tubeMateExtractedLink.textContent = url;
-                tubeMateResult.classList.add('active');
-                return;
-            }
-
-            tubeMateExtractedLink.textContent = '❌ Não foi possível extrair o link. Tente manualmente.';
-            tubeMateResult.classList.add('active');
-        });
-
-        tubeMateCopy.addEventListener('click', () => {
-            const link = tubeMateExtractedLink.textContent;
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(link).then(() => {
-                    tubeMateCopy.innerHTML = '<i class="fas fa-check"></i> Copiado!';
-                    setTimeout(() => { tubeMateCopy.innerHTML = '<i class="fas fa-copy"></i> Copiar link'; }, 2000);
-                });
-            } else {
-                const input = document.createElement('input');
-                input.value = link;
-                document.body.appendChild(input);
-                input.select();
-                document.execCommand('copy');
-                document.body.removeChild(input);
-                tubeMateCopy.innerHTML = '<i class="fas fa-check"></i> Copiado!';
-                setTimeout(() => { tubeMateCopy.innerHTML = '<i class="fas fa-copy"></i> Copiar link'; }, 2000);
-            }
-        });
-
-        tubeMateUse.addEventListener('click', () => {
-            const link = tubeMateExtractedLink.textContent;
-            if (link && !link.includes('❌')) {
-                videoLinkInput.value = link;
-                videoLinkInput.dispatchEvent(new Event('input'));
-                tubeMatePopup.classList.remove('active');
-                showSuccess('✅ Link inserido no formulário!');
-            } else {
-                showError('❌ Não há um link válido para usar.');
-            }
-        });
-
-        // ============================================================
-        // PUBLICAR VÍDEO
-        // ============================================================
-        $('videoForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const link = videoLinkInput.value.trim();
-            const title = $('videoTitle').value.trim();
-            const thumbnailManual = $('videoThumbnail').value.trim();
-
-            if (!link) { showError('Cole o link do vídeo.'); return; }
-            if (!title) { showError('Digite o título.'); return; }
-
-            // Usar thumbnail da galeria (cropped) ou manual ou extraída
-            let thumbnail = thumbnailManual;
-            if (!thumbnail) {
-                const thumb = extractThumbnail(link);
-                if (thumb && thumb.url) {
-                    thumbnail = thumb.url;
-                } else {
-                    thumbnail = 'https://via.placeholder.com/640x360/1a1a1a/cc0033?text=Sem+Imagem';
-                }
-            }
-
-            const video = {
-                id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
-                link: link,
-                title: title,
-                category: $('videoCategory').value,
-                tags: $('videoTags').value.trim() ? $('videoTags').value.trim().split(',').map(t => t.trim()).filter(
-                    t => t) : [],
-                duration: $('videoDuration').value.trim() || '--:--',
-                description: $('videoDescription').value.trim() || '',
-                thumbnail: thumbnail,
-                isShort: $('videoShorts').checked,
-                date: formatDate(),
-                author: 'Xsess Creator',
-                views: 0
-            };
-
-            videos.unshift(video);
-            DB.set('videos', videos);
-            renderList();
-            updateStats();
-            showSuccess('✅ Vídeo "' + video.title + '" publicado!');
-
-            // Resetar formulário
-            $('videoForm').reset();
-            $('videoShorts').checked = false;
-            thumbPreviewContainer.classList.remove('active');
-            uploadedImageFile = null;
-            uploadImageData = null;
-            croppedImageData = null;
-            thumbPreviewImg.src = '';
-            thumbPreviewName.textContent = '-';
-            $('videoThumbnail').value = '';
-
-            setTimeout(() => {
-                $('msgSuccess').style.display = 'none';
-            }, 4000);
-        });
-
-        // ============================================================
-        // RENDERIZAR LISTA
-        // ============================================================
-        function renderList() {
-            const container = $('videoListContainer');
-            const count = $('videoCount');
-
-            if (videos.length === 0) {
-                container.innerHTML = `
-                            <div class="empty-state">
-                                <span class="icon"><i class="fas fa-film"></i></span>
-                                <div class="text">Nenhum vídeo publicado</div>
-                                <div class="sub">Publique seu primeiro vídeo acima</div>
-                            </div>
-                        `;
-                count.textContent = '0 vídeos';
-                return;
-            }
-
-            count.textContent = videos.length + ' vídeo' + (videos.length > 1 ? 's' : '');
-
-            container.innerHTML = videos.map((v) => `
-                        <div class="list-item">
-                            <div class="thumb">
-                                <img src="${v.thumbnail}" alt="${v.title}" />
-                            </div>
-                            <div class="info">
-                                <div class="name">${v.title} ${v.isShort ? '⚡' : ''}</div>
-                                <div class="meta">${v.date} · ${v.duration} · ${v.tags.length > 0 ? v.tags.join(', ') : 'Sem tags'} · ${formatViews(v.views || 0)} views</div>
-                            </div>
-                            <div class="actions">
-                                <button class="btn-sm" onclick="window.open('https://xsesss.github.io/','_blank')"><i class="fas fa-eye"></i> <span>Ver</span></button>
-                                <button class="btn-sm danger" onclick="deleteVideo('${v.id}')"><i class="fas fa-trash"></i> <span>Excluir</span></button>
-                            </div>
-                        </div>
-                    `).join('');
-        }
-
-        // ============================================================
-        // DELETAR VÍDEO
-        // ============================================================
-        function deleteVideo(id) {
-            if (!confirm('Tem certeza que deseja excluir este vídeo?')) return;
-            videos = videos.filter(v => v.id !== id);
-            DB.set('videos', videos);
-            renderList();
-            updateStats();
-            showSuccess('🗑️ Vídeo removido.');
-            setTimeout(() => {
-                $('msgSuccess').style.display = 'none';
-            }, 3000);
-        }
-
-        // ============================================================
-        // ATUALIZAR ESTATÍSTICAS
-        // ============================================================
-        function updateStats() {
-            const totalVideos = videos.length;
-            const totalViews = Object.values(views).reduce((a, b) => a + b, 0);
-            const totalLikes = Object.values(likes).reduce((a, b) => a + b, 0);
-            const totalComments = Object.values(comments).reduce((a, b) => a + b.length, 0);
-
-            $('totalVideos').textContent = totalVideos;
-            $('totalViews').textContent = formatViews(totalViews);
-            $('totalLikes').textContent = formatViews(totalLikes);
-            $('totalComments').textContent = formatViews(totalComments);
-        }
-
-        // ============================================================
-        // LIMPAR FORMULÁRIO
-        // ============================================================
-        $('btnClear').addEventListener('click', () => {
-            $('videoForm').reset();
-            $('videoShorts').checked = false;
-            thumbPreviewContainer.classList.remove('active');
-            uploadedImageFile = null;
-            uploadImageData = null;
-            croppedImageData = null;
-            thumbPreviewImg.src = '';
-            thumbPreviewName.textContent = '-';
-            $('videoThumbnail').value = '';
-            $('msgSuccess').style.display = 'none';
-            $('msgError').style.display = 'none';
-        });
-
-        // ============================================================
-        // INICIAR
-        // ============================================================
-        renderList();
-        updateStats();
-    </script>
-
-</body>
-</html>
