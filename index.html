@@ -6,6 +6,12 @@
     <meta name="theme-color" content="#0a0a0a" />
     <title>Xsess</title>
     <meta name="814ebefbc96a5f75a80c17f3287f7ed9b3fd13ac" content="814ebefbc96a5f75a80c17f3287f7ed9b3fd13ac" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Video.js para player profissional -->
+    <link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-ima@2.0.0/dist/videojs.ima.min.js"></script>
     <style>
         /* ============================================================
            RESET
@@ -106,9 +112,6 @@
             padding-bottom: 65px;
         }
 
-        /* ============================================================
-           ABAS
-           ============================================================ */
         .section-page {
             display: none;
             padding: 0 16px 20px;
@@ -129,7 +132,7 @@
         }
 
         /* ============================================================
-           HOME - FEED (YOUTUBE STYLE)
+           HOME - FEED
            ============================================================ */
         .video-grid {
             display: grid;
@@ -226,7 +229,7 @@
         }
 
         /* ============================================================
-           SHORTS
+           SHORTS - GRID
            ============================================================ */
         .shorts-grid {
             display: grid;
@@ -242,6 +245,7 @@
             cursor: pointer;
             aspect-ratio: 9/16;
             border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
         }
         .short-card:active {
             transform: scale(0.97);
@@ -294,196 +298,7 @@
         }
 
         /* ============================================================
-           CARTEIRA E PERFIL (MANTIDOS)
-           ============================================================ */
-        .wallet-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .wallet-header .wallet-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(204, 0, 51, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            color: #cc0033;
-        }
-        .wallet-header .wallet-info .label {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .wallet-header .wallet-info .value {
-            font-size: 26px;
-            font-weight: 800;
-            color: #fff;
-        }
-        .wallet-header .wallet-info .value em {
-            color: #cc0033;
-            font-style: normal;
-        }
-        .wallet-actions {
-            display: flex;
-            gap: 10px;
-            margin: 12px 0 16px;
-        }
-        .wallet-actions .btn-action {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-        }
-        .wallet-actions .btn-action.primary {
-            background: #cc0033;
-            color: #fff;
-        }
-        .wallet-actions .btn-action.secondary {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.5);
-        }
-        .wallet-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .wallet-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 12px;
-            padding: 12px 14px;
-        }
-        .wallet-card .coin-icon {
-            font-size: 20px;
-            display: block;
-            margin-bottom: 4px;
-        }
-        .wallet-card .coin-name {
-            font-weight: 600;
-            color: #fff;
-            font-size: 13px;
-        }
-        .wallet-card .coin-address {
-            font-size: 9px;
-            color: rgba(255, 255, 255, 0.2);
-            font-family: monospace;
-            word-break: break-all;
-            margin-top: 4px;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 4px 6px;
-            border-radius: 6px;
-        }
-        .wallet-card .btn-copy {
-            margin-top: 6px;
-            padding: 2px 10px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 9px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .profile-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .profile-header .avatar {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: rgba(204, 0, 51, 0.1);
-            border: 2px solid rgba(204, 0, 51, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: #cc0033;
-            margin-bottom: 6px;
-        }
-        .profile-header .profile-name {
-            font-size: 17px;
-            font-weight: 700;
-            color: #fff;
-        }
-        .profile-header .profile-handle {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.3);
-        }
-        .profile-stats {
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .profile-stats .stat {
-            text-align: center;
-        }
-        .profile-stats .stat .number {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-        }
-        .profile-stats .stat .label {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.3);
-            margin-top: 2px;
-        }
-        .profile-menu {
-            margin-top: 12px;
-        }
-        .profile-menu .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-        }
-        .profile-menu .menu-item .icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 14px;
-        }
-        .profile-menu .menu-item .text {
-            flex: 1;
-        }
-        .profile-menu .menu-item .text .title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #fff;
-        }
-        .profile-menu .menu-item .text .sub {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.2);
-        }
-        .profile-menu .menu-item .arrow {
-            color: rgba(255, 255, 255, 0.1);
-            font-size: 12px;
-        }
-
-        /* ============================================================
-           MODAL - PLAYER YOUTUBE PROFISSIONAL
+           MODAL - PLAYER PROFISSIONAL (SEM DUPLICAÇÃO)
            ============================================================ */
         .modal-overlay {
             display: none;
@@ -513,7 +328,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 55%;
+            max-width: 60%;
         }
         .modal-header .modal-actions {
             display: flex;
@@ -532,7 +347,6 @@
             color: #fff;
         }
 
-        /* PLAYER - YouTube Style */
         .modal-player-wrapper {
             flex: 1;
             background: #000;
@@ -565,7 +379,7 @@
             background: #000;
         }
 
-        /* CONTROLES DO PLAYER (YouTube Style) */
+        /* Controles do Player */
         .player-controls {
             position: absolute;
             bottom: 20px;
@@ -646,11 +460,8 @@
             flex-shrink: 0;
             font-variant-numeric: tabular-nums;
         }
-        .player-controls .volume-btn {
-            font-size: 14px;
-        }
 
-        /* PRÉ-ROLL */
+        /* Pré-roll */
         #preroll-container {
             position: absolute;
             top: 0;
@@ -696,7 +507,7 @@
         }
 
         /* ============================================================
-           INFO DO VÍDEO - LADO DO PLAYER (YouTube Style)
+           INFO DO VÍDEO
            ============================================================ */
         .modal-info {
             padding: 12px 16px 16px;
@@ -755,7 +566,25 @@
             margin: 4px 0 10px;
         }
 
-        /* AÇÕES - YouTube Style (Like, Dislike, Share) */
+        /* Anúncio dentro do modal */
+        .modal-ad-container {
+            margin: 8px 0;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 8px;
+            padding: 4px 0;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .modal-ad-container .ad-label {
+            font-size: 7px;
+            color: rgba(255, 255, 255, 0.06);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================================
+           AÇÕES - YouTube Style
+           ============================================================ */
         .info-actions {
             display: flex;
             align-items: center;
@@ -868,24 +697,7 @@
             font-size: 9px;
             margin-top: 2px;
         }
-        .comment .comment-body .comment-actions-small {
-            display: flex;
-            gap: 10px;
-            margin-top: 4px;
-        }
-        .comment .comment-body .comment-actions-small button {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 10px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-        }
-        .comment .comment-body .comment-actions-small button:hover {
-            color: rgba(255, 255, 255, 0.4);
-        }
 
-        /* Formulário de comentário - YouTube Style */
         .comment-form {
             display: flex;
             gap: 10px;
@@ -950,7 +762,7 @@
         }
 
         /* ============================================================
-           ANÚNCIOS ESTRATÉGICOS
+           BANNERS (ANÚNCIOS)
            ============================================================ */
         .ad-banner {
             margin: 12px 0;
@@ -961,20 +773,6 @@
             border: 1px solid rgba(255, 255, 255, 0.02);
         }
         .ad-banner .ad-label {
-            font-size: 7px;
-            color: rgba(255, 255, 255, 0.06);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .modal-ad-container {
-            margin: 8px 0;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.01);
-            border-radius: 8px;
-            padding: 4px 0;
-            border: 1px solid rgba(255, 255, 255, 0.02);
-        }
-        .modal-ad-container .ad-label {
             font-size: 7px;
             color: rgba(255, 255, 255, 0.06);
             text-transform: uppercase;
@@ -1054,9 +852,6 @@
                 grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
                 gap: 8px;
             }
-            .wallet-grid {
-                grid-template-columns: 1fr;
-            }
             .bottom-nav .nav-item {
                 padding: 4px 8px;
             }
@@ -1098,11 +893,6 @@
             }
         }
     </style>
-<!-- Video.js para player profissional -->
-<link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
-<script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-ima@2.0.0/dist/videojs.ima.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 
@@ -1131,7 +921,7 @@
             <div class="section-page active" id="section-home">
                 <div class="video-grid" id="videoGrid"></div>
 
-                <!-- ANÚNCIO ESTRATÉGICO 1: 728x90 -->
+                <!-- ANÚNCIO BANNER -->
                 <div class="ad-banner">
                     <div class="ad-label">Publicidade</div>
                     <script> atOptions = { 'key' : 'f9ea6ae72c442c425ea2f20c5737ee51', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
@@ -1146,7 +936,7 @@
                     <div class="shorts-grid" id="shortsGrid"></div>
                 </div>
 
-                <!-- ANÚNCIO ESTRATÉGICO 2: 320x50 -->
+                <!-- ANÚNCIO BANNER -->
                 <div class="ad-banner">
                     <div class="ad-label">Publicidade</div>
                     <script> atOptions = { 'key' : '3c96a75f5394c5307f18b485638dd526', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
@@ -1169,41 +959,40 @@
 
             <!-- ===== SEÇÃO: CARTEIRA ===== -->
             <div class="section-page" id="section-wallet">
-                <div class="wallet-header">
-                    <div class="wallet-icon"><i class="fas fa-wallet"></i></div>
-                    <div class="wallet-info">
-                        <div class="label">Saldo disponível</div>
-                        <div class="value" id="userPoints">0 <em>pts</em></div>
-                    </div>
+                <div style="padding:16px 0 8px;">
+                    <h2 style="font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;">
+                        <i class="fas fa-wallet" style="color:#cc0033;"></i> Carteira
+                    </h2>
+                    <p style="font-size:13px;color:rgba(255,255,255,0.3);">Saldo disponível: <strong id="userPoints">0</strong> pts</p>
                 </div>
-                <div class="wallet-actions">
-                    <button class="btn-action primary" id="btnSaque"><i class="fas fa-arrow-up"></i> Sacar</button>
-                    <button class="btn-action secondary" id="btnHistorico"><i class="fas fa-clock"></i> Histórico</button>
+                <div style="display:flex;gap:10px;margin:12px 0 16px;">
+                    <button class="btn-action" style="flex:1;padding:10px;background:#cc0033;border:none;border-radius:30px;color:#fff;font-weight:600;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;" id="btnSaque"><i class="fas fa-arrow-up"></i> Sacar</button>
+                    <button class="btn-action" style="flex:1;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:30px;color:rgba(255,255,255,0.5);font-weight:600;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;" id="btnHistorico"><i class="fas fa-clock"></i> Histórico</button>
                 </div>
-                <div class="wallet-grid">
-                    <div class="wallet-card">
-                        <span class="coin-icon"><i class="fab fa-bitcoin" style="color:#f7931a;"></i></span>
-                        <div class="coin-name">Bitcoin (BTC)</div>
-                        <div class="coin-address">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</div>
-                        <button class="btn-copy" onclick="copyText('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',this)"><i class="fas fa-copy"></i> Copiar</button>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:12px 14px;">
+                        <div style="font-size:20px;color:#f7931a;"><i class="fab fa-bitcoin"></i></div>
+                        <div style="font-weight:600;color:#fff;font-size:13px;">Bitcoin</div>
+                        <div style="font-size:9px;color:rgba(255,255,255,0.2);font-family:monospace;word-break:break-all;margin-top:4px;background:rgba(255,255,255,0.02);padding:4px 6px;border-radius:6px;">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</div>
+                        <button onclick="copyText('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',this)" style="margin-top:6px;padding:2px 10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:20px;color:rgba(255,255,255,0.3);font-size:9px;cursor:pointer;font-family:'Inter',sans-serif;"><i class="fas fa-copy"></i> Copiar</button>
                     </div>
-                    <div class="wallet-card">
-                        <span class="coin-icon"><i class="fab fa-ethereum" style="color:#627eea;"></i></span>
-                        <div class="coin-name">Ethereum (ETH)</div>
-                        <div class="coin-address">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</div>
-                        <button class="btn-copy" onclick="copyText('0x742d35Cc6634C0532925a3b844Bc454e4438f44e',this)"><i class="fas fa-copy"></i> Copiar</button>
+                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:12px 14px;">
+                        <div style="font-size:20px;color:#627eea;"><i class="fab fa-ethereum"></i></div>
+                        <div style="font-weight:600;color:#fff;font-size:13px;">Ethereum</div>
+                        <div style="font-size:9px;color:rgba(255,255,255,0.2);font-family:monospace;word-break:break-all;margin-top:4px;background:rgba(255,255,255,0.02);padding:4px 6px;border-radius:6px;">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</div>
+                        <button onclick="copyText('0x742d35Cc6634C0532925a3b844Bc454e4438f44e',this)" style="margin-top:6px;padding:2px 10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:20px;color:rgba(255,255,255,0.3);font-size:9px;cursor:pointer;font-family:'Inter',sans-serif;"><i class="fas fa-copy"></i> Copiar</button>
                     </div>
-                    <div class="wallet-card">
-                        <span class="coin-icon"><i class="fas fa-coins" style="color:#26a17b;"></i></span>
-                        <div class="coin-name">USDT (TRC20)</div>
-                        <div class="coin-address">TQm9sN5pK8hEo6fQzP4rS3wX7cV2bN1mLm</div>
-                        <button class="btn-copy" onclick="copyText('TQm9sN5pK8hEo6fQzP4rS3wX7cV2bN1mLm',this)"><i class="fas fa-copy"></i> Copiar</button>
+                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:12px 14px;">
+                        <div style="font-size:20px;color:#26a17b;"><i class="fas fa-coins"></i></div>
+                        <div style="font-weight:600;color:#fff;font-size:13px;">USDT (TRC20)</div>
+                        <div style="font-size:9px;color:rgba(255,255,255,0.2);font-family:monospace;word-break:break-all;margin-top:4px;background:rgba(255,255,255,0.02);padding:4px 6px;border-radius:6px;">TQm9sN5pK8hEo6fQzP4rS3wX7cV2bN1mLm</div>
+                        <button onclick="copyText('TQm9sN5pK8hEo6fQzP4rS3wX7cV2bN1mLm',this)" style="margin-top:6px;padding:2px 10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:20px;color:rgba(255,255,255,0.3);font-size:9px;cursor:pointer;font-family:'Inter',sans-serif;"><i class="fas fa-copy"></i> Copiar</button>
                     </div>
-                    <div class="wallet-card">
-                        <span class="coin-icon"><i class="fas fa-circle" style="color:#9945ff;"></i></span>
-                        <div class="coin-name">Solana (SOL)</div>
-                        <div class="coin-address">7p2UfN5Kp8hEo6fQzP4rS3wX7cV2bN1mLmZ</div>
-                        <button class="btn-copy" onclick="copyText('7p2UfN5Kp8hEo6fQzP4rS3wX7cV2bN1mLmZ',this)"><i class="fas fa-copy"></i> Copiar</button>
+                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:12px 14px;">
+                        <div style="font-size:20px;color:#9945ff;"><i class="fas fa-circle"></i></div>
+                        <div style="font-weight:600;color:#fff;font-size:13px;">Solana</div>
+                        <div style="font-size:9px;color:rgba(255,255,255,0.2);font-family:monospace;word-break:break-all;margin-top:4px;background:rgba(255,255,255,0.02);padding:4px 6px;border-radius:6px;">7p2UfN5Kp8hEo6fQzP4rS3wX7cV2bN1mLmZ</div>
+                        <button onclick="copyText('7p2UfN5Kp8hEo6fQzP4rS3wX7cV2bN1mLmZ',this)" style="margin-top:6px;padding:2px 10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:20px;color:rgba(255,255,255,0.3);font-size:9px;cursor:pointer;font-family:'Inter',sans-serif;"><i class="fas fa-copy"></i> Copiar</button>
                     </div>
                 </div>
                 <div style="margin-top:12px;padding:10px 14px;background:rgba(255,255,255,0.01);border-radius:10px;border:1px solid rgba(255,255,255,0.02);">
@@ -1213,21 +1002,37 @@
 
             <!-- ===== SEÇÃO: PERFIL ===== -->
             <div class="section-page" id="section-profile">
-                <div class="profile-header">
-                    <div class="avatar"><i class="fas fa-user"></i></div>
-                    <div class="profile-name">Usuário</div>
-                    <div class="profile-handle">@usuario_xsess</div>
+                <div class="profile-header" style="display:flex;flex-direction:column;align-items:center;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <div class="avatar" style="width:64px;height:64px;border-radius:50%;background:rgba(204,0,51,0.1);border:2px solid rgba(204,0,51,0.2);display:flex;align-items:center;justify-content:center;font-size:28px;color:#cc0033;margin-bottom:6px;"><i class="fas fa-user"></i></div>
+                    <div class="profile-name" style="font-size:17px;font-weight:700;color:#fff;">Usuário</div>
+                    <div class="profile-handle" style="font-size:12px;color:rgba(255,255,255,0.3);">@usuario_xsess</div>
                 </div>
-                <div class="profile-stats">
-                    <div class="stat"><div class="number" id="profileVideos">0</div><div class="label">Vídeos</div></div>
-                    <div class="stat"><div class="number" id="profileViews">0</div><div class="label">Visualizações</div></div>
-                    <div class="stat"><div class="number" id="profileLikes">0</div><div class="label">Curtidas</div></div>
+                <div class="profile-stats" style="display:flex;justify-content:space-around;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <div class="stat" style="text-align:center;"><div class="number" id="profileVideos" style="font-size:18px;font-weight:700;color:#fff;">0</div><div class="label" style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;">Vídeos</div></div>
+                    <div class="stat" style="text-align:center;"><div class="number" id="profileViews" style="font-size:18px;font-weight:700;color:#fff;">0</div><div class="label" style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;">Visualizações</div></div>
+                    <div class="stat" style="text-align:center;"><div class="number" id="profileLikes" style="font-size:18px;font-weight:700;color:#fff;">0</div><div class="label" style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;">Curtidas</div></div>
                 </div>
-                <div class="profile-menu">
-                    <div class="menu-item"><div class="icon"><i class="fas fa-history"></i></div><div class="text"><div class="title">Histórico</div><div class="sub">Vídeos assistidos</div></div><div class="arrow"><i class="fas fa-chevron-right"></i></div></div>
-                    <div class="menu-item"><div class="icon"><i class="fas fa-heart"></i></div><div class="text"><div class="title">Curtidos</div><div class="sub">Vídeos que você curtiu</div></div><div class="arrow"><i class="fas fa-chevron-right"></i></div></div>
-                    <div class="menu-item"><div class="icon"><i class="fas fa-cog"></i></div><div class="text"><div class="title">Configurações</div><div class="sub">Preferências do app</div></div><div class="arrow"><i class="fas fa-chevron-right"></i></div></div>
-                    <div class="menu-item"><div class="icon"><i class="fas fa-question-circle"></i></div><div class="text"><div class="title">Ajuda</div><div class="sub">Central de suporte</div></div><div class="arrow"><i class="fas fa-chevron-right"></i></div></div>
+                <div class="profile-menu" style="margin-top:12px;">
+                    <div class="menu-item" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+                        <div class="icon" style="width:32px;height:32px;background:rgba(255,255,255,0.02);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:14px;"><i class="fas fa-history"></i></div>
+                        <div class="text" style="flex:1;"><div class="title" style="font-size:14px;font-weight:500;color:#fff;">Histórico</div><div class="sub" style="font-size:11px;color:rgba(255,255,255,0.2);">Vídeos assistidos</div></div>
+                        <div class="arrow" style="color:rgba(255,255,255,0.1);font-size:12px;"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="menu-item" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+                        <div class="icon" style="width:32px;height:32px;background:rgba(255,255,255,0.02);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:14px;"><i class="fas fa-heart"></i></div>
+                        <div class="text" style="flex:1;"><div class="title" style="font-size:14px;font-weight:500;color:#fff;">Curtidos</div><div class="sub" style="font-size:11px;color:rgba(255,255,255,0.2);">Vídeos que você curtiu</div></div>
+                        <div class="arrow" style="color:rgba(255,255,255,0.1);font-size:12px;"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="menu-item" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+                        <div class="icon" style="width:32px;height:32px;background:rgba(255,255,255,0.02);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:14px;"><i class="fas fa-cog"></i></div>
+                        <div class="text" style="flex:1;"><div class="title" style="font-size:14px;font-weight:500;color:#fff;">Configurações</div><div class="sub" style="font-size:11px;color:rgba(255,255,255,0.2);">Preferências do app</div></div>
+                        <div class="arrow" style="color:rgba(255,255,255,0.1);font-size:12px;"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="menu-item" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+                        <div class="icon" style="width:32px;height:32px;background:rgba(255,255,255,0.02);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:14px;"><i class="fas fa-question-circle"></i></div>
+                        <div class="text" style="flex:1;"><div class="title" style="font-size:14px;font-weight:500;color:#fff;">Ajuda</div><div class="sub" style="font-size:11px;color:rgba(255,255,255,0.2);">Central de suporte</div></div>
+                        <div class="arrow" style="color:rgba(255,255,255,0.1);font-size:12px;"><i class="fas fa-chevron-right"></i></div>
+                    </div>
                 </div>
             </div>
 
@@ -1244,7 +1049,7 @@
         </nav>
 
         <!-- ============================================================
-        MODAL - PLAYER YouTube
+        MODAL - PLAYER
         ============================================================ -->
         <div class="modal-overlay" id="videoModal">
             <div class="modal-header">
@@ -1256,36 +1061,16 @@
             </div>
 
             <div class="modal-player-wrapper">
-<div class="modal-player" id="modalPlayer">
-    <div id="preroll-container" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;z-index:5;background:rgba(0,0,0,0.85);">
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:#fff;">
-            <i class="fas fa-ad" style="font-size:44px;display:block;margin-bottom:10px;color:#cc0033;"></i>
-            <p id="prerollText">Carregando anúncio...</p>
-            <div style="width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin:10px auto 0;overflow:hidden;">
-                <div id="prerollFill" style="width:0%;height:100%;background:#cc0033;border-radius:2px;transition:width 0.1s;"></div>
-            </div>
-        </div>
-    </div>
-    <video id="xsessPlayer" class="video-js vjs-default-skin vjs-big-play-centered" controls style="width:100%;height:100%;background:#000;" playsinline>
-        <source src="" type="application/x-mpegURL" id="videoSource" />
-    </video>
-</div>
-                </div>
-            </div>
-        </div>
-        <div class="player-controls" id="playerControls">
-            <button id="playPauseBtn"><i class="fas fa-play"></i></button>
-            <button class="volume-btn" id="volumeBtn"><i class="fas fa-volume-up"></i></button>
-            <div class="progress-container" id="progressContainer">
-                <div class="progress-fill" id="progressFill"></div>
-                <div class="progress-dot" id="progressDot"></div>
-            </div>
-            <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
-        </div>
+                <div class="modal-player" id="modalPlayer">
+                    <div id="preroll-container">
+                        <div class="preroll-content">
+                            <i class="fas fa-ad"></i>
+                            <p>Anúncio em vídeo</p>
+                            <div class="preroll-progress"><div class="preroll-fill" id="prerollFill"></div></div>
                         </div>
                     </div>
                 </div>
-                <!-- Controles do Player -->
+                <!-- Controles do Player (YouTube Style) -->
                 <div class="player-controls" id="playerControls">
                     <button id="playPauseBtn"><i class="fas fa-play"></i></button>
                     <button class="volume-btn" id="volumeBtn"><i class="fas fa-volume-up"></i></button>
@@ -1308,14 +1093,13 @@
                 </div>
                 <div class="info-desc" id="modalDesc">Descrição...</div>
 
-                <!-- ANÚNCIO ESTRATÉGICO 3: 300x250 -->
+                <!-- ANÚNCIO DENTRO DO MODAL -->
                 <div class="modal-ad-container">
                     <div class="ad-label">Publicidade</div>
                     <script> atOptions = { 'key' : '94d25378d11f9c193a6cb52c5a79279b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
                     <script src="https://www.highperformanceformat.com/94d25378d11f9c193a6cb52c5a79279b/invoke.js"></script>
                 </div>
 
-                <!-- AÇÕES: YouTube Style -->
                 <div class="info-actions">
                     <div class="action-group">
                         <button class="action-btn" id="likeBtn"><i class="fas fa-thumbs-up"></i></button>
@@ -1330,7 +1114,6 @@
                     <button class="action-btn" id="shareBtn"><i class="fas fa-share-alt"></i> Compartilhar</button>
                 </div>
 
-                <!-- COMENTÁRIOS: YouTube Style -->
                 <div class="comments-section">
                     <div class="comments-header">
                         <h4>Comentários</h4>
@@ -1378,7 +1161,7 @@
         }
 
         // ============================================================
-        // NAVEGAÇÃO
+        // NAVEGAÇÃO ENTRE ABAS
         // ============================================================
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
@@ -1406,7 +1189,6 @@
         let likedVideos = DB.get('likedVideos', []);
         let dislikedVideos = DB.get('dislikedVideos', []);
         let currentVideoId = null;
-        let videoPlayer = null;
 
         // ============================================================
         // DOM REFS
@@ -1451,19 +1233,29 @@
         }
 
         function getVideoEmbed(url) {
-            const yt = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
-            if (yt) return `<iframe id="videoIframe" src="https://www.youtube.com/embed/${yt[1]}?autoplay=1&rel=0&controls=0&modestbranding=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
-            const vimeo = url.match(/vimeo\.com\/(\d+)/);
-            if (vimeo) return `<iframe id="videoIframe" src="https://player.vimeo.com/video/${vimeo[1]}?autoplay=1&controls=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
-            const drive = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
-            if (drive) return `<iframe id="videoIframe" src="https://drive.google.com/file/d/${drive[1]}/preview" allow="autoplay" allowfullscreen></iframe>`;
+            const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+            if (ytMatch) {
+                return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+            }
+
+            const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+            if (vimeoMatch) {
+                return `<iframe src="https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+            }
+
+            const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
+            if (driveMatch) {
+                return `<iframe src="https://drive.google.com/file/d/${driveMatch[1]}/preview" allow="autoplay" allowfullscreen></iframe>`;
+            }
+
             if (url.match(/\.(mp4|webm|mov|avi)$/i)) {
-                return `<video id="videoElement" controls style="width:100%;height:100%;background:#000;">
+                return `<video controls autoplay style="width:100%;height:100%;background:#000;">
                             <source src="${url}" type="video/mp4">
                             Seu navegador não suporta vídeo.
                         </video>`;
             }
-            return `<iframe id="videoIframe" src="${url}" allow="autoplay" allowfullscreen></iframe>`;
+
+            return `<iframe src="${url}" allow="autoplay" allowfullscreen></iframe>`;
         }
 
         // ============================================================
@@ -1572,9 +1364,6 @@
 
             modalPlayer.innerHTML = getVideoEmbed(video.link || '');
 
-            // Configurar controles do player
-            setupPlayerControls();
-
             modalTitle.textContent = video.title;
             modalInfoTitle.textContent = video.title;
             modalAuthor.innerHTML = `Criador: <span>${video.author || 'Xsess'}</span>`;
@@ -1615,72 +1404,6 @@
             document.body.style.overflow = '';
             modalPlayer.innerHTML = '';
             currentVideoId = null;
-            videoPlayer = null;
-        }
-
-        // ============================================================
-        // CONTROLES DO PLAYER
-        // ============================================================
-        function setupPlayerControls() {
-            // Esperar o vídeo carregar
-            setTimeout(() => {
-                const video = document.getElementById('videoElement');
-                const iframe = document.getElementById('videoIframe');
-
-                if (video) {
-                    videoPlayer = video;
-                    video.addEventListener('timeupdate', updateProgress);
-                    video.addEventListener('loadedmetadata', () => {
-                        timeDisplay.textContent = '0:00 / ' + formatTime(video.duration);
-                    });
-                    playPauseBtn.addEventListener('click', () => {
-                        if (video.paused) {
-                            video.play();
-                            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                        } else {
-                            video.pause();
-                            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                        }
-                    });
-                    video.addEventListener('play', () => {
-                        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                    });
-                    video.addEventListener('pause', () => {
-                        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                    });
-                    progressContainer.addEventListener('click', (e) => {
-                        const rect = progressContainer.getBoundingClientRect();
-                        const pos = (e.clientX - rect.left) / rect.width;
-                        video.currentTime = pos * video.duration;
-                    });
-                    volumeBtn.addEventListener('click', () => {
-                        video.muted = !video.muted;
-                        volumeBtn.innerHTML = video.muted ? '<i class="fas fa-volume-mute"></i>' :
-                            '<i class="fas fa-volume-up"></i>';
-                    });
-                } else if (iframe) {
-                    // Para iframes (YouTube, Vimeo, etc.) não temos controle via JS
-                    // Mas o usuário pode usar os controles nativos do navegador ou do player
-                    playPauseBtn.style.display = 'none';
-                    progressContainer.style.display = 'none';
-                    timeDisplay.textContent = '▶️ Clique no player';
-                }
-            }, 500);
-        }
-
-        function formatTime(seconds) {
-            if (!seconds || isNaN(seconds)) return '0:00';
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return mins + ':' + String(secs).padStart(2, '0');
-        }
-
-        function updateProgress() {
-            if (!videoPlayer) return;
-            const progress = (videoPlayer.currentTime / videoPlayer.duration) * 100;
-            progressFill.style.width = progress + '%';
-            progressDot.style.left = progress + '%';
-            timeDisplay.textContent = formatTime(videoPlayer.currentTime) + ' / ' + formatTime(videoPlayer.duration);
         }
 
         // ============================================================
@@ -1718,7 +1441,7 @@
         }
 
         // ============================================================
-        // CURTIR E DESCURTIR
+        // CURTIR
         // ============================================================
         function toggleLike(videoId) {
             if (!likes[videoId]) likes[videoId] = 0;
@@ -1733,7 +1456,6 @@
                 likes[videoId] = (likes[videoId] || 0) + 1;
                 likeBtn.classList.add('liked');
                 likeBtn.innerHTML = `<i class="fas fa-thumbs-up"></i>`;
-                // Se tiver descurtido, remover
                 if (dislikedVideos.includes(videoId)) {
                     dislikedVideos = dislikedVideos.filter(id => id !== videoId);
                     dislikes[videoId] = Math.max(0, dislikes[videoId] - 1);
@@ -1744,10 +1466,7 @@
 
             DB.set('likes', likes);
             DB.set('likedVideos', likedVideos);
-            DB.set('dislikes', dislikes);
-            DB.set('dislikedVideos', dislikedVideos);
             likeCount.textContent = likes[videoId] || 0;
-            dislikeCount.textContent = dislikes[videoId] || 0;
         }
 
         function toggleDislike(videoId) {
@@ -1763,7 +1482,6 @@
                 dislikes[videoId] = (dislikes[videoId] || 0) + 1;
                 dislikeBtn.classList.add('liked');
                 dislikeBtn.innerHTML = `<i class="fas fa-thumbs-down"></i>`;
-                // Se tiver curtido, remover
                 if (likedVideos.includes(videoId)) {
                     likedVideos = likedVideos.filter(id => id !== videoId);
                     likes[videoId] = Math.max(0, likes[videoId] - 1);
@@ -1774,16 +1492,13 @@
 
             DB.set('dislikes', dislikes);
             DB.set('dislikedVideos', dislikedVideos);
-            DB.set('likes', likes);
-            DB.set('likedVideos', likedVideos);
-            likeCount.textContent = likes[videoId] || 0;
             dislikeCount.textContent = dislikes[videoId] || 0;
         }
 
         // ============================================================
         // COMPARTILHAR
         // ============================================================
-        function shareVideo() {
+        document.getElementById('shareBtn').addEventListener('click', function() {
             if (navigator.share) {
                 navigator.share({
                     title: document.title,
@@ -1800,7 +1515,7 @@
                     prompt('Copie o link:', url);
                 }
             }
-        }
+        });
 
         // ============================================================
         // EVENTOS
@@ -1812,8 +1527,6 @@
         dislikeBtn.addEventListener('click', function() {
             if (currentVideoId) toggleDislike(currentVideoId);
         });
-
-        document.getElementById('shareBtn').addEventListener('click', shareVideo);
 
         closeModalBtn.addEventListener('click', closeModal);
         modal.addEventListener('click', function(e) {
