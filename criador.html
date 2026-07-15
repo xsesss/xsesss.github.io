@@ -121,7 +121,7 @@
 
     <div class="vps-info">
         <span class="label"><i class="fas fa-server"></i> Servidor VPS</span>
-        <span class="link">http://66.55.76.132/</span>
+        <span class="link">https://xsess.ddns.net/</span>
         <span class="status"><i class="fas fa-circle" style="font-size:8px;"></i> Online</span>
     </div>
 
@@ -222,8 +222,8 @@
 const VPS_CONFIG = {
     ip: '66.55.76.132',
     protocol: 'http',
-    baseUrl: 'http://66.55.76.132/',
-    uploadUrl: 'http://66.55.76.132/upload.php'
+    baseUrl: 'https://xsess.ddns.net/',
+    uploadUrl: 'https://xsess.ddns.net/upload.php'
 };
 
 // ============================================================
@@ -356,7 +356,7 @@ videoFileInput.addEventListener('change', function(e) {
 // INSERIR LINK MANUALMENTE
 // ============================================================
 manualLinkBtn.addEventListener('click', function() {
-    const link = prompt('Cole o link do vídeo manualmente (ex: http://66.55.76.132/arquivo.mp4):');
+    const link = prompt('Cole o link do vídeo manualmente (ex: https://xsess.ddns.net/arquivo.mp4):');
     if (link) {
         videoLinkInput.value = link;
         showSuccess('✅ Link inserido manualmente!');
