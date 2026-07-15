@@ -56,12 +56,15 @@
         .vps-info .link { color:#69f0ae; font-size:13px; font-family:monospace; word-break:break-all; }
         .vps-info .status { color:#00c853; font-size:12px; font-weight:600; }
 
-        .link-input-wrapper { display:flex; gap:8px; align-items:center; }
-        .link-input-wrapper input { flex:1; }
-        .link-input-wrapper .btn-extract { padding:10px 16px; background:rgba(204,0,51,0.1); border:1px solid rgba(204,0,51,0.15); border-radius:10px; color:#cc0033; font-weight:600; font-size:12px; cursor:pointer; font-family:'Inter',sans-serif; white-space:nowrap; display:flex; align-items:center; gap:6px; }
-        .link-input-wrapper .btn-extract:hover { background:rgba(204,0,51,0.2); }
-
-        .upload-area { border:2px dashed rgba(255,255,255,0.06); border-radius:10px; padding:20px; text-align:center; cursor:pointer; transition:all 0.3s; background:rgba(255,255,255,0.01); }
+        .upload-area {
+            border:2px dashed rgba(255,255,255,0.06);
+            border-radius:10px;
+            padding:20px;
+            text-align:center;
+            cursor:pointer;
+            transition:all 0.3s;
+            background:rgba(255,255,255,0.01);
+        }
         .upload-area:hover { border-color:rgba(204,0,51,0.2); background:rgba(204,0,51,0.02); }
         .upload-area .icon { font-size:28px; display:block; margin-bottom:4px; color:rgba(255,255,255,0.1); }
         .upload-area .text { font-size:13px; color:rgba(255,255,255,0.3); }
@@ -69,11 +72,28 @@
         .upload-area .sub { font-size:10px; color:rgba(255,255,255,0.1); margin-top:2px; }
         .upload-area input[type="file"] { display:none; }
 
+        .upload-progress {
+            display:none;
+            margin-top:10px;
+            padding:10px;
+            background:rgba(255,255,255,0.02);
+            border:1px solid rgba(255,255,255,0.04);
+            border-radius:10px;
+        }
+        .upload-progress.active { display:block; }
+        .upload-progress .progress-bar { width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden; margin-top:4px; }
+        .upload-progress .progress-bar .progress-fill { height:100%; width:0%; background:#cc0033; border-radius:3px; transition:width 0.5s; }
+        .upload-progress .status-text { font-size:12px; color:rgba(255,255,255,0.4); margin-top:4px; }
+
         .file-preview { display:none; margin-top:8px; padding:8px 12px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); border-radius:8px; display:flex; align-items:center; gap:10px; }
         .file-preview.active { display:flex; }
         .file-preview .file-name { font-size:13px; color:rgba(255,255,255,0.6); }
         .file-preview .file-size { font-size:11px; color:rgba(255,255,255,0.2); margin-left:auto; }
+        .file-preview .file-status { font-size:11px; margin-left:8px; }
         .file-preview .btn-remove { background:none; border:none; color:rgba(255,255,255,0.2); cursor:pointer; font-size:14px; }
+
+        .link-input-wrapper { display:flex; gap:8px; align-items:center; }
+        .link-input-wrapper input { flex:1; }
 
         .checkbox-group { display:flex; align-items:center; gap:10px; padding:6px 0; }
         .checkbox-group input[type="checkbox"] { width:18px; height:18px; accent-color:#cc0033; cursor:pointer; }
@@ -83,6 +103,8 @@
         .btn:active { transform:scale(0.97); }
         .btn-success { background:#00c853; color:#fff; }
         .btn-success:hover { background:#00b34a; }
+        .btn-primary { background:#cc0033; color:#fff; }
+        .btn-primary:hover { background:#b3002e; }
         .btn-secondary { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); color:rgba(255,255,255,0.5); }
         .btn-secondary:hover { background:rgba(255,255,255,0.08); color:#fff; }
 
@@ -116,7 +138,7 @@
         .empty-state .text { font-size:13px; }
         .empty-state .sub { font-size:11px; color:rgba(255,255,255,0.06); margin-top:2px; }
 
-        @media (max-width:600px) { .container { padding:16px; } .form-row { grid-template-columns:1fr; gap:0; } .stats { grid-template-columns:1fr 1fr; } .form-actions { flex-direction:column; } .form-actions .btn { flex:none; width:100%; } .link-input-wrapper { flex-direction:column; } .link-input-wrapper .btn-extract { width:100%; justify-content:center; } .list-item .actions .btn-sm span { display:none; } .vps-info { flex-direction:column; align-items:flex-start; } }
+        @media (max-width:600px) { .container { padding:16px; } .form-row { grid-template-columns:1fr; gap:0; } .stats { grid-template-columns:1fr 1fr; } .form-actions { flex-direction:column; } .form-actions .btn { flex:none; width:100%; } .list-item .actions .btn-sm span { display:none; } .vps-info { flex-direction:column; align-items:flex-start; } }
         @media (max-width:400px) { .stats { grid-template-columns:1fr; } .header { flex-direction:column; align-items:flex-start; } .header-actions { width:100%; flex-wrap:wrap; } }
     </style>
 </head>
@@ -151,12 +173,30 @@
 
     <form id="videoForm">
         <div class="form-group">
-            <label><i class="fas fa-link"></i> Link do Vídeo (VPS) *</label>
-            <div class="link-input-wrapper">
-                <input type="url" id="videoLink" placeholder="https://66.55.76.132/meu_video.mp4" required />
-                <button type="button" class="btn-extract" id="tubeMateBtn"><i class="fas fa-magic"></i> TubeMate</button>
+            <label><i class="fas fa-cloud-upload-alt"></i> Enviar Vídeo para VPS</label>
+            <div class="upload-area" id="videoUploadArea">
+                <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                <div class="text"><strong>Clique para escolher</strong> um vídeo da sua galeria</div>
+                <div class="sub">MP4, WebM, MOV · Máx. 1GB · Será enviado para VPS automaticamente</div>
+                <input type="file" id="videoFileInput" accept="video/*" />
             </div>
-            <div class="help">Use o link da sua VPS: <strong>https://66.55.76.132/</strong> + nome do vídeo</div>
+            <div class="upload-progress" id="uploadProgress">
+                <div class="status-text" id="uploadStatus">Enviando...</div>
+                <div class="progress-bar"><div class="progress-fill" id="uploadFill"></div></div>
+            </div>
+            <div class="file-preview" id="videoFilePreview">
+                <i class="fas fa-video" style="color:#cc0033;font-size:18px;"></i>
+                <span class="file-name" id="videoFileName">video.mp4</span>
+                <span class="file-size" id="videoFileSize">0 MB</span>
+                <span class="file-status" id="videoStatus" style="font-size:11px;color:#00c853;margin-left:8px;">✅ Na VPS</span>
+                <button type="button" class="btn-remove" id="removeVideoFile"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="help">O vídeo é enviado diretamente para sua VPS e o link é gerado automaticamente.</div>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fas fa-link"></i> Link do Vídeo (gerado automaticamente)</label>
+            <input type="url" id="videoLink" placeholder="Aguardando upload..." readonly />
         </div>
 
         <div class="form-group">
@@ -225,7 +265,8 @@
 const VPS_CONFIG = {
     ip: '66.55.76.132',
     protocol: 'https',
-    baseUrl: 'https://66.55.76.132/'
+    baseUrl: 'https://66.55.76.132/',
+    uploadUrl: 'https://66.55.76.132/upload.php'
 };
 
 // ============================================================
@@ -240,6 +281,7 @@ let videos = DB.get('videos', []);
 let likes = DB.get('likes', {});
 let comments = DB.get('comments', {});
 let views = DB.get('views', {});
+let uploadedFileLink = '';
 
 // ============================================================
 // DOM REFS
@@ -274,15 +316,92 @@ function showError(msg) {
 }
 
 // ============================================================
-// TUBEMATE - AJUDA A GERAR LINK DA VPS
+// UPLOAD DE VÍDEO PARA VPS
 // ============================================================
-$('tubeMateBtn').addEventListener('click', function() {
-    const nome = prompt('Digite o nome do vídeo (ex: meu_video.mp4):');
-    if (nome) {
-        const link = VPS_CONFIG.baseUrl + nome;
-        $('videoLink').value = link;
-        showSuccess('✅ Link gerado: ' + link);
-    }
+const videoUploadArea = $('videoUploadArea');
+const videoFileInput = $('videoFileInput');
+const videoFilePreview = $('videoFilePreview');
+const videoFileName = $('videoFileName');
+const videoFileSize = $('videoFileSize');
+const videoStatus = $('videoStatus');
+const removeVideoFile = $('removeVideoFile');
+const videoLinkInput = $('videoLink');
+const uploadProgress = $('uploadProgress');
+const uploadFill = $('uploadFill');
+const uploadStatus = $('uploadStatus');
+
+videoUploadArea.addEventListener('click', () => videoFileInput.click());
+
+videoFileInput.addEventListener('change', function(e) {
+    const file = this.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('video/')) { showError('Selecione um arquivo de vídeo.'); return; }
+    if (file.size > 1024 * 1024 * 1024) { showError('Arquivo muito grande. Máximo 1GB.'); return; }
+
+    // Mostrar preview
+    videoFileName.textContent = file.name;
+    videoFileSize.textContent = (file.size / 1024 / 1024).toFixed(1) + ' MB';
+    videoFilePreview.classList.add('active');
+    videoStatus.textContent = '⬆️ Enviando...';
+    videoStatus.style.color = '#ffd54f';
+
+    // Enviar para VPS
+    uploadProgress.classList.add('active');
+    uploadFill.style.width = '0%';
+    uploadStatus.textContent = 'Iniciando upload...';
+
+    const formData = new FormData();
+    formData.append('video', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', VPS_CONFIG.uploadUrl, true);
+
+    xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+            const percent = (e.loaded / e.total) * 100;
+            uploadFill.style.width = percent + '%';
+            uploadStatus.textContent = 'Enviando: ' + Math.round(percent) + '%';
+        }
+    };
+
+    xhr.onload = function() {
+        uploadProgress.classList.remove('active');
+        if (xhr.status === 200) {
+            const response = xhr.responseText;
+            if (response.includes('✅') || response.includes('Link:')) {
+                // Extrair link da resposta
+                const linkMatch = response.match(/https:\/\/[^\s]+/);
+                if (linkMatch) {
+                    uploadedFileLink = linkMatch[0];
+                    videoLinkInput.value = uploadedFileLink;
+                    videoStatus.textContent = '✅ Na VPS';
+                    videoStatus.style.color = '#00c853';
+                    showSuccess('✅ Vídeo enviado para VPS!');
+                } else {
+                    showError('❌ Erro ao extrair link do vídeo.');
+                }
+            } else {
+                showError('❌ Erro ao enviar: ' + response);
+            }
+        } else {
+            showError('❌ Erro ao enviar vídeo para VPS. Status: ' + xhr.status);
+        }
+    };
+
+    xhr.onerror = function() {
+        uploadProgress.classList.remove('active');
+        showError('❌ Erro de conexão com a VPS. Verifique se o servidor está online.');
+    };
+
+    xhr.send(formData);
+});
+
+removeVideoFile.addEventListener('click', () => {
+    videoLinkInput.value = '';
+    uploadedFileLink = '';
+    videoFilePreview.classList.remove('active');
+    videoFileInput.value = '';
+    uploadProgress.classList.remove('active');
 });
 
 // ============================================================
@@ -291,17 +410,11 @@ $('tubeMateBtn').addEventListener('click', function() {
 $('videoForm').addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const link = $('videoLink').value.trim();
+    const link = videoLinkInput.value.trim();
     const title = $('videoTitle').value.trim();
 
-    if (!link) { showError('Cole o link do vídeo (VPS).'); return; }
+    if (!link) { showError('Envie um vídeo para a VPS primeiro.'); return; }
     if (!title) { showError('Digite o título.'); return; }
-
-    // Verifica se o link é da VPS
-    if (!link.includes(VPS_CONFIG.ip)) {
-        showError('⚠️ Use o link da VPS: ' + VPS_CONFIG.baseUrl);
-        return;
-    }
 
     const thumbnail = $('videoThumbnail').value.trim() || 'https://via.placeholder.com/640x360/1a1a1a/cc0033?text=Sem+Imagem';
 
@@ -326,7 +439,13 @@ $('videoForm').addEventListener('submit', (e) => {
     updateStats();
     showSuccess('✅ Vídeo "' + video.title + '" publicado!');
 
+    // Resetar formulário
     $('videoForm').reset();
+    $('videoShorts').checked = false;
+    videoFilePreview.classList.remove('active');
+    videoLinkInput.value = '';
+    uploadedFileLink = '';
+    videoFileInput.value = '';
 
     setTimeout(() => { $('msgSuccess').style.display = 'none'; }, 4000);
 });
@@ -343,7 +462,7 @@ function renderList() {
             <div class="empty-state">
                 <span class="icon"><i class="fas fa-film"></i></span>
                 <div class="text">Nenhum vídeo publicado</div>
-                <div class="sub">Publique seu primeiro vídeo acima</div>
+                <div class="sub">Envie um vídeo para a VPS e publique acima</div>
             </div>`;
         count.textContent = '0 vídeos';
         return;
@@ -400,6 +519,10 @@ function updateStats() {
 $('btnClear').addEventListener('click', () => {
     $('videoForm').reset();
     $('videoShorts').checked = false;
+    videoFilePreview.classList.remove('active');
+    videoLinkInput.value = '';
+    uploadedFileLink = '';
+    videoFileInput.value = '';
     $('msgSuccess').style.display = 'none';
     $('msgError').style.display = 'none';
 });
