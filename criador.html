@@ -217,13 +217,11 @@
 
 <script>
 // ============================================================
-// CONFIGURAÇÃO DA VPS
+// CONFIGURAÇÃO
 // ============================================================
 const VPS_CONFIG = {
-    ip: '66.55.76.132',
-    protocol: 'http',
-    baseUrl: 'https://xsess.ddns.net/',
-    uploadUrl: 'https://xsess.ddns.net/upload.php'
+    uploadUrl: 'https://xsess.ddns.net/upload.php',
+    baseUrl: 'https://xsess.ddns.net/'
 };
 
 // ============================================================
@@ -238,7 +236,6 @@ let videos = DB.get('videos', []);
 let likes = DB.get('likes', {});
 let comments = DB.get('comments', {});
 let views = DB.get('views', {});
-let uploadedFileLink = '';
 
 // ============================================================
 // DOM REFS
@@ -323,24 +320,18 @@ videoFileInput.addEventListener('change', function(e) {
     xhr.onload = function() {
         uploadProgress.classList.remove('active');
         if (xhr.status === 200) {
-            const response = xhr.responseText;
-            console.log('Resposta do servidor:', response);
-            if (response.includes('Link:')) {
-                const linkMatch = response.match(/http:\/\/[^\s]+/);
-                if (linkMatch) {
-                    uploadedFileLink = linkMatch[0];
-                    videoLinkInput.value = uploadedFileLink;
-                    videoStatus.textContent = '✅ Na VPS';
-                    videoStatus.style.color = '#00c853';
-                    showSuccess('✅ Vídeo enviado para VPS!');
-                } else {
-                    showError('❌ Erro ao extrair link do vídeo.');
-                }
+            const response = xhr.responseText.trim();
+            console.log('Resposta:', response);
+            if (response.includes('https://')) {
+                videoLinkInput.value = response;
+                videoStatus.textContent = '✅ Na VPS';
+                videoStatus.style.color = '#00c853';
+                showSuccess('✅ Vídeo enviado! Link: ' + response);
             } else {
-                showError('❌ Erro ao enviar: ' + response);
+                showError('❌ Erro: ' + response);
             }
         } else {
-            showError('❌ Erro ao enviar vídeo para VPS. Status: ' + xhr.status);
+            showError('❌ Erro no upload. Status: ' + xhr.status);
         }
     };
 
@@ -352,11 +343,8 @@ videoFileInput.addEventListener('change', function(e) {
     xhr.send(formData);
 });
 
-// ============================================================
-// INSERIR LINK MANUALMENTE
-// ============================================================
 manualLinkBtn.addEventListener('click', function() {
-    const link = prompt('Cole o link do vídeo manualmente (ex: https://xsess.ddns.net/arquivo.mp4):');
+    const link = prompt('Cole o link do vídeo manualmente:');
     if (link) {
         videoLinkInput.value = link;
         showSuccess('✅ Link inserido manualmente!');
@@ -365,7 +353,6 @@ manualLinkBtn.addEventListener('click', function() {
 
 removeVideoFile.addEventListener('click', () => {
     videoLinkInput.value = '';
-    uploadedFileLink = '';
     videoFilePreview.classList.remove('active');
     videoFileInput.value = '';
     uploadProgress.classList.remove('active');
@@ -380,7 +367,7 @@ $('videoForm').addEventListener('submit', (e) => {
     const link = videoLinkInput.value.trim();
     const title = $('videoTitle').value.trim();
 
-    if (!link) { showError('Envie um vídeo para a VPS primeiro ou insira o link manualmente.'); return; }
+    if (!link) { showError('Envie um vídeo ou insira o link manualmente.'); return; }
     if (!title) { showError('Digite o título.'); return; }
 
     const thumbnail = $('videoThumbnail').value.trim() || 'https://via.placeholder.com/640x360/1a1a1a/cc0033?text=Sem+Imagem';
@@ -410,7 +397,6 @@ $('videoForm').addEventListener('submit', (e) => {
     $('videoShorts').checked = false;
     videoFilePreview.classList.remove('active');
     videoLinkInput.value = '';
-    uploadedFileLink = '';
     videoFileInput.value = '';
 
     setTimeout(() => { $('msgSuccess').style.display = 'none'; }, 4000);
@@ -478,7 +464,6 @@ $('btnClear').addEventListener('click', () => {
     $('videoShorts').checked = false;
     videoFilePreview.classList.remove('active');
     videoLinkInput.value = '';
-    uploadedFileLink = '';
     videoFileInput.value = '';
     $('msgSuccess').style.display = 'none';
     $('msgError').style.display = 'none';
